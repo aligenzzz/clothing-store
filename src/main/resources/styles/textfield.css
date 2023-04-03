@@ -1,0 +1,14 @@
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+}
+
+.text-field:focused {
+    -fx-focus-color: #9ba4e5;
+    -fx-background-color: -fx-focus-color, -fx-background;
+}
+
+.text-field:error {
+    -fx-border-radius: 10;
+    -fx-background-color: derive(red, 99%);
+}

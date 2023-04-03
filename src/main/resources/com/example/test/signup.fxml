@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+
+<SplitPane prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.SignupController">
+   <AnchorPane prefHeight="320.0" prefWidth="520.0" style="-fx-background-color: #e4ddff;">
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="325.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="157.86" radius="83.4" width="177.74">
+               <color>
+                  <Color red="0.5666666626930237" green="0.6316666603088379" blue="1.0" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="230.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../../images/defention.png" />
+         <effect>
+            <Shadow height="137.97" radius="78.42750000000001" width="177.74">
+               <color>
+                  <Color red="1.0" green="0.5111111402511597" blue="0.5111111402511597" />
+               </color>
+            </Shadow>
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="36.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="137.97" radius="78.42750000000001" width="177.74">
+               <color>
+                  <Color red="0.4703703820705414" green="1.0" blue="0.9911728501319885" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="396.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="157.86" radius="83.4" width="177.74">
+               <color>
+                  <Color red="0.5888888835906982" green="0.5888888835906982" blue="1.0" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="396.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="157.86" radius="83.4" width="177.74">
+               <color>
+                  <Color red="1.0" green="0.4740740656852722" blue="0.6844444274902344" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="418.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="137.97" radius="78.42750000000001" width="177.74">
+               <color>
+                  <Color red="1.0" green="0.5" blue="0.5" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="96.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="137.97" radius="78.42750000000001" width="177.74">
+               <color>
+                  <Color red="1.0" green="0.4037036895751953" blue="0.4037036895751953" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="36.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <Shadow height="137.97" radius="78.42750000000001" width="177.74">
+               <color>
+                  <Color red="0.5962963104248047" green="0.7914197444915771" blue="1.0" />
+               </color>
+            </Shadow>
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="229.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <ColorAdjust brightness="1.0" contrast="1.0" hue="1.0" saturation="0.19" />
+         </effect>
+         <Image url="@../../../images/defention.png" />
+      </ImageView>
+      <TextField fx:id="usernameTextField" layoutX="174.0" layoutY="117.0" prefHeight="20.0" prefWidth="170.0" promptText="Username" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="emailTextField" layoutX="174.0" layoutY="154.0" prefHeight="20.0" prefWidth="170.0" promptText="E-mail" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="firstnameTextField" layoutX="174.0" layoutY="191.0" prefHeight="20.0" prefWidth="170.0" promptText="First name" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="lastnameTextField" layoutX="174.0" layoutY="228.0" prefHeight="20.0" prefWidth="170.0" promptText="Last name" stylesheets="@../../../styles/textfield.css" />
+      <PasswordField fx:id="passwordField" layoutX="174.0" layoutY="265.0" prefHeight="20.0" prefWidth="170.0" promptText="Password" stylesheets="@../../../styles/textfield.css" />
+      <Button fx:id="signupButton" layoutX="174.0" layoutY="302.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="20.0" prefWidth="170.0" styleClass="simple-button" stylesheets="@../../../styles/buttons.css" text="Sign up" textFill="WHITE" />
+      <Button fx:id="gobackButton" layoutX="174.0" layoutY="339.0" mnemonicParsing="false" onAction="#gobackButtonOnAction" prefHeight="20.0" prefWidth="170.0" styleClass="simple-button" stylesheets="@../../../styles/buttons.css" text="Go back" textFill="WHITE" />
+      <Label fx:id="unsuccessfulMessageLabel" alignment="CENTER" layoutX="174.0" layoutY="92.0" opacity="0.5" prefHeight="18.0" prefWidth="170.0" text="Invalid data!" textAlignment="CENTER" textFill="#e70808" visible="false" />
+      <Label fx:id="successfulMessageLabel" alignment="CENTER" layoutX="174.0" layoutY="92.0" opacity="0.5" prefHeight="18.0" prefWidth="170.0" text="You have been registered!" textAlignment="CENTER" textFill="#00ff00" visible="false" />
+   </AnchorPane>
+</SplitPane>

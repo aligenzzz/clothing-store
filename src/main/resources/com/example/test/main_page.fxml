@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.MainPageController">
+   <left>
+       <VBox prefHeight="506.0" prefWidth="260.0" style="-fx-background-color: #9BA5B8;" BorderPane.alignment="CENTER">
+           <Button fx:id="homeButton" alignment="CENTER" mnemonicParsing="false" onAction="#homeButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Home">
+              <VBox.margin>
+                  <Insets />
+              </VBox.margin>
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+           </Button>
+           <Button fx:id="allItemsButton" alignment="CENTER" mnemonicParsing="false" onAction="#allItemsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="All">
+              <VBox.margin>
+                  <Insets />
+              </VBox.margin>
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+           </Button>
+           <Button fx:id="blousesButton" alignment="CENTER" mnemonicParsing="false" onAction="#blousesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="blouses / sweatshirts">
+              <VBox.margin>
+                  <Insets />
+              </VBox.margin>
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+           </Button>
+           <Button fx:id="topsButton" alignment="CENTER" mnemonicParsing="false" onAction="#topsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="tops / t-shirts">
+              <VBox.margin>
+                  <Insets />
+              </VBox.margin>
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+           </Button>
+         <Button fx:id="shirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shirtsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shirts">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="pantsButton" alignment="CENTER" mnemonicParsing="false" onAction="#pantsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="pants / jeans">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="shortsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shortsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shorts">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="skirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#skirtsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="skirts">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="dressesButton" alignment="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#dressesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="dresses">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="jacketsButton" alignment="CENTER" mnemonicParsing="false" onAction="#jacketsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="jackets">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+         <Button fx:id="shoesButton" alignment="CENTER" mnemonicParsing="false" onAction="#shoesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shoes">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
+       </VBox>
+   </left>
+   <center>
+       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #f6ebfc;" BorderPane.alignment="CENTER">
+           <StackPane prefHeight="502.0" prefWidth="640.0">
+               <AnchorPane fx:id="homePage" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f6ebfc;">
+                   <opaqueInsets>
+                       <Insets />
+                   </opaqueInsets>
+                   <Button layoutX="9.0" layoutY="251.0" mnemonicParsing="false" prefHeight="240.0" prefWidth="309.0" styleClass="button-adv2" stylesheets="@../../../styles/buttons.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+                   <ImageView fitHeight="219.0" fitWidth="119.0" layoutX="147.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
+                       <effect>
+                           <Glow level="0.45" />
+                       </effect>
+                       <Image url="@../../../images/cd2.png" />
+                   </ImageView>
+                   <ImageView fitHeight="240.0" fitWidth="393.0" layoutX="244.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0">
+                       <effect>
+                           <DropShadow height="64.28" radius="33.1025" spread="0.49" width="70.13">
+                               <color>
+                                   <Color red="1.0" green="1.0" blue="1.0" />
+                               </color>
+                           </DropShadow>
+                       </effect>
+                       <Image url="@../../../images/adv2.png" />
+                   </ImageView>
+                   <Button layoutX="375.0" layoutY="10.0" mnemonicParsing="false" prefHeight="238.0" prefWidth="286.0" styleClass="button-adv1" stylesheets="@../../../styles/buttons.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                       <effect>
+                           <Glow level="0.15" />
+                       </effect>
+                   </Button>
+                   <ImageView fitHeight="240.0" fitWidth="389.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                       <effect>
+                           <Glow level="0.39" />
+                       </effect>
+                       <Image url="@../../../images/adv1.png" />
+                   </ImageView>
+                   <ImageView fitHeight="168.0" fitWidth="361.0" layoutX="232.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                       <effect>
+                           <Glow level="0.58" />
+                       </effect>
+                       <Image url="@../../../images/label2.png" />
+                   </ImageView>
+                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="375.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                       <effect>
+                           <Glow level="0.25" />
+                       </effect>
+                       <Image url="@../../../images/cd1.png" />
+                   </ImageView>
+                   <ImageView fitHeight="114.0" fitWidth="156.0" layoutX="20.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
+                       <effect>
+                           <DropShadow height="32.7" radius="14.095" spread="0.1" width="25.68">
+                               <color>
+                                   <Color red="0.13199999928474426" green="0.4596000015735626" blue="0.6000000238418579" opacity="0.2895136773586273" />
+                               </color>
+                           </DropShadow>
+                       </effect>
+                       <Image url="@../../../images/label1.png" />
+                   </ImageView>
+               </AnchorPane>
+               <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="502.0" prefWidth="640.0" style="-fx-background-color: #f6ebfc;" visible="false">
+                   <GridPane fx:id="gridPane" alignment="CENTER" styleClass="grid-pane" vgap="10.0">
+                       <columnConstraints>
+                           <ColumnConstraints hgrow="SOMETIMES" />
+                           <ColumnConstraints hgrow="SOMETIMES" />
+                           <ColumnConstraints hgrow="SOMETIMES" />
+                           <ColumnConstraints hgrow="SOMETIMES" />
+                       </columnConstraints>
+                       <rowConstraints>
+                           <RowConstraints vgrow="SOMETIMES" />
+                           <RowConstraints vgrow="SOMETIMES" />
+                       </rowConstraints>
+                       <opaqueInsets>
+                           <Insets />
+                       </opaqueInsets>
+                   </GridPane>
+               </ScrollPane>
+               <AnchorPane fx:id="anchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" visible="false">
+                   <AnchorPane layoutX="121.0" layoutY="107.0" prefHeight="268.0" prefWidth="398.0" style="-fx-background-color: #f4f4f4; -fx-background-radius: 20;">
+                       <effect>
+                           <DropShadow height="79.49" radius="39.245" width="79.49">
+                               <color>
+                                   <Color red="0.3700000047683716" green="0.07029999792575836" blue="0.25511500239372253" opacity="0.2589057683944702" />
+                               </color>
+                           </DropShadow>
+                       </effect>
+                       <ImageView fx:id="imageView" fitHeight="197.0" fitWidth="201.0" layoutX="2.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                               <DropShadow height="49.08" radius="25.7925" width="56.09">
+                                   <color>
+                                       <Color opacity="0.23480242490768433" />
+                                   </color>
+                               </DropShadow>
+                           </effect>
+                           <Image url="@../../../images/items/item20.png" />
+                       </ImageView>
+                       <VBox layoutX="209.0" layoutY="38.0" prefHeight="192.0" prefWidth="170.0">
+                           <Label fx:id="itemNameLabel" alignment="CENTER" prefWidth="200.0" text="☆ NAME ☆">
+                               <font>
+                                   <Font name="Candara" size="22.0" />
+                               </font>
+                               <opaqueInsets>
+                                   <Insets />
+                               </opaqueInsets>
+                               <padding>
+                                   <Insets bottom="20.0" />
+                               </padding>
+                               <effect>
+                                   <Glow level="0.45" />
+                               </effect>
+                           </Label>
+                           <HBox prefHeight="34.0" prefWidth="170.0">
+                               <Label prefWidth="100.0" text="Price:">
+                                   <font>
+                                       <Font name="Candara" size="20.0" />
+                                   </font>
+                               </Label>
+                               <Label fx:id="itemPriceLabel" alignment="TOP_RIGHT" prefHeight="34.0" prefWidth="86.0" text="0.00 $">
+                                   <font>
+                                       <Font name="Candara" size="22.0" />
+                                   </font>
+                               </Label>
+                           </HBox>
+                           <HBox prefHeight="50.0" prefWidth="200.0">
+                               <Label prefWidth="100.0" text="Shop:">
+                                   <font>
+                                       <Font name="Candara" size="20.0" />
+                                   </font>
+                               </Label>
+                               <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" prefWidth="100.0" text="Shop">
+                                   <font>
+                                       <Font name="Candara" size="20.0" />
+                                   </font>
+                               </Label>
+                           </HBox>
+                       </VBox>
+                       <Button fx:id="closeItemCardButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">
+                           <font>
+                               <Font size="14.0" />
+                           </font>
+                       </Button>
+                   </AnchorPane>
+               </AnchorPane>
+           </StackPane>
+       </VBox>
+   </center>
+   <top>
+      <AnchorPane minWidth="90.0" prefHeight="186.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+              <AnchorPane layoutY="26.0" minHeight="170.0" minWidth="900.0" prefHeight="174.0" prefWidth="900.0" style="-fx-background-color: #a15073;">
+                  <ImageView disable="true" fitHeight="177.0" fitWidth="911.0" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@../../../images/banner.jpg" />
+                  </ImageView>
+               <effect>
+                  <ColorAdjust saturation="-0.36" />
+               </effect>
+              </AnchorPane>
+              <MenuBar layoutY="1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="900.0" style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
+                  <Menu mnemonicParsing="false" text="❎">
+                      <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="🙎‍♀️">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  </items>
+               </Menu>
+                  <Menu mnemonicParsing="false" text="💗">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  </items>
+               </Menu>
+                  <Menu mnemonicParsing="false" text="🛒">
+                  <items>
+                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  </items>
+               </Menu>
+              </MenuBar>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>
