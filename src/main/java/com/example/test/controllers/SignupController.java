@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -63,7 +65,7 @@ public class SignupController implements Initializable
     {
         try
         {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(SignupController.class.getResource("login.fxml")));
+            Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
             Stage stage = (Stage) gobackButton.getScene().getWindow();
             stage.setScene(new Scene(root, 520, 400));
         }

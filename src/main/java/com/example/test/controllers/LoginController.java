@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -54,7 +56,7 @@ public class LoginController
             if (result)
             {
                 Parent root = null;
-                try { root = FXMLLoader.load(Objects.requireNonNull(LoginController.class.getResource("main_page.fxml"))); }
+                try { root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL()); }
                 catch (IOException exception) { throw new RuntimeException(exception); }
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.setScene(new Scene(root, 900, 700));
@@ -75,7 +77,7 @@ public class LoginController
     {
         try
         {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("signup.fxml")));
+            Parent root = FXMLLoader.load(new File(Constants.SIGNUP).toURI().toURL());
             Stage stage = (Stage) signupButton.getScene().getWindow();
             stage.setScene(new Scene(root, 520, 400));
             stage.centerOnScreen();
@@ -90,7 +92,7 @@ public class LoginController
     {
         try
         {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(LoginController.class.getResource("main_page.fxml")));
+            Parent root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
             Stage stage = (Stage) skipButton.getScene().getWindow();
             stage.setScene(new Scene(root, 900, 700));
             stage.centerOnScreen();

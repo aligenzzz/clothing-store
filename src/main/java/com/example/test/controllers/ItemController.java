@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.Constants;
 import com.example.test.entities.Item;
 import com.example.test.interfaces.IListener;
 import javafx.fxml.FXML;
@@ -19,7 +20,7 @@ public class ItemController
 
     public void setData(Item item, IListener listener)
     {
-        Image image = new Image("D:\\JavaIDE\\test\\src\\main\\resources\\images\\items\\" + item.getImageSource());
+        Image image = new Image(Constants.ITEMSIMAGEPATH + item.getImageSource());
         itemImageView.setImage(image);
         itemImageView.setStyle("-fx-background-position: CENTER;");
         priceLabel.setText(item.getPrice());

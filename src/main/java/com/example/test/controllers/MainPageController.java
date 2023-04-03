@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.controllers.ItemController;
 import com.example.test.entities.Item;
@@ -18,6 +19,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,7 +71,7 @@ public class MainPageController implements Initializable
     AnchorPane anchorPane;
     public void chooseItemCard(Item item)
     {
-        imageView.setImage(new Image("D:\\JavaIDE\\test\\src\\main\\resources\\images\\items\\" + item.getImageSource()));
+        imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(item.getPrice());
         itemShopLabel.setText(item.getShop());
@@ -153,7 +155,7 @@ public class MainPageController implements Initializable
         private void doHandle() throws IOException
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("item.fxml"));
+            fxmlLoader.setLocation(new File(Constants.ITEM).toURI().toURL());
             AnchorPane anchorPane = fxmlLoader.load();
 
             Item item = itemList.get(i);

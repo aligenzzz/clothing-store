@@ -19,8 +19,8 @@ public class DatabaseConnector
     private final String itemsFileName;
     public DatabaseConnector()
     {
-        userAccountsFileName = "D:\\JavaIDE\\test\\src\\main\\resources\\database\\user_account.xlsx";
-        itemsFileName = "D:\\JavaIDE\\test\\src\\main\\resources\\database\\item.xlsx";
+        userAccountsFileName = Constants.USERACCOUNTS;
+        itemsFileName = Constants.ITEMS;
     }
     public boolean isFoundUser(String username, String password) throws IOException
     {
