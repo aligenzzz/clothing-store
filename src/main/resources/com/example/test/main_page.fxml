@@ -228,6 +228,20 @@
                                    </font>
                                </Label>
                            </HBox>
+                     <HBox prefHeight="39.0" prefWidth="170.0">
+                        <children>
+                           <Button fx:id="toFavouriteButton" minWidth="85.0" mnemonicParsing="false" onAction="#toFavouriteButtonOnAction" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="💗">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Button>
+                           <Button fx:id="toShoppingButton" minWidth="85.0" mnemonicParsing="false" onAction="#toShoppingButtonOnAction" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🛒">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Button>
+                        </children>
+                     </HBox>
                        </VBox>
                        <Button fx:id="closeItemCardButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">
                            <font>
@@ -244,7 +258,9 @@
          <children>
               <AnchorPane layoutY="26.0" minHeight="170.0" minWidth="900.0" prefHeight="174.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;">
                   <ImageView disable="true" fitHeight="193.0" fitWidth="911.0" pickOnBounds="true" preserveRatio="true">
-                      <Image url="@../../../images/banner.jpg" />
+                  <image>
+                     <Image url="@../../../images/banner.jpg" />
+                  </image>
                   </ImageView>
                <effect>
                   <ColorAdjust saturation="-0.36" />

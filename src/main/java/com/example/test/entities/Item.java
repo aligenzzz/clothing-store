@@ -23,7 +23,7 @@ public class Item
         this.price = price;
         this.shop = shop;
     }
-
+    public double getId() { return id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getImageSource() { return imageSource; }

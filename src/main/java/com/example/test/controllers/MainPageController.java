@@ -91,8 +91,12 @@ public class MainPageController implements Initializable
     Label itemShopLabel;
     @FXML
     AnchorPane anchorPane;
+
+    private double id;
     public void chooseItemCard(Item item)
     {
+        this.id = item.getId();
+
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(String.valueOf(item.getPrice()));
@@ -366,6 +370,22 @@ public class MainPageController implements Initializable
         }
         animation.start();
         shoesButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+
+    @FXML
+    private Button toFavouriteButton;
+
+    public void toFavouriteButtonOnAction()
+    {
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        databaseConnector.addFavouriteItem(GlobalEntities.USER.id, this.id);
+    }
+    @FXML
+    private Button toShoppingButton;
+    public void toShoppingButtonOnAction()
+    {
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        databaseConnector.addShoppingItem(GlobalEntities.USER.id, this.id);
     }
 
     private void disactiveButtons()

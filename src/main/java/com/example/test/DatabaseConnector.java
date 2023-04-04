@@ -265,6 +265,10 @@ public class DatabaseConnector
 
     public List<Item> getShoppingItems(double id) { return this.getSubItems(id, shoppingItemsFileName); }
 
+    public void addFavouriteItem(double userId, double itemId) { this.addItemToList(userId, itemId, favouriteItemsFileName); }
+    public void addPurchasedItem(double userId, double itemId) { this.addItemToList(userId, itemId, purchasedItemsFileName); }
+    public void addShoppingItem(double userId, double itemId) { this.addItemToList(userId, itemId, shoppingItemsFileName); }
+
     private List<Item> getSubItems(double id, String path)
     {
         List<Double> subItemsIds = new ArrayList<>();
@@ -300,7 +304,11 @@ public class DatabaseConnector
             file.close();
 
         }
-        catch (Exception exception) { exception.printStackTrace(); }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
 
         return subItems;
     }
@@ -326,5 +334,40 @@ public class DatabaseConnector
         }
 
         return new Item(id, name, imageSource, price, shop);
+    }
+
+    private void addItemToList(double userId, double itemId, String path)
+    {
+        try
+        {
+            FileInputStream file = new FileInputStream(path);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            int row_num = (int)userId - 1;
+            Row row = sheet.getRow(row_num);
+
+            if (row == null)
+            {
+                row = sheet.createRow(row_num);
+                Cell cell = row.createCell(0);
+                cell.setCellValue(itemId);
+            }
+            else
+            {
+                Cell cell = row.createCell(row.getLastCellNum());
+                cell.setCellValue(itemId);
+            }
+
+            FileOutputStream out = new FileOutputStream(path);
+            workbook.write(out);
+            out.close();
+            file.close();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
     }
 }
