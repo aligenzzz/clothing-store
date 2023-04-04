@@ -1,5 +1,7 @@
 package com.example.test;
 
+import javafx.scene.paint.Color;
+
 public final class Constants {
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
     public static final String CUSTOMERPAGE = "./src/main/resources/com/example/test/customer_page.fxml";
@@ -16,4 +18,6 @@ public final class Constants {
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";
+
+    public static final Color ACTIVECOLOR = Color.web("#484c58");
 }

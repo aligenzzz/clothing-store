@@ -8,11 +8,11 @@ import java.util.List;
 
 public class Customer extends User
 {
-    List<Item> favouritesItems;
-    List<Item> shoppingItems;
+    private List<Item> favouriteItems;
+    private List<Item> shoppingItems;
     List<Order> orders;
-    List<Item> purchasedItems;
-    List<Shop> favouritesShops;
+    private List<Item> purchasedItems;
+    List<Shop> favouriteShops;
 
     public Customer(double id, String username, String password, String email, String firstname, String lastname, AccessType accessType)
     {
@@ -24,6 +24,13 @@ public class Customer extends User
         this.lastName = lastname;
         this.accessType = accessType;
     }
+
+    public List<Item> getFavouriteItems() { return this.favouriteItems; }
+    public void setFavouriteItems(List<Item> itemList) { this.favouriteItems = itemList; }
+    public List<Item> getShoppingItems() { return this.shoppingItems;}
+    public void setShoppingItems(List<Item> itemList) { this.shoppingItems = itemList; }
+    public List<Item> getPurchasedItems() { return this.purchasedItems; }
+    public void setPurchasedItems(List<Item> itemList) { this.purchasedItems = itemList; }
 
     void CreateOrder(Order order)
     {

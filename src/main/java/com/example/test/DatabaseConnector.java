@@ -276,6 +276,9 @@ public class DatabaseConnector
             XSSFSheet sheet = workbook.getSheetAt (0);
 
             Row row = sheet.getRow((int)id - 1);
+
+            if (row == null) return null;
+
             Iterator<Cell> cellIterator = row.cellIterator();
             int column = 0;
             while (cellIterator.hasNext())
@@ -284,12 +287,18 @@ public class DatabaseConnector
                 subItemsIds.add(cell.getNumericCellValue());
                 column++;
             }
+            file.close();
+
+            file = new FileInputStream(itemsFileName);
+            workbook = new XSSFWorkbook(file);
+            sheet = workbook.getSheetAt (0);
 
             for (double element: subItemsIds) {
                 subItems.add(this.getItem(element, sheet));
             }
 
             file.close();
+
         }
         catch (Exception exception) { exception.printStackTrace(); }
 

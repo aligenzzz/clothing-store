@@ -39,8 +39,6 @@ public class MainPageController implements Initializable
     @FXML
     ScrollPane scrollPane;
 
-    Color color = Color.web("#484c58");
-
     public void closeMenuButtonOnAction()
     {
         Stage stage = (Stage) gridPane.getScene().getWindow();
@@ -76,7 +74,7 @@ public class MainPageController implements Initializable
     {
         listener = this::chooseItemCard;
         disactiveButtons();
-        homeButton.setTextFill(color);
+        homeButton.setTextFill(Constants.ACTIVECOLOR);
 
         DatabaseConnector databaseConnector = new DatabaseConnector();
         try { databaseConnector.getItems(itemList); }
@@ -118,18 +116,18 @@ public class MainPageController implements Initializable
     Button homeButton;
     public void homeButtonOnAction()
     {
-        if (homeButton.getTextFill() == color) return;
+        if (homeButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         scrollPane.setVisible(false);
         homePage.setVisible(true);
 
-        homeButton.setTextFill(color);
+        homeButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button allItemsButton;
     public void allItemsButtonOnAction() throws IOException {
-        if (allItemsButton.getTextFill() == color) return;
+        if (allItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -142,7 +140,7 @@ public class MainPageController implements Initializable
             homePage.setVisible(false);
         }
         animation.start();
-        allItemsButton.setTextFill(color);
+        allItemsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
     private class GridAnimation extends AnimationTimer
@@ -210,7 +208,7 @@ public class MainPageController implements Initializable
     Button blousesButton;
     public void blousesButtonOnAction() throws IOException
     {
-        if (blousesButton.getTextFill() == color) return;
+        if (blousesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -223,12 +221,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        blousesButton.setTextFill(color);
+        blousesButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button topsButton;
     public void topsButtonOnAction() throws IOException {
-        if (topsButton.getTextFill() == color) return;
+        if (topsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -241,12 +239,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        topsButton.setTextFill(color);
+        topsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button shirtsButton;
     public void shirtsButtonOnAction() throws IOException {
-        if (shirtsButton.getTextFill() == color) return;
+        if (shirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -259,12 +257,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        shirtsButton.setTextFill(color);
+        shirtsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button pantsButton;
     public void pantsButtonOnAction() throws IOException {
-        if (pantsButton.getTextFill() == color) return;
+        if (pantsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -277,12 +275,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        pantsButton.setTextFill(color);
+        pantsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button shortsButton;
     public void shortsButtonOnAction() throws IOException {
-        if (shortsButton.getTextFill() == color) return;
+        if (shortsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -295,12 +293,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        shortsButton.setTextFill(color);
+        shortsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button skirtsButton;
     public void skirtsButtonOnAction() throws IOException {
-        if (skirtsButton.getTextFill() == color) return;
+        if (skirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -313,12 +311,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        skirtsButton.setTextFill(color);
+        skirtsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button dressesButton;
     public void dressesButtonOnAction() throws IOException {
-        if (dressesButton.getTextFill() == color) return;
+        if (dressesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -331,12 +329,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        dressesButton.setTextFill(color);
+        dressesButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button jacketsButton;
     public void jacketsButtonOnAction() throws IOException {
-        if (jacketsButton.getTextFill() == color) return;
+        if (jacketsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -349,12 +347,12 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        jacketsButton.setTextFill(color);
+        jacketsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
     Button shoesButton;
     public void shoesButtonOnAction() throws IOException {
-        if (shoesButton.getTextFill() == color) return;
+        if (shoesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
         animation.stop();
@@ -367,10 +365,10 @@ public class MainPageController implements Initializable
             scrollPane.setVisible(true);
         }
         animation.start();
-        shoesButton.setTextFill(color);
+        shoesButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
-    public void disactiveButtons()
+    private void disactiveButtons()
     {
         homeButton.setTextFill(Color.WHITE);
         allItemsButton.setTextFill(Color.WHITE);
