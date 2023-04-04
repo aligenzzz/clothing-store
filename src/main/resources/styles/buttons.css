@@ -37,7 +37,7 @@
 }
 
 .item-button:hover {
-    -fx-background-color: #e9e6f6;
+    -fx-background-color: #f4f4f4;
 }
 
 .item-button:pressed {
