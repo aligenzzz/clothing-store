@@ -2,14 +2,18 @@ package com.example.test.controllers;
 
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
+import com.example.test.GlobalEntities;
 import com.example.test.controllers.ItemController;
 import com.example.test.entities.Item;
+import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +47,26 @@ public class MainPageController implements Initializable
         stage.close();
     }
 
+    public void profileMenuButtonOnAction()
+    {
+        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+
+        try
+        {
+            Parent root = FXMLLoader.load(new File(Constants.CUSTOMERPAGE).toURI().toURL());
+            Stage stage = (Stage) gridPane.getScene().getWindow();
+            stage.setScene(new Scene(root, 900, 700));
+            stage.centerOnScreen();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+    }
+
+
+
     private final List<Item> itemList = new ArrayList<>();
 
     private IListener listener;
@@ -73,8 +97,9 @@ public class MainPageController implements Initializable
     {
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(item.getPrice());
-        itemShopLabel.setText(item.getShop());
+        itemPriceLabel.setText(String.valueOf(item.getPrice()));
+        // !!!!!!
+        itemShopLabel.setText("shop");
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }

@@ -2,6 +2,7 @@ package com.example.test;
 
 import com.example.test.entities.*;
 import com.example.test.enums.AccessType;
+import com.example.test.enums.ItemInfo;
 import com.example.test.enums.UserAccount;
 import com.example.test.interfaces.User;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,10 +22,16 @@ public class DatabaseConnector
 {
     private final String userAccountsFileName;
     private final String itemsFileName;
+    private final String favouriteItemsFileName;
+    private final String purchasedItemsFileName;
+    private final String shoppingItemsFileName;
     public DatabaseConnector()
     {
         userAccountsFileName = Constants.USERACCOUNTS;
         itemsFileName = Constants.ITEMS;
+        favouriteItemsFileName = Constants.FAVOURITEITEMS;
+        purchasedItemsFileName = Constants.PURCHASEDITEMS;
+        shoppingItemsFileName = Constants.SHOPPINGITEMS;
     }
     public boolean isFoundUser(String username, String password) throws IOException
     {
@@ -182,7 +190,6 @@ public class DatabaseConnector
             XSSFSheet sheet = workbook.getSheetAt (0);
 
             int row_num = sheet.getLastRowNum();
-            System.out.println(row_num);
             row_num++;
             Row row = sheet.createRow(row_num);
             row_num++;
@@ -207,7 +214,11 @@ public class DatabaseConnector
             out.close();
             file.close();
         }
-        catch (Exception exception) { exception.printStackTrace(); }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
     }
     public void getItems(List<Item> itemList) throws IOException
     {
@@ -219,35 +230,92 @@ public class DatabaseConnector
 
             for (Row row : sheet)
             {
-                String image_source = "";
+                double id = 0;
                 String name = "";
-                String price = "";
-                String shop = "";
+                String imageSource = "";
+                double price = 0;
+                double shop = 0;
 
                 Iterator<Cell> cellIterator = row.cellIterator();
                 int column = 0;
                 while (cellIterator.hasNext())
                 {
                     Cell cell = cellIterator.next();
-                    String data;
-                    if(cell.getCellType() == CellType.STRING) data = cell.getStringCellValue();
-                    else data = Double.toString(cell.getNumericCellValue());
-                    switch (column)
-                    {
-                        case 1 -> image_source = data;
-                        case 2 -> name = data;
-                        case 3 -> price = data;
-                        case 4 -> shop = data;
-                    }
+                    if (column == ItemInfo.ID.getIndex()) id = cell.getNumericCellValue();
+                    else if (column == ItemInfo.NAME.getIndex()) name = cell.getStringCellValue();
+                    else if (column == ItemInfo.IMAGESOURCE.getIndex()) imageSource = cell.getStringCellValue();
+                    else if (column == ItemInfo.PRICE.getIndex()) price = Double.parseDouble(cell.getStringCellValue().replaceAll("[ $]", ""));
+                    else if (column == ItemInfo.SHOP.getIndex()) shop = cell.getNumericCellValue();
                     column++;
                 }
-                itemList.add(new Item(name, image_source, price, shop));
+                itemList.add(new Item(id, name, imageSource, price, shop));
             }
             file.close();
         }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+    }
+
+    public List<Item> getFavouriteItems(double id) { return this.getSubItems(id, favouriteItemsFileName); }
+
+    public List<Item> getPurchasedItems(double id) { return this.getSubItems(id, purchasedItemsFileName); }
+
+    public List<Item> getShoppingItems(double id) { return this.getSubItems(id, shoppingItemsFileName); }
+
+    private List<Item> getSubItems(double id, String path)
+    {
+        List<Double> subItemsIds = new ArrayList<>();
+        List<Item> subItems = new ArrayList<>();
+        try
+        {
+            FileInputStream file = new FileInputStream(path);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            Row row = sheet.getRow((int)id - 1);
+            Iterator<Cell> cellIterator = row.cellIterator();
+            int column = 0;
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+                subItemsIds.add(cell.getNumericCellValue());
+                column++;
+            }
+
+            for (double element: subItemsIds) {
+                subItems.add(this.getItem(element, sheet));
+            }
+
+            file.close();
+        }
         catch (Exception exception) { exception.printStackTrace(); }
+
+        return subItems;
+    }
+
+    private Item getItem(double id, XSSFSheet sheet)
+    {
+        String name = "";
+        String imageSource = "";
+        double price = 0;
+        double shop = 0;
+
+        Row row = sheet.getRow((int)id - 1);
+        Iterator<Cell> cellIterator = row.cellIterator();
+        int column = 0;
+        while (cellIterator.hasNext())
+        {
+            Cell cell = cellIterator.next();
+            if (column == ItemInfo.NAME.getIndex()) name = cell.getStringCellValue();
+            else if (column == ItemInfo.IMAGESOURCE.getIndex()) imageSource = cell.getStringCellValue();
+            else if (column == ItemInfo.PRICE.getIndex()) price = Double.parseDouble(cell.getStringCellValue().replaceAll("[ $]", ""));
+            else if (column == ItemInfo.SHOP.getIndex()) shop = cell.getNumericCellValue();
+            column++;
+        }
+
+        return new Item(id, name, imageSource, price, shop);
     }
 }
-
-
-

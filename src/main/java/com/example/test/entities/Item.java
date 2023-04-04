@@ -2,32 +2,34 @@ package com.example.test.entities;
 
 public class Item
 {
+    private double id;
     private String name;
-    private String image_source;
-    private String price;
-    private String shop;
+    private String imageSource;
+    private double price;
+    private double shop;
 
     public Item()
     {
         name = "";
-        image_source = "";
-        price = "";
-        shop = "";
+        imageSource = "";
+        price = 0;
+        shop = 0;
     }
-    public Item(String name, String image_source, String price, String shop)
+    public Item(double id, String name, String imageSource, double price, double shop)
     {
+        this.id = id;
         this.name = name;
-        this.image_source = image_source;
+        this.imageSource = imageSource;
         this.price = price;
         this.shop = shop;
     }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getImageSource() { return image_source; }
-    public void setImageSource(String image_source) { this.image_source = image_source; }
-    public String getPrice() { return price; }
-    public void setPrice(String price) { this.price = price; }
-    public String getShop() { return shop; }
-    public void setShop(String shop) { this.shop = shop; }
+    public String getImageSource() { return imageSource; }
+    public void setImageSource(String image_source) { this.imageSource = image_source; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+    public double getShop() { return shop; }
+    public void setShop(double shop) { this.shop = shop; }
 }

@@ -23,34 +23,11 @@ public class ItemController
         Image image = new Image(Constants.ITEMSIMAGEPATH + item.getImageSource());
         itemImageView.setImage(image);
         itemImageView.setStyle("-fx-background-position: CENTER;");
-        priceLabel.setText(item.getPrice());
+        priceLabel.setText(String.valueOf(item.getPrice()));
         this.item = item;
 
         this.listener = listener;
     }
 
     public void onMouseClicked(MouseEvent event) { listener.onClickListener(item); }
-
-    public void centerImage()
-    {
-        Image image = itemImageView.getImage();
-        if (image != null)
-        {
-            double w = 0;
-            double h = 0;
-
-            double ratioX = itemImageView.getFitWidth() / image.getWidth();
-            double ratioY = itemImageView.getFitHeight() / image.getHeight();
-
-            double reducCoeff = 0;
-            if (ratioX >= ratioY) reducCoeff = ratioY;
-            else reducCoeff = ratioX;
-
-            w = image.getWidth() * reducCoeff;
-            h = image.getHeight() * reducCoeff;
-
-            itemImageView.setX((itemImageView.getFitWidth() - w) / 2);
-            itemImageView.setY((itemImageView.getFitHeight() - h) / 2);
-        }
-    }
 }

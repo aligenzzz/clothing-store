@@ -256,8 +256,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="🙎‍♀️">
                   <items>
-                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                     <MenuItem fx:id="profileMenuItem" mnemonicParsing="false" onAction="#profileMenuButtonOnAction" text="Profile" />
+                     <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" text="Log out" />
                   </items>
                </Menu>
                   <Menu mnemonicParsing="false" text="💗">
