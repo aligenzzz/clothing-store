@@ -1,6 +1,9 @@
 package com.example.test;
 
-import com.example.test.entities.Item;
+import com.example.test.entities.*;
+import com.example.test.enums.AccessType;
+import com.example.test.enums.UserAccount;
+import com.example.test.interfaces.User;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -44,8 +47,8 @@ public class DatabaseConnector
                     if(cell.getCellType() == CellType.STRING) data = cell.getStringCellValue();
                     else data = Double.toString(cell.getNumericCellValue());
 
-                    if (column == 1 && data.equals(username)) result1 = true;
-                    else if (column == 2 && result1 && data.equals(password)) result2 = true;
+                    if (column == UserAccount.USERNAME.getIndex() && data.equals(username)) result1 = true;
+                    else if (column == UserAccount.PASSWORD.getIndex() && result1 && data.equals(password)) result2 = true;
 
                     column++;
                 }
@@ -98,6 +101,78 @@ public class DatabaseConnector
             return false;
         }
     }
+
+    public User getUser(String username_, String password_) throws IOException {
+        if (!this.isFoundUser(username_, password_)) return null;
+
+        double id = -1;
+        String username = "";
+        String password = "";
+        String email = "";
+        String firstName = "";
+        String lastName = "";
+        AccessType accessType = AccessType.nonuser;
+
+        try {
+            FileInputStream file = new FileInputStream(userAccountsFileName);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            for (Row row : sheet) {
+                boolean activeRow = false;
+
+                Iterator<Cell> cellIterator = row.cellIterator();
+                int column = 0;
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    String data;
+                    if(cell.getCellType() == CellType.STRING) data = cell.getStringCellValue();
+                    else data = Double.toString(cell.getNumericCellValue());
+
+                    if (column == UserAccount.USERNAME.getIndex() && data.equals(username_)) {
+                        activeRow = true;
+                        break;
+                    }
+
+                    column++;
+                }
+
+                if (activeRow)
+                {
+                    cellIterator = row.cellIterator();
+                    column = 0;
+                    while (cellIterator.hasNext())
+                    {
+                        Cell cell = cellIterator.next();
+
+                        if (column == UserAccount.ID.getIndex()) id = cell.getNumericCellValue();
+                        else if (column == UserAccount.USERNAME.getIndex()) username = cell.getStringCellValue();
+                        else if (column == UserAccount.PASSWORD.getIndex()) password = cell.getStringCellValue();
+                        else if (column == UserAccount.EMAIL.getIndex()) email = cell.getStringCellValue();
+                        else if (column == UserAccount.FIRSTNAME.getIndex()) firstName = cell.getStringCellValue();
+                        else if (column == UserAccount.LASTNAME.getIndex()) lastName = cell.getStringCellValue();
+                        else if (column == UserAccount.ACCESSTYPE.getIndex()) accessType = AccessType.valueOf(cell.getStringCellValue());
+
+                        column++;
+                    }
+                    break;
+                }
+            }
+            file.close();
+
+            User user;
+            if (accessType == AccessType.customer) user = new Customer(id, username, password, email, firstName, lastName, accessType);
+            else if (accessType == AccessType.vendor) user = new Vendor(id, username, password, email, firstName, lastName, accessType);
+            else if (accessType == AccessType.admin) user = new Admin(id, username, password, email, firstName, lastName, accessType);
+            else user = new NonUser(accessType);
+
+            return user;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
     public void AddUser(String username, String email, String firstname, String lastname, String password)
     {
         try
@@ -112,18 +187,20 @@ public class DatabaseConnector
             Row row = sheet.createRow(row_num);
             row_num++;
 
-            Cell cell = row.createCell(0);
+            Cell cell = row.createCell(UserAccount.ID.getIndex());
             cell.setCellValue(row_num);
-            cell = row.createCell(1);
+            cell = row.createCell(UserAccount.USERNAME.getIndex());
             cell.setCellValue(username);
-            cell = row.createCell(2);
+            cell = row.createCell(UserAccount.PASSWORD.getIndex());
             cell.setCellValue(password);
-            cell = row.createCell(3);
+            cell = row.createCell(UserAccount.EMAIL.getIndex());
             cell.setCellValue(email);
-            cell = row.createCell(4);
+            cell = row.createCell(UserAccount.FIRSTNAME.getIndex());
             cell.setCellValue(firstname);
-            cell = row.createCell(5);
+            cell = row.createCell(UserAccount.LASTNAME.getIndex());
             cell.setCellValue(lastname);
+            cell = row.createCell(UserAccount.ACCESSTYPE.getIndex());
+            cell.setCellValue(AccessType.customer.toString());
 
             FileOutputStream out = new FileOutputStream(userAccountsFileName);
             workbook.write(out);

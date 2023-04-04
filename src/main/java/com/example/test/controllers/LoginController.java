@@ -2,6 +2,10 @@ package com.example.test.controllers;
 
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
+import com.example.test.GlobalEntities;
+import com.example.test.entities.NonUser;
+import com.example.test.enums.AccessType;
+import com.example.test.interfaces.User;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +17,6 @@ import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class LoginController
 {
@@ -44,19 +47,24 @@ public class LoginController
         if (messageLabel.isVisible()) messageLabel.setVisible(false);
         loginButton.setDisable(true);
 
-        Task<Boolean> task = new Task<>() {
+        Task<User> task = new Task<>() {
             @Override
-            protected Boolean call() throws Exception {
+            protected User call() throws Exception {
                 DatabaseConnector databaseConnector = new DatabaseConnector();
-                return databaseConnector.isFoundUser(usernameTextField.getText(), passwordField.getText());
+                return databaseConnector.getUser(usernameTextField.getText(), passwordField.getText());
             }
         };
         task.setOnSucceeded(event -> {
-            boolean result = task.getValue();
-            if (result)
+            GlobalEntities.USER = task.getValue();
+            if (GlobalEntities.USER != null)
             {
                 Parent root = null;
-                try { root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL()); }
+                try
+                {
+                    if (GlobalEntities.USER.accessType == AccessType.customer) root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
+                    else if (GlobalEntities.USER.accessType == AccessType.vendor) root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
+                    else if (GlobalEntities.USER.accessType == AccessType.admin) root = FXMLLoader.load(new File(Constants.ADMINPAGE).toURI().toURL());
+                }
                 catch (IOException exception) { throw new RuntimeException(exception); }
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.setScene(new Scene(root, 900, 700));
@@ -90,6 +98,7 @@ public class LoginController
     }
     public void skipButtonOnAction()
     {
+        GlobalEntities.USER = new NonUser(AccessType.nonuser);
         try
         {
             Parent root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());

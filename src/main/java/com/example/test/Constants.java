@@ -2,6 +2,9 @@ package com.example.test;
 
 public final class Constants {
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
+    public static final String CUSTOMERPAGE = "./src/main/resources/com/example/test/customer_page.fxml";
+    public static final String VENDORPAGE = "./src/main/resources/com/example/test/vendor_page.fxml";
+    public static final String ADMINPAGE = "./src/main/resources/com/example/test/admin_page.fxml";
     public static final String LOGIN = "./src/main/resources/com/example/test/login.fxml";
     public static final String SIGNUP = "./src/main/resources/com/example/test/signup.fxml";
     public static final String ITEM = "./src/main/resources/com/example/test/item.fxml";
