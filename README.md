@@ -1,5 +1,8 @@
 # clothing-store
-	Декстопное приложение для интернет-магазина одежды будет представлено в виде окна входа и регистрации, главной страницы, а также специфический страниц, доступных в зависимости от роли пользователя. Для их контроля использованы следующие классы: LoginController, SignupController, MainPageController, CustomerPageController, VendorPageController, AdminPageController, ShopController, ItemController.
+	Декстопное приложение для интернет-магазина одежды будет представлено в виде окна входа и регистрации, главной страницы, 
+	а также специфический страниц, доступных в зависимости от роли пользователя. Для их контроля использованы следующие классы: 
+	LoginController, SignupController, MainPageController, CustomerPageController, VendorPageController, AdminPageController, 
+	ShopController, ItemController.
 	Для регулирования доступа используется класс LoginHandler.
 	После входа пользователь имеют свою роль (NonUser, Customer, Vendor, Admin) со своим типом доступа (AccessType). 
 	Перечисление AccessType имеет следующие элементы:
