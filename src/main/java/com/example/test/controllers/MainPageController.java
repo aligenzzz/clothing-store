@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,11 +37,9 @@ import java.util.ResourceBundle;
 public class MainPageController implements Initializable
 {
     @FXML
-    GridPane gridPane;
+    private GridPane gridPane;
     @FXML
-    MenuItem closeMenuItem;
-    @FXML
-    ScrollPane scrollPane;
+    private ScrollPane scrollPane;
 
     public void closeMenuButtonOnAction()
     {
@@ -68,8 +65,6 @@ public class MainPageController implements Initializable
         }
     }
 
-
-
     private final List<Item> itemList = new ArrayList<>();
 
     private IListener listener;
@@ -87,15 +82,15 @@ public class MainPageController implements Initializable
     }
 
     @FXML
-    ImageView imageView;
+    private ImageView imageView;
     @FXML
-    Label itemNameLabel;
+    private Label itemNameLabel;
     @FXML
-    Label itemPriceLabel;
+    private Label itemPriceLabel;
     @FXML
-    Label itemShopLabel;
+    private Label itemShopLabel;
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
 
     private double itemId;
     private double shopId;
@@ -107,14 +102,12 @@ public class MainPageController implements Initializable
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(String.valueOf(item.getPrice()));
-        // !!!!!!
-        itemShopLabel.setText("shop");
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        itemShopLabel.setText(databaseConnector.getShop(shopId).getName());
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
 
-    @FXML
-    Button closeItemCardButton;
     public void closeItemCardButtonOnAction()
     {
         scrollPane.setDisable(false);
@@ -122,9 +115,9 @@ public class MainPageController implements Initializable
     }
 
     @FXML
-    AnchorPane homePage;
+    private AnchorPane homePage;
     @FXML
-    Button homeButton;
+    private Button homeButton;
     public void homeButtonOnAction()
     {
         if (homeButton.getTextFill() == Constants.ACTIVECOLOR) return;
@@ -136,8 +129,9 @@ public class MainPageController implements Initializable
         homeButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button allItemsButton;
-    public void allItemsButtonOnAction() throws IOException {
+    private Button allItemsButton;
+    public void allItemsButtonOnAction()
+    {
         if (allItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -214,10 +208,10 @@ public class MainPageController implements Initializable
         }
     }
 
-    GridAnimation animation = new GridAnimation("none", "none");
+    private GridAnimation animation = new GridAnimation("none", "none");
     @FXML
-    Button blousesButton;
-    public void blousesButtonOnAction() throws IOException
+    private Button blousesButton;
+    public void blousesButtonOnAction()
     {
         if (blousesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
@@ -235,8 +229,9 @@ public class MainPageController implements Initializable
         blousesButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button topsButton;
-    public void topsButtonOnAction() throws IOException {
+    private Button topsButton;
+    public void topsButtonOnAction()
+    {
         if (topsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -253,8 +248,9 @@ public class MainPageController implements Initializable
         topsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button shirtsButton;
-    public void shirtsButtonOnAction() throws IOException {
+    private Button shirtsButton;
+    public void shirtsButtonOnAction()
+    {
         if (shirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -271,8 +267,9 @@ public class MainPageController implements Initializable
         shirtsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button pantsButton;
-    public void pantsButtonOnAction() throws IOException {
+    private Button pantsButton;
+    public void pantsButtonOnAction()
+    {
         if (pantsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -289,8 +286,9 @@ public class MainPageController implements Initializable
         pantsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button shortsButton;
-    public void shortsButtonOnAction() throws IOException {
+    private Button shortsButton;
+    public void shortsButtonOnAction()
+    {
         if (shortsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -307,8 +305,9 @@ public class MainPageController implements Initializable
         shortsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button skirtsButton;
-    public void skirtsButtonOnAction() throws IOException {
+    private Button skirtsButton;
+    public void skirtsButtonOnAction()
+    {
         if (skirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -325,8 +324,9 @@ public class MainPageController implements Initializable
         skirtsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button dressesButton;
-    public void dressesButtonOnAction() throws IOException {
+    private Button dressesButton;
+    public void dressesButtonOnAction()
+    {
         if (dressesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -343,8 +343,9 @@ public class MainPageController implements Initializable
         dressesButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button jacketsButton;
-    public void jacketsButtonOnAction() throws IOException {
+    private Button jacketsButton;
+    public void jacketsButtonOnAction()
+    {
         if (jacketsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -361,8 +362,9 @@ public class MainPageController implements Initializable
         jacketsButton.setTextFill(Constants.ACTIVECOLOR);
     }
     @FXML
-    Button shoesButton;
-    public void shoesButtonOnAction() throws IOException {
+    private Button shoesButton;
+    public void shoesButtonOnAction()
+    {
         if (shoesButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -398,15 +400,18 @@ public class MainPageController implements Initializable
         GlobalEntities.SHOP = new Shop();
         GlobalEntities.SHOP.setId(this.shopId);
 
-        Task<Void> task = new Task<>() {
+        Task<Void> task = new Task<>()
+        {
             @Override
-            protected Void call() throws Exception {
+            protected Void call()
+            {
                 DatabaseConnector databaseConnector = new DatabaseConnector();
                 GlobalEntities.SHOP = databaseConnector.getShop(GlobalEntities.SHOP.getId());
                 return null;
             }
         };
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(event ->
+        {
             try
             {
                 Parent root = FXMLLoader.load(new File(Constants.SHOPPAGE).toURI().toURL());

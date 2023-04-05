@@ -5,9 +5,7 @@ import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
-import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
-import com.example.test.interfaces.User;
 import javafx.animation.AnimationTimer;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -65,9 +63,11 @@ public class CustomerPageController implements Initializable
         disactiveButtons();
         profileButton.setTextFill(Constants.ACTIVECOLOR);
 
-        Task<Void> task = new Task<>() {
+        Task<Void> task = new Task<>()
+        {
             @Override
-            protected Void call() throws Exception {
+            protected Void call()
+            {
                 DatabaseConnector databaseConnector = new DatabaseConnector();
 
                 customer.setFavouriteItems(databaseConnector.getFavouriteItems(customer.id));
@@ -93,15 +93,15 @@ public class CustomerPageController implements Initializable
     }
 
     @FXML
-    ImageView imageView;
+    private ImageView imageView;
     @FXML
-    Label itemNameLabel;
+    private Label itemNameLabel;
     @FXML
-    Label itemPriceLabel;
+    private Label itemPriceLabel;
     @FXML
-    Label itemShopLabel;
+    private Label itemShopLabel;
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
 
     public void chooseItemCard(Item item)
     {

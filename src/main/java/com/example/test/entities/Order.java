@@ -1,6 +1,5 @@
 package com.example.test.entities;
 
-import com.example.test.entities.Item;
 import com.example.test.enums.OrderState;
 
 import java.util.List;

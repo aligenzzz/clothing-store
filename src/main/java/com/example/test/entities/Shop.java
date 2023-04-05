@@ -1,6 +1,5 @@
 package com.example.test.entities;
 
-import com.example.test.entities.Item;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;

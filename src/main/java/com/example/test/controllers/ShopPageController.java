@@ -74,13 +74,13 @@ public class ShopPageController implements Initializable
     }
 
     @FXML
-    ImageView imageView;
+    private ImageView imageView;
     @FXML
-    Label itemNameLabel;
+    private Label itemNameLabel;
     @FXML
-    Label itemPriceLabel;
+    private Label itemPriceLabel;
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
 
     private double itemId;
     public void chooseItemCard(Item item)

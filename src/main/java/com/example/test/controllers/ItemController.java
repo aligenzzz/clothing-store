@@ -7,15 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class ItemController
 {
     @FXML
-    ImageView itemImageView;
+    private ImageView itemImageView;
     @FXML
-    Label priceLabel;
-    Item item;
+    private Label priceLabel;
+    private Item item;
     private IListener listener;
 
     public void setData(Item item, IListener listener)
@@ -29,5 +28,5 @@ public class ItemController
         this.listener = listener;
     }
 
-    public void onMouseClicked(MouseEvent event) { listener.onClickListener(item); }
+    public void onMouseClicked() { listener.onClickListener(item); }
 }

@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.LoginController">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <ImageView fitHeight="428.0" fitWidth="211.0" layoutX="-10.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="-4.0">

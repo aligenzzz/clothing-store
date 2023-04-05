@@ -13,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,27 +33,30 @@ public class LoginController
     private Button cancelButton;
     @FXML
     private Button skipButton;
-    public void loginButtonOnAction(ActionEvent event) throws IOException
+    public void loginButtonOnAction()
     {
         if(!usernameTextField.getText().isBlank() && !passwordField.getText().isBlank()) validateLogin();
         else messageLabel.setVisible(true);
     }
 
     @FXML
-    ProgressIndicator progressIndicator;
-    private void validateLogin() throws IOException
+    private ProgressIndicator progressIndicator;
+    private void validateLogin()
     {
         if (messageLabel.isVisible()) messageLabel.setVisible(false);
         loginButton.setDisable(true);
 
-        Task<User> task = new Task<>() {
+        Task<User> task = new Task<>()
+        {
             @Override
-            protected User call() throws Exception {
+            protected User call() throws Exception
+            {
                 DatabaseConnector databaseConnector = new DatabaseConnector();
                 return databaseConnector.getUser(usernameTextField.getText(), passwordField.getText());
             }
         };
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(event ->
+        {
             GlobalEntities.USER = task.getValue();
             if (GlobalEntities.USER != null)
             {
@@ -81,7 +83,7 @@ public class LoginController
         thread.setDaemon(true);
         thread.start();
     }
-    public void signupButtonOnAction(ActionEvent event)
+    public void signupButtonOnAction()
     {
         try
         {
@@ -112,7 +114,7 @@ public class LoginController
             exception.getCause();
         }
     }
-    public void cancelButtonOnAction(ActionEvent event)
+    public void cancelButtonOnAction()
     {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();

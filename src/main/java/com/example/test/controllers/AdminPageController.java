@@ -1,4 +1,6 @@
 package com.example.test.controllers;
 
-public class AdminPageController {
+public class AdminPageController
+{
+
 }

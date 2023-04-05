@@ -17,7 +17,6 @@ import javafx.scene.control.TextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SignupController implements Initializable
@@ -32,8 +31,6 @@ public class SignupController implements Initializable
     private TextField lastnameTextField;
     @FXML
     private PasswordField passwordField;
-    @FXML
-    private Button signupButton;
     @FXML
     private Label unsuccessfulMessageLabel;
     @FXML
@@ -76,7 +73,6 @@ public class SignupController implements Initializable
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -88,8 +84,10 @@ public class SignupController implements Initializable
             catch (IOException e) { throw new RuntimeException(e); }
         });
 
-        emailTextField.textProperty().addListener(event -> {
-            try {
+        emailTextField.textProperty().addListener(event ->
+        {
+            try
+            {
                 emailTextField.pseudoClassStateChanged(
                         PseudoClass.getPseudoClass("error"),
                         (!emailTextField.getText().isEmpty() && !emailTextField.getText().matches(EMAIL_PATTERN)) ||
