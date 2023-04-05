@@ -42,18 +42,17 @@
                   <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="-&gt;">
+            <Menu fx:id="returnMenuItem" mnemonicParsing="false" text="-&gt;" visible="false">
                <items>
-                  <MenuItem fx:id="returnMenuItem" mnemonicParsing="false" onAction="#returnMenuButtonOnAction" text="Return" />
+                  <MenuItem mnemonicParsing="false" onAction="#returnMenuButtonOnAction" text="Return" />
                </items>
             </Menu>
          </menus>
       </MenuBar>
-      <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutY="246.0" prefHeight="455.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;">
+      <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutY="246.0" maxWidth="900.0" prefHeight="455.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;">
          <content>
-            <GridPane fx:id="gridPane" alignment="CENTER" styleClass="grid-pane" vgap="10.0">
+            <GridPane fx:id="gridPane" alignment="CENTER" maxWidth="900.0" styleClass="grid-pane">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" />
                   <ColumnConstraints hgrow="SOMETIMES" />
                   <ColumnConstraints hgrow="SOMETIMES" />
                   <ColumnConstraints hgrow="SOMETIMES" />

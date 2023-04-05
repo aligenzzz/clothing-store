@@ -9,30 +9,27 @@ import com.example.test.entities.NonUser;
 import com.example.test.entities.Vendor;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
+
 import javafx.animation.AnimationTimer;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,6 +47,8 @@ public class ShopPageController implements Initializable
     private ImageView bannerImageView;
     @FXML
     private Label shopNameLabel;
+    @FXML
+    private Menu returnMenuItem;
 
     private IListener listener;
 
@@ -59,7 +58,11 @@ public class ShopPageController implements Initializable
         listener = this::chooseItemCard;
 
         if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser) customerButtons.setVisible(true);
-        if (GlobalEntities.USER instanceof Vendor) vendorButtons.setVisible(true);
+        if (GlobalEntities.USER instanceof Vendor)
+        {
+            vendorButtons.setVisible(true);
+            returnMenuItem.setVisible(true);
+        }
 
         bannerImageView.setImage(new Image(Constants.SHOPSIMAGEPATH + GlobalEntities.SHOP.getImageSource()));
         shopNameLabel.setText(GlobalEntities.SHOP.getName().toUpperCase());
@@ -113,13 +116,9 @@ public class ShopPageController implements Initializable
     }
     public void returnMenuButtonOnAction()
     {
-        String path = "";
-        if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser) path = Constants.MAINPAGE;
-        if (GlobalEntities.USER instanceof Vendor) path = Constants.VENDORPAGE;
-
         try
         {
-            Parent root = FXMLLoader.load(new File(path).toURI().toURL());
+            Parent root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
             Stage stage = (Stage) scrollPane.getScene().getWindow();
             stage.setScene(new Scene(root, 900, 700));
             stage.centerOnScreen();
@@ -158,14 +157,6 @@ public class ShopPageController implements Initializable
 
             try { doHandle(); }
             catch (IOException e) { throw new RuntimeException(e); }
-
-            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxHeight(Region.USE_PREF_SIZE);
         }
 
         private void doHandle() throws IOException
@@ -175,7 +166,7 @@ public class ShopPageController implements Initializable
             AnchorPane anchorPane = fxmlLoader.load();
 
             Item item = itemList.get(i);
-            if (column == 6)
+            if (column == 5)
             {
                 column = 0;
                 row++;

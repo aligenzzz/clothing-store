@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.test.controllers.VendorPageController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="700.0" maxWidth="900.0" minHeight="700.0" minWidth="900.0" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.VendorPageController">
+   <left>
+      <AnchorPane minWidth="260.0" prefHeight="627.0" prefWidth="260.0" style="-fx-background-color: #9BA5B8;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="settingsButton" layoutY="588.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Settings">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="ordersButton" layoutY="120.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Orders">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="shopButton" layoutY="60.0" minHeight="60.0" minWidth="260.0" mnemonicParsing="false" onAction="#shopButtonOnAction" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Shop">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Profile">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f6ebfc;">
+               <content>
+                  <GridPane fx:id="gridPane" alignment="CENTER" prefHeight="75.0" prefWidth="638.0" styleClass="grid-pane" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </StackPane>
+   </center>
+   <top>
+      <AnchorPane prefHeight="32.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="124.0" fitWidth="1143.0" layoutX="-137.0" layoutY="-72.0">
+               <image>
+                  <Image url="@../../../images/banner.jpg" />
+               </image>
+            </ImageView>
+            <MenuBar layoutX="26.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="926.0" style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
+               <menus>
+                  <Menu mnemonicParsing="false" text="❎">
+                     <items>
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="🚪">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Log out" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

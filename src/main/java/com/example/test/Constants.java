@@ -19,6 +19,7 @@ public final class Constants {
     public static final String SHOPPINGITEMS = "./src/main/resources/database/shopping_items.xlsx";
     public static final String SHOPS = "./src/main/resources/database/shops.xlsx";
     public static final String SHOPITEMS = "./src/main/resources/database/shop_items.xlsx";
+    public static final String VENDORSSHOP = "./src/main/resources/database/vendors_shop.xlsx";
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";

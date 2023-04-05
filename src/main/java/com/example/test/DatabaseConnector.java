@@ -29,6 +29,7 @@ public class DatabaseConnector
     private final String shoppingItemsFileName;
     private final String shopsFileName;
     private final String shopItemsFileName;
+    private final String vendorsShopFileName;
     public DatabaseConnector()
     {
         userAccountsFileName = Constants.USERACCOUNTS;
@@ -38,6 +39,7 @@ public class DatabaseConnector
         shoppingItemsFileName = Constants.SHOPPINGITEMS;
         shopsFileName = Constants.SHOPS;
         shopItemsFileName = Constants.SHOPITEMS;
+        vendorsShopFileName = Constants.VENDORSSHOP;
     }
     public boolean isFoundUser(String username, String password) throws IOException
     {
@@ -314,6 +316,36 @@ public class DatabaseConnector
 
         return new Shop(id, name, items, imageSource, textColor, vendor);
     }
+
+    public double getShopId(double vendor)
+    {
+        double id = 0;
+
+        try
+        {
+            FileInputStream file = new FileInputStream(vendorsShopFileName);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            for (Row row : sheet)
+            {
+                if (row.getCell(0).getNumericCellValue() == vendor)
+                {
+                    id = row.getCell(1).getNumericCellValue();
+                    break;
+                }
+            }
+            file.close();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+
+        return id;
+    }
+
 
     private List<Item> getSubItems(double id, String path)
     {
