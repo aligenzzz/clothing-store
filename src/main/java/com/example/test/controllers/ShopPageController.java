@@ -62,7 +62,7 @@ public class ShopPageController implements Initializable
         if (GlobalEntities.USER instanceof Vendor) vendorButtons.setVisible(true);
 
         bannerImageView.setImage(new Image(Constants.SHOPSIMAGEPATH + GlobalEntities.SHOP.getImageSource()));
-        shopNameLabel.setText(GlobalEntities.SHOP.getName());
+        shopNameLabel.setText(GlobalEntities.SHOP.getName().toUpperCase());
         shopNameLabel.setTextFill(GlobalEntities.SHOP.getTextColor());
         List<Item> itemList = GlobalEntities.SHOP.getItems();
 

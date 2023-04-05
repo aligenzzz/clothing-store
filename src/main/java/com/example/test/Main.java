@@ -18,7 +18,7 @@ public class Main extends Application
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 400);
         stage.setTitle("Online clothing store KIΞO");
-        stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/images/icon.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream(Constants.ICONPATH))));
         stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);

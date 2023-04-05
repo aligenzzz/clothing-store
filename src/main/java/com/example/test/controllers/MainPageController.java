@@ -3,6 +3,7 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
+import com.example.test.Main;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
@@ -15,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,12 +25,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable
@@ -406,9 +410,15 @@ public class MainPageController implements Initializable
             try
             {
                 Parent root = FXMLLoader.load(new File(Constants.SHOPPAGE).toURI().toURL());
-                Stage stage = (Stage) gridPane.getScene().getWindow();
+                Stage stage = new Stage();
                 stage.setScene(new Scene(root, 900, 700));
+                stage.setTitle("Shop");
+                stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream(Constants.ICONPATH))));
+                stage.setResizable(false);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.show();
                 stage.centerOnScreen();
+
             }
             catch (Exception exception)
             {

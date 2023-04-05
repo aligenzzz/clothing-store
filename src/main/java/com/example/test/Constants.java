@@ -23,6 +23,7 @@ public final class Constants {
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";
     public static final String SHOPSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\banners\\";
+    public static final String ICONPATH = "/images/icon.png";
 
     public static final Color ACTIVECOLOR = Color.web("#484c58");
 }
