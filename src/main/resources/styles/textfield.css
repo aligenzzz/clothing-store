@@ -12,3 +12,15 @@
     -fx-border-radius: 10;
     -fx-background-color: derive(red, 99%);
 }
+
+.label-button {
+    -fx-text-fill: black;
+}
+
+.label-button:focused, .label-button:hover {
+    -fx-text-fill: darkgray;
+}
+
+.label-button:pressed {
+    -fx-text-fill: lightgray;
+}

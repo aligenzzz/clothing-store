@@ -222,7 +222,7 @@
                                        <Font name="Candara" size="20.0" />
                                    </font>
                                </Label>
-                               <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" prefWidth="100.0" text="Shop">
+                               <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" onMouseClicked="#shopButtonOnAction" prefWidth="100.0" styleClass="label-button" stylesheets="@../../../styles/textfield.css" text="Shop">
                                    <font>
                                        <Font name="Candara" size="20.0" />
                                    </font>

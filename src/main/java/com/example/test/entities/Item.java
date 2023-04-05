@@ -10,6 +10,7 @@ public class Item
 
     public Item()
     {
+        id = 0;
         name = "";
         imageSource = "";
         price = 0;

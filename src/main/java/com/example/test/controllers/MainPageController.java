@@ -3,11 +3,12 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
-import com.example.test.controllers.ItemController;
 import com.example.test.entities.Item;
+import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -92,10 +93,12 @@ public class MainPageController implements Initializable
     @FXML
     AnchorPane anchorPane;
 
-    private double id;
+    private double itemId;
+    private double shopId;
     public void chooseItemCard(Item item)
     {
-        this.id = item.getId();
+        this.itemId = item.getId();
+        this.shopId = item.getShop();
 
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
@@ -372,20 +375,51 @@ public class MainPageController implements Initializable
         shoesButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
-    @FXML
-    private Button toFavouriteButton;
-
     public void toFavouriteButtonOnAction()
     {
+        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addFavouriteItem(GlobalEntities.USER.id, this.id);
+        databaseConnector.addFavouriteItem(GlobalEntities.USER.id, this.itemId);
     }
-    @FXML
-    private Button toShoppingButton;
     public void toShoppingButtonOnAction()
     {
+        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addShoppingItem(GlobalEntities.USER.id, this.id);
+        databaseConnector.addShoppingItem(GlobalEntities.USER.id, this.itemId);
+    }
+    public void shopButtonOnAction()
+    {
+        GlobalEntities.SHOP = new Shop();
+        GlobalEntities.SHOP.setId(this.shopId);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                DatabaseConnector databaseConnector = new DatabaseConnector();
+                GlobalEntities.SHOP = databaseConnector.getShop(GlobalEntities.SHOP.getId());
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+            try
+            {
+                Parent root = FXMLLoader.load(new File(Constants.SHOPPAGE).toURI().toURL());
+                Stage stage = (Stage) gridPane.getScene().getWindow();
+                stage.setScene(new Scene(root, 900, 700));
+                stage.centerOnScreen();
+            }
+            catch (Exception exception)
+            {
+                exception.printStackTrace();
+                exception.getCause();
+            }
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void disactiveButtons()

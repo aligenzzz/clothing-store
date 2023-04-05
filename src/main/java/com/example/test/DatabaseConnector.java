@@ -3,8 +3,10 @@ package com.example.test;
 import com.example.test.entities.*;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.ItemInfo;
+import com.example.test.enums.ShopInfo;
 import com.example.test.enums.UserAccount;
 import com.example.test.interfaces.User;
+import javafx.scene.paint.Color;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +27,8 @@ public class DatabaseConnector
     private final String favouriteItemsFileName;
     private final String purchasedItemsFileName;
     private final String shoppingItemsFileName;
+    private final String shopsFileName;
+    private final String shopItemsFileName;
     public DatabaseConnector()
     {
         userAccountsFileName = Constants.USERACCOUNTS;
@@ -32,6 +36,8 @@ public class DatabaseConnector
         favouriteItemsFileName = Constants.FAVOURITEITEMS;
         purchasedItemsFileName = Constants.PURCHASEDITEMS;
         shoppingItemsFileName = Constants.SHOPPINGITEMS;
+        shopsFileName = Constants.SHOPS;
+        shopItemsFileName = Constants.SHOPITEMS;
     }
     public boolean isFoundUser(String username, String password) throws IOException
     {
@@ -268,6 +274,46 @@ public class DatabaseConnector
     public void addFavouriteItem(double userId, double itemId) { this.addItemToList(userId, itemId, favouriteItemsFileName); }
     public void addPurchasedItem(double userId, double itemId) { this.addItemToList(userId, itemId, purchasedItemsFileName); }
     public void addShoppingItem(double userId, double itemId) { this.addItemToList(userId, itemId, shoppingItemsFileName); }
+
+    public Shop getShop(double id)
+    {
+        String name = "";
+        List<Item> items = null;
+        String imageSource = "";
+        Color textColor = Color.WHITE;
+        double vendor = 0;
+
+        try
+        {
+            FileInputStream file = new FileInputStream(shopsFileName);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            Row row = sheet.getRow((int)id - 1);
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+            int column = 0;
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+                if (column == ShopInfo.NAME.getIndex()) name = cell.getStringCellValue();
+                else if (column == ShopInfo.IMAGESOURCE.getIndex()) imageSource = cell.getStringCellValue();
+                else if (column == ShopInfo.TEXTCOLOR.getIndex()) textColor = Color.web(cell.getStringCellValue());
+                else if (column == ShopInfo.VENDOR.getIndex()) vendor = cell.getNumericCellValue();
+                column++;
+            }
+            file.close();
+
+            items = getSubItems(id, shopItemsFileName);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+
+        return new Shop(id, name, items, imageSource, textColor, vendor);
+    }
 
     private List<Item> getSubItems(double id, String path)
     {
