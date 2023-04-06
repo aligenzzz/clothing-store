@@ -35,7 +35,7 @@
    </Label>
    <MenuBar layoutX="-32.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="938.0" style="-fx-background-color: #f4f4f4;" stylesheets="@../../../styles/others.css">
       <Menu mnemonicParsing="false" text="❎">
-         <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
+         <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
       </Menu>
       <Menu fx:id="returnMenuItem" mnemonicParsing="false" text="-&gt;" visible="false">
          <MenuItem mnemonicParsing="false" onAction="#returnMenuButtonOnAction" text="Return" />

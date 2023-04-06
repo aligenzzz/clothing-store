@@ -29,6 +29,14 @@ public class Customer extends User
     public List<Shop> getFavouriteShops() { return this.favouriteShops; }
     public void setFavouriteShops(List<Shop> shopList) { this.favouriteShops = shopList; }
 
+    public double getTotalPrice()
+    {
+        double result = 0;
+        for (Item item: this.shoppingItems) result += item.getPrice();
+
+        return result;
+    }
+
     void CreateOrder(Order order)
     {
         orders.add(order);

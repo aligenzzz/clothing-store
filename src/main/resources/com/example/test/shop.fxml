@@ -10,43 +10,41 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0" style="-fx-border-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ShopController">
-   <children>
-      <AnchorPane prefHeight="200.0" prefWidth="433.0">
-         <children>
-            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="434.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../images/banners/banner1.jpg" />
-               </image>
-               <effect>
-                  <Glow level="0.57" />
-               </effect></ImageView>
-            <Label fx:id="shopNameLabel" alignment="CENTER" layoutX="122.0" layoutY="78.0" text="SHOP NAME" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Candara Light" size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <VBox layoutX="434.0" prefHeight="200.0" prefWidth="167.0" spacing="37.0" style="-fx-background-color: #f4f4f4;">
-         <children>
-            <Button fx:id="toShopButton" minWidth="85.0" mnemonicParsing="false" onAction="#toShopButtonOnAction" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🢂" textFill="#9ba5b8">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="deleteButton" minWidth="85.0" mnemonicParsing="false" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="❌" textFill="#ff3c3c">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <padding>
-            <Insets bottom="37.0" left="37.0" right="37.0" top="37.0" />
-         </padding>
-      </VBox>
-   </children>
+<AnchorPane fx:id="anchorPane" maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0"
+            prefWidth="600.0" style="-fx-border-radius: 10;" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ShopController">
+   <AnchorPane prefHeight="200.0" prefWidth="433.0">
+      <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="434.0" pickOnBounds="true">
+         <effect>
+            <Glow level="0.57"/>
+         </effect>
+         <Image url="@../../../images/banners/banner1.jpg"/>
+      </ImageView>
+      <Label fx:id="shopNameLabel" alignment="CENTER" layoutX="122.0" layoutY="78.0" text="SHOP NAME"
+             textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Candara Light" size="36.0"/>
+         </font>
+      </Label>
+   </AnchorPane>
+   <VBox layoutX="434.0" prefHeight="200.0" prefWidth="167.0" spacing="37.0" style="-fx-background-color: #f4f4f4;">
+      <opaqueInsets>
+         <Insets/>
+      </opaqueInsets>
+      <padding>
+         <Insets bottom="37.0" left="37.0" right="37.0" top="37.0"/>
+      </padding>
+      <Button fx:id="toShopButton" minWidth="85.0" mnemonicParsing="false" onAction="#toShopButtonOnAction"
+              styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🢂" textFill="#9ba5b8">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" minWidth="85.0" mnemonicParsing="false" styleClass="mini-button"
+              stylesheets="@../../../styles/buttons.css" text="❌" textFill="#ff3c3c">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Button>
+   </VBox>
 </AnchorPane>

@@ -262,7 +262,7 @@
                                </Button>
                            </HBox>
                        </VBox>
-                       <Button fx:id="closeItemCardButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
+                       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
                                onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0"
                                styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">
                            <font>
@@ -288,7 +288,7 @@
            <MenuBar layoutY="1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="900.0"
                     style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
                <Menu mnemonicParsing="false" text="❎">
-                   <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction"
+                   <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction"
                              text="Exit"/>
                </Menu>
                <Menu mnemonicParsing="false" text="🙎‍♀️">

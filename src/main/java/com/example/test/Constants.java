@@ -13,6 +13,7 @@ public final class Constants {
     public static final String ITEM = "./src/main/resources/com/example/test/item.fxml";
     public static final String SHOP = "./src/main/resources/com/example/test/shop.fxml";
     public static final String PAYMENT = "./src/main/resources/com/example/test/payment.fxml";
+    public static final String PROFILE = "./src/main/resources/com/example/test/profile.fxml";
 
     public static final String USERACCOUNTS = "./src/main/resources/database/user_account.xlsx";
     public static final String ITEMS = "./src/main/resources/database/item.xlsx";

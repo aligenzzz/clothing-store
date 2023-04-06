@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ProfileController">
+   <VBox alignment="CENTER" prefHeight="649.0" prefWidth="646.0">
+      <HBox alignment="CENTER" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+         <Label maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Username:">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" text="username">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+         <Label maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="E-mail:">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="emailLabel" alignment="CENTER_RIGHT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" text="email">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+         <Label maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="First name:">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="firstNameLabel" alignment="CENTER_RIGHT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" text="firstName">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+         <Label maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Last name:">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="lastNameLabel" alignment="CENTER_RIGHT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" text="lastName">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
+         <Label maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Role:">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="accessTypeLabel" alignment="CENTER_RIGHT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" text="accessType">
+            <font>
+               <Font name="Candara" size="18.0" />
+            </font>
+         </Label>
+      </HBox>
+   </VBox>
+</AnchorPane>

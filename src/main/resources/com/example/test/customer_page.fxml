@@ -85,7 +85,7 @@
    <center>
       <VBox fx:id="vBox" prefHeight="514.0" prefWidth="640.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane prefHeight="703.0" prefWidth="640.0">
+            <StackPane fx:id="stackPane" prefHeight="703.0" prefWidth="640.0">
                <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f6ebfc;">
                   <GridPane fx:id="gridPane" alignment="CENTER" prefHeight="75.0" prefWidth="638.0" styleClass="grid-pane" vgap="10.0">
                      <columnConstraints>

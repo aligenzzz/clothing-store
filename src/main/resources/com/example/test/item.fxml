@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="160.0" maxWidth="135.0" minHeight="160.0" minWidth="135.0"
+<AnchorPane maxHeight="160.0" maxWidth="135.0" minHeight="160.0" minWidth="135.0"
             onMouseClicked="#onMouseClicked" prefHeight="160.0" prefWidth="135.0" style="-fx-background-radius: 10;"
             styleClass="item-button" stylesheets="@../../../styles/buttons.css" xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ItemController">
