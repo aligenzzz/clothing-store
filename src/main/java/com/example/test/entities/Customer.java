@@ -14,15 +14,10 @@ public class Customer extends User
     private List<Item> purchasedItems;
     List<Shop> favouriteShops;
 
+    public Customer() { super(); }
     public Customer(double id, String username, String password, String email, String firstname, String lastname, AccessType accessType)
     {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstname;
-        this.lastName = lastname;
-        this.accessType = accessType;
+        super(id, username, password, email, firstname, lastname, accessType);
     }
 
     public List<Item> getFavouriteItems() { return this.favouriteItems; }

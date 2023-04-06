@@ -22,6 +22,12 @@ import java.util.List;
 
 public class DatabaseConnector
 {
+    private static DatabaseConnector instance;
+    public static synchronized DatabaseConnector getInstance()
+    {
+        if (instance == null) instance = new DatabaseConnector();
+        return instance;
+    }
     private final String userAccountsFileName;
     private final String itemsFileName;
     private final String favouriteItemsFileName;
@@ -30,7 +36,7 @@ public class DatabaseConnector
     private final String shopsFileName;
     private final String shopItemsFileName;
     private final String vendorsShopFileName;
-    public DatabaseConnector()
+    private DatabaseConnector()
     {
         userAccountsFileName = Constants.USERACCOUNTS;
         itemsFileName = Constants.ITEMS;
@@ -41,7 +47,7 @@ public class DatabaseConnector
         shopItemsFileName = Constants.SHOPITEMS;
         vendorsShopFileName = Constants.VENDORSSHOP;
     }
-    public boolean isFoundUser(String username, String password) throws IOException
+    public boolean isFoundUser(String username, String password)
     {
         try
         {
@@ -118,7 +124,8 @@ public class DatabaseConnector
         }
     }
 
-    public User getUser(String username_, String password_) throws IOException {
+    public User getUser(String username_, String password_)
+    {
         if (!this.isFoundUser(username_, password_)) return null;
 
         double id = -1;
@@ -362,12 +369,10 @@ public class DatabaseConnector
             if (row == null) return null;
 
             Iterator<Cell> cellIterator = row.cellIterator();
-            int column = 0;
             while (cellIterator.hasNext())
             {
                 Cell cell = cellIterator.next();
                 subItemsIds.add(cell.getNumericCellValue());
-                column++;
             }
             file.close();
 

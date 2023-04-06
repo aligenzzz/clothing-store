@@ -102,17 +102,17 @@ public class ShopPageController implements Initializable
 
     public void toFavouriteButtonOnAction()
     {
-        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addFavouriteItem(GlobalEntities.USER.id, this.itemId);
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+        databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void toShoppingButtonOnAction()
     {
-        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addShoppingItem(GlobalEntities.USER.id, this.itemId);
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+        databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void returnMenuButtonOnAction()
     {

@@ -51,7 +51,7 @@ public class SignupController implements Initializable
         }
         else
         {
-            DatabaseConnector databaseConnector = new DatabaseConnector();
+            DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
             databaseConnector.AddUser(usernameTextField.getText(), emailTextField.getText(), firstnameTextField.getText(),
                     lastnameTextField.getText(), passwordField.getText());
             unsuccessfulMessageLabel.setVisible(false);
@@ -77,7 +77,7 @@ public class SignupController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        DatabaseConnector databaseConnector = new DatabaseConnector();
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
         usernameTextField.textProperty().addListener(event -> {
             try { usernameTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), databaseConnector.isFoundUser(usernameTextField.getText(), 1)); }
@@ -100,7 +100,7 @@ public class SignupController implements Initializable
 
     private boolean isFine() throws IOException
     {
-        DatabaseConnector databaseConnector = new DatabaseConnector();
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         if (usernameTextField.getText().isBlank() || emailTextField.getText().isBlank() || firstnameTextField.getText().isBlank() ||
                 lastnameTextField.getText().isBlank() || passwordField.getText().isBlank())
             return false;

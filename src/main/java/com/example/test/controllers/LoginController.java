@@ -51,7 +51,7 @@ public class LoginController
             @Override
             protected User call() throws Exception
             {
-                DatabaseConnector databaseConnector = new DatabaseConnector();
+                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 return databaseConnector.getUser(usernameTextField.getText(), passwordField.getText());
             }
         };
@@ -63,9 +63,9 @@ public class LoginController
                 Parent root = null;
                 try
                 {
-                    if (GlobalEntities.USER.accessType == AccessType.customer) root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
-                    else if (GlobalEntities.USER.accessType == AccessType.vendor) root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
-                    else if (GlobalEntities.USER.accessType == AccessType.admin) root = FXMLLoader.load(new File(Constants.ADMINPAGE).toURI().toURL());
+                    if (GlobalEntities.USER.getAccessType() == AccessType.customer) root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
+                    else if (GlobalEntities.USER.getAccessType() == AccessType.vendor) root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
+                    else if (GlobalEntities.USER.getAccessType() == AccessType.admin) root = FXMLLoader.load(new File(Constants.ADMINPAGE).toURI().toURL());
                 }
                 catch (IOException exception) { throw new RuntimeException(exception); }
                 Stage stage = (Stage) loginButton.getScene().getWindow();

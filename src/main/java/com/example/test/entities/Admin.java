@@ -10,19 +10,14 @@ public class Admin extends User
 {
     private DatabaseConnector databaseConnector;
     public List<Request> requests;
-
-    // OrdersHandler ordersHandler;
-
+    public Admin() { super(); }
     public Admin(double id, String username, String password, String email, String firstname, String lastname, AccessType accessType)
     {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstname;
-        this.lastName = lastname;
-        this.accessType = accessType;
+        super(id, username, password, email, firstname, lastname, accessType);
+        databaseConnector = DatabaseConnector.getInstance();
     }
+
+    // OrdersHandler ordersHandler;
 
     public void EditRole(double id)
     {

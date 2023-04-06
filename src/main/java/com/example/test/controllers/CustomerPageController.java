@@ -68,11 +68,11 @@ public class CustomerPageController implements Initializable
             @Override
             protected Void call()
             {
-                DatabaseConnector databaseConnector = new DatabaseConnector();
+                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
-                customer.setFavouriteItems(databaseConnector.getFavouriteItems(customer.id));
-                customer.setShoppingItems(databaseConnector.getShoppingItems(customer.id));
-                customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.id));
+                customer.setFavouriteItems(databaseConnector.getFavouriteItems(customer.getId()));
+                customer.setShoppingItems(databaseConnector.getShoppingItems(customer.getId()));
+                customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.getId()));
 
                 return null;
             }
@@ -216,7 +216,6 @@ public class CustomerPageController implements Initializable
     }
 
     GridAnimation animation = new GridAnimation(new ArrayList<>());
-
     private class GridAnimation extends AnimationTimer
     {
         private final List<Item> itemList;

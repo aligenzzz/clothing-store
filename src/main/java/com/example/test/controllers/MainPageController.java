@@ -5,11 +5,14 @@ import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
 import com.example.test.entities.Item;
+import com.example.test.entities.NonUser;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,7 +52,11 @@ public class MainPageController implements Initializable
 
     public void profileMenuButtonOnAction()
     {
-        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.show();
+            return;
+        }
 
         try
         {
@@ -69,6 +76,7 @@ public class MainPageController implements Initializable
 
     private IListener listener;
 
+    Alert alert = new Alert(Alert.AlertType.ERROR);
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -76,7 +84,7 @@ public class MainPageController implements Initializable
         disactiveButtons();
         homeButton.setTextFill(Constants.ACTIVECOLOR);
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         try { databaseConnector.getItems(itemList); }
         catch (IOException exception) { throw new RuntimeException(exception); }
     }
@@ -102,7 +110,7 @@ public class MainPageController implements Initializable
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(String.valueOf(item.getPrice()));
-        DatabaseConnector databaseConnector = new DatabaseConnector();
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         itemShopLabel.setText(databaseConnector.getShop(shopId).getName());
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
@@ -148,67 +156,6 @@ public class MainPageController implements Initializable
         allItemsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
-    private class GridAnimation extends AnimationTimer
-    {
-        private final int size = itemList.size();
-        private int i = 0;
-        String parameter;
-        String additional;
-        int column = 0;
-        int row = 0;
-        public GridAnimation(String parameter, String additional)
-        {
-            this.parameter = parameter;
-            this.additional = additional;
-        }
-
-        @Override
-        public void handle(long now)
-        {
-            scrollPane.setHvalue(0);
-            scrollPane.setVvalue(0);
-
-            try { doHandle(); }
-            catch (IOException e) { throw new RuntimeException(e); }
-
-            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxHeight(Region.USE_PREF_SIZE);
-        }
-
-        private void doHandle() throws IOException
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(new File(Constants.ITEM).toURI().toURL());
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            Item item = itemList.get(i);
-            if (column == 4)
-            {
-                column = 0;
-                row++;
-            }
-
-            if ((parameter.equals("none") && additional.equals("none")) || (item.getName().equals(parameter) && additional.equals("none")) ||
-                    item.getName().equals(parameter) || item.getName().equals(additional))
-            {
-                ItemController itemController = fxmlLoader.getController();
-                itemController.setData(item, listener);
-                gridPane.add(anchorPane, column++, row);
-            }
-
-            GridPane.setMargin(anchorPane, new Insets(10));
-
-            i++;
-            if (i >= size) stop();
-        }
-    }
-
-    private GridAnimation animation = new GridAnimation("none", "none");
     @FXML
     private Button blousesButton;
     public void blousesButtonOnAction()
@@ -383,17 +330,25 @@ public class MainPageController implements Initializable
 
     public void toFavouriteButtonOnAction()
     {
-        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.show();
+            return;
+        }
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addFavouriteItem(GlobalEntities.USER.id, this.itemId);
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+        databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void toShoppingButtonOnAction()
     {
-        if (GlobalEntities.USER.accessType == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.show();
+            return;
+        }
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseConnector.addShoppingItem(GlobalEntities.USER.id, this.itemId);
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+        databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void shopButtonOnAction()
     {
@@ -405,7 +360,7 @@ public class MainPageController implements Initializable
             @Override
             protected Void call()
             {
-                DatabaseConnector databaseConnector = new DatabaseConnector();
+                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 GlobalEntities.SHOP = databaseConnector.getShop(GlobalEntities.SHOP.getId());
                 return null;
             }
@@ -450,5 +405,66 @@ public class MainPageController implements Initializable
         dressesButton.setTextFill(Color.WHITE);
         jacketsButton.setTextFill(Color.WHITE);
         shoesButton.setTextFill(Color.WHITE);
+    }
+
+    private GridAnimation animation = new GridAnimation("none", "none");
+    private class GridAnimation extends AnimationTimer
+    {
+        private final int size = itemList.size();
+        private int i = 0;
+        String parameter;
+        String additional;
+        int column = 0;
+        int row = 0;
+        public GridAnimation(String parameter, String additional)
+        {
+            this.parameter = parameter;
+            this.additional = additional;
+        }
+
+        @Override
+        public void handle(long now)
+        {
+            scrollPane.setHvalue(0);
+            scrollPane.setVvalue(0);
+
+            try { doHandle(); }
+            catch (IOException e) { throw new RuntimeException(e); }
+
+            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            gridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setMaxHeight(Region.USE_PREF_SIZE);
+        }
+
+        private void doHandle() throws IOException
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(new File(Constants.ITEM).toURI().toURL());
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            Item item = itemList.get(i);
+            if (column == 4)
+            {
+                column = 0;
+                row++;
+            }
+
+            if ((parameter.equals("none") && additional.equals("none")) || (item.getName().equals(parameter) && additional.equals("none")) ||
+                    item.getName().equals(parameter) || item.getName().equals(additional))
+            {
+                ItemController itemController = fxmlLoader.getController();
+                itemController.setData(item, listener);
+                gridPane.add(anchorPane, column++, row);
+            }
+
+            GridPane.setMargin(anchorPane, new Insets(10));
+
+            i++;
+            if (i >= size) stop();
+        }
     }
 }

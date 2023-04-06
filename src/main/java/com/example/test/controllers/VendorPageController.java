@@ -31,8 +31,8 @@ public class VendorPageController
             @Override
             protected Void call()
             {
-                DatabaseConnector databaseConnector = new DatabaseConnector();
-                GlobalEntities.SHOP = databaseConnector.getShop(databaseConnector.getShopId(vendor.id));
+                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+                GlobalEntities.SHOP = databaseConnector.getShop(databaseConnector.getShopId(vendor.getId()));
                 return null;
             }
         };
