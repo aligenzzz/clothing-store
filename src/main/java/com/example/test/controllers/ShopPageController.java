@@ -10,11 +10,9 @@ import com.example.test.entities.Vendor;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
 
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -69,7 +66,7 @@ public class ShopPageController implements Initializable
         shopNameLabel.setTextFill(GlobalEntities.SHOP.getTextColor());
         List<Item> itemList = GlobalEntities.SHOP.getItems();
 
-        ShopPageController.GridAnimation animation = new ShopPageController.GridAnimation(itemList);
+        GridAnimation animation = new GridAnimation(itemList, gridPane, scrollPane, listener, 5);
         animation.start();
     }
 
@@ -133,53 +130,5 @@ public class ShopPageController implements Initializable
     {
         Stage stage = (Stage) scrollPane.getScene().getWindow();
         stage.close();
-    }
-
-    private class GridAnimation extends AnimationTimer
-    {
-        private final List<Item> itemList;
-        private int size = 0;
-        private int i = 0;
-        int column = 0;
-        int row = 0;
-        public GridAnimation(List<Item> itemList)
-        {
-            this.itemList = itemList;
-            if (itemList != null) this.size = itemList.size();
-        }
-        @Override
-        public void handle(long now)
-        {
-            scrollPane.setHvalue(0);
-            scrollPane.setVvalue(0);
-
-            if (this.itemList == null) return;
-
-            try { doHandle(); }
-            catch (IOException e) { throw new RuntimeException(e); }
-        }
-
-        private void doHandle() throws IOException
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(new File(Constants.ITEM).toURI().toURL());
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            Item item = itemList.get(i);
-            if (column == 5)
-            {
-                column = 0;
-                row++;
-            }
-
-            ItemController itemController = fxmlLoader.getController();
-            itemController.setData(item, listener);
-            gridPane.add(anchorPane, column++, row);
-
-            GridPane.setMargin(anchorPane, new Insets(10));
-
-            i++;
-            if (i >= size) stop();
-        }
     }
 }

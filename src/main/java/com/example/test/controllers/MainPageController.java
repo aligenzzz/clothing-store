@@ -5,18 +5,14 @@ import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
 import com.example.test.entities.Item;
-import com.example.test.entities.NonUser;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
-import javafx.animation.AnimationTimer;
+
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -73,9 +68,7 @@ public class MainPageController implements Initializable
     }
 
     private final List<Item> itemList = new ArrayList<>();
-
     private IListener listener;
-
     Alert alert = new Alert(Alert.AlertType.ERROR);
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -115,7 +108,6 @@ public class MainPageController implements Initializable
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
-
     public void closeItemCardButtonOnAction()
     {
         scrollPane.setDisable(false);
@@ -138,194 +130,52 @@ public class MainPageController implements Initializable
     }
     @FXML
     private Button allItemsButton;
-    public void allItemsButtonOnAction()
-    {
-        if (allItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("none", "none");
-        if (homePage.isVisible())
-        {
-            scrollPane.setVisible(true);
-            homePage.setVisible(false);
-        }
-        animation.start();
-        allItemsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
+    public void allItemsButtonOnAction() { this.itemsButtonOnAction(allItemsButton, "none", "none"); }
     @FXML
     private Button blousesButton;
-    public void blousesButtonOnAction()
-    {
-        if (blousesButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("blouse", "sweatshirt");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        blousesButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void blousesButtonOnAction() { this.itemsButtonOnAction(blousesButton, "blouse", "sweatshirt"); }
     @FXML
     private Button topsButton;
-    public void topsButtonOnAction()
-    {
-        if (topsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("top", "t-shirt");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        topsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void topsButtonOnAction() { this.itemsButtonOnAction(topsButton, "top", "t-shirt"); }
     @FXML
     private Button shirtsButton;
-    public void shirtsButtonOnAction()
-    {
-        if (shirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("shirt", "none");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        shirtsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void shirtsButtonOnAction() { this.itemsButtonOnAction(shirtsButton, "shirt", "none"); }
     @FXML
     private Button pantsButton;
-    public void pantsButtonOnAction()
-    {
-        if (pantsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("pants", "jeans");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        pantsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void pantsButtonOnAction() { this.itemsButtonOnAction(pantsButton, "pants", "jeans"); }
     @FXML
     private Button shortsButton;
-    public void shortsButtonOnAction()
-    {
-        if (shortsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("shorts", "none");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        shortsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void shortsButtonOnAction() { this.itemsButtonOnAction(shortsButton, "shorts", "none"); }
     @FXML
     private Button skirtsButton;
-    public void skirtsButtonOnAction()
-    {
-        if (skirtsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("skirt", "none");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        skirtsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void skirtsButtonOnAction() { this.itemsButtonOnAction(skirtsButton, "skirt", "none"); }
     @FXML
     private Button dressesButton;
-    public void dressesButtonOnAction()
-    {
-        if (dressesButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("dress", "none");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        dressesButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void dressesButtonOnAction() { this.itemsButtonOnAction(dressesButton, "dress", "none"); }
     @FXML
     private Button jacketsButton;
-    public void jacketsButtonOnAction()
-    {
-        if (jacketsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation("jacket", "none");
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        jacketsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void jacketsButtonOnAction() { this.itemsButtonOnAction(jacketsButton, "jacket", "none"); }
     @FXML
     private Button shoesButton;
-    public void shoesButtonOnAction()
+    public void shoesButtonOnAction() { this.itemsButtonOnAction(shoesButton, "shoes", "none"); }
+
+    private void itemsButtonOnAction(Button button, String parameter, String additional)
     {
-        if (shoesButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        if (button.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
-        animation.stop();
+        if (animation != null) animation.stop();
 
         gridPane.getChildren().clear();
-        animation = new GridAnimation("shoes", "none");
+        animation = new GridAnimation(this.getItemList(parameter, additional), gridPane, scrollPane, listener, 4);
+
         if (homePage.isVisible())
         {
             homePage.setVisible(false);
             scrollPane.setVisible(true);
         }
         animation.start();
-        shoesButton.setTextFill(Constants.ACTIVECOLOR);
+        button.setTextFill(Constants.ACTIVECOLOR);
     }
 
     public void toFavouriteButtonOnAction()
@@ -407,64 +257,20 @@ public class MainPageController implements Initializable
         shoesButton.setTextFill(Color.WHITE);
     }
 
-    private GridAnimation animation = new GridAnimation("none", "none");
-    private class GridAnimation extends AnimationTimer
+    private GridAnimation animation;
+
+    private List<Item> getItemList(String parameter, String additional)
     {
-        private final int size = itemList.size();
-        private int i = 0;
-        String parameter;
-        String additional;
-        int column = 0;
-        int row = 0;
-        public GridAnimation(String parameter, String additional)
+        List<Item> result = new ArrayList<>();
+
+        for (Item item: itemList)
         {
-            this.parameter = parameter;
-            this.additional = additional;
-        }
-
-        @Override
-        public void handle(long now)
-        {
-            scrollPane.setHvalue(0);
-            scrollPane.setVvalue(0);
-
-            try { doHandle(); }
-            catch (IOException e) { throw new RuntimeException(e); }
-
-            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            gridPane.setMaxHeight(Region.USE_PREF_SIZE);
-        }
-
-        private void doHandle() throws IOException
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(new File(Constants.ITEM).toURI().toURL());
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            Item item = itemList.get(i);
-            if (column == 4)
-            {
-                column = 0;
-                row++;
-            }
-
             if ((parameter.equals("none") && additional.equals("none")) || (item.getName().equals(parameter) && additional.equals("none")) ||
                     item.getName().equals(parameter) || item.getName().equals(additional))
-            {
-                ItemController itemController = fxmlLoader.getController();
-                itemController.setData(item, listener);
-                gridPane.add(anchorPane, column++, row);
-            }
-
-            GridPane.setMargin(anchorPane, new Insets(10));
-
-            i++;
-            if (i >= size) stop();
+                result.add(item);
         }
+
+        return result;
     }
+
 }
