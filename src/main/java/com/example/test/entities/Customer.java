@@ -26,6 +26,8 @@ public class Customer extends User
     public void setShoppingItems(List<Item> itemList) { this.shoppingItems = itemList; }
     public List<Item> getPurchasedItems() { return this.purchasedItems; }
     public void setPurchasedItems(List<Item> itemList) { this.purchasedItems = itemList; }
+    public List<Shop> getFavouriteShops() { return this.favouriteShops; }
+    public void setFavouriteShops(List<Shop> shopList) { this.favouriteShops = shopList; }
 
     void CreateOrder(Order order)
     {

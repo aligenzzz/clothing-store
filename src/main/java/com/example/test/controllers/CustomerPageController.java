@@ -5,12 +5,15 @@ import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
+import com.example.test.entities.Shop;
 import com.example.test.interfaces.IListener;
 
+import javafx.animation.AnimationTimer;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,11 +23,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerPageController implements Initializable
@@ -70,6 +78,7 @@ public class CustomerPageController implements Initializable
                 customer.setFavouriteItems(databaseConnector.getFavouriteItems(customer.getId()));
                 customer.setShoppingItems(databaseConnector.getShoppingItems(customer.getId()));
                 customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.getId()));
+                customer.setFavouriteShops(databaseConnector.getFavouriteShops(customer.getId()));
 
                 return null;
             }
@@ -122,12 +131,16 @@ public class CustomerPageController implements Initializable
     {
         if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
     }
 
     public void favouriteItemsButtonOnAction()
     {
         if (favouriteItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
 
         if (animation != null) animation.stop();
         gridPane.getChildren().clear();
@@ -136,10 +149,20 @@ public class CustomerPageController implements Initializable
         favouriteItemsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
-    public void shoppingItemsButtonOnAction()
+    @FXML
+    private VBox vBox;
+
+    public void shoppingItemsButtonOnAction() throws IOException
     {
         if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.PAYMENT).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        PaymentController paymentController = fxmlLoader.getController();
+        paymentController.setData();
+        vBox.getChildren().add(anchorPane);
 
         if (animation != null) animation.stop();
         gridPane.getChildren().clear();
@@ -159,6 +182,8 @@ public class CustomerPageController implements Initializable
         if (purchasedItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
+
         if (animation != null) animation.stop();
         gridPane.getChildren().clear();
         animation = new GridAnimation(customer.getPurchasedItems(), gridPane, scrollPane, listener, 4);
@@ -170,12 +195,22 @@ public class CustomerPageController implements Initializable
     {
         if (shopsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
+
+        if (animation != null) animation.stop();
+        gridPane.getChildren().clear();
+        GridShopsAnimation animation_ = new GridShopsAnimation(customer.getFavouriteShops());
+        animation_.start();
+        shopsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
     public void settingsButtonOnAction()
     {
         if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
     }
 
     public void returnButtonOnAction()
@@ -210,5 +245,62 @@ public class CustomerPageController implements Initializable
         shopsButton.setTextFill(Color.WHITE);
         settingsButton.setTextFill(Color.WHITE);
         returnButton.setTextFill(Color.WHITE);
+    }
+
+    public class GridShopsAnimation extends AnimationTimer {
+        private final List<Shop> shopList;
+        private int size = 0;
+        private int i = 0;
+        private int column = 0;
+        private int row = 0;
+
+        public GridShopsAnimation(List<Shop> shopList) {
+            this.shopList = shopList;
+            if (shopList != null) this.size = shopList.size();
+        }
+
+        @Override
+        public void handle(long now) {
+            scrollPane.setHvalue(0);
+            scrollPane.setVvalue(0);
+
+            if (this.shopList == null) return;
+
+            try {
+                doHandle();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            gridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setMaxHeight(Region.USE_PREF_SIZE);
+        }
+
+        private void doHandle() throws IOException {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(new File(Constants.SHOP).toURI().toURL());
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            Shop shop = shopList.get(i);
+            if (column == 1)
+            {
+                column = 0;
+                row++;
+            }
+
+            ShopController shopController = fxmlLoader.getController();
+            shopController.setData(shop);
+            gridPane.add(anchorPane, column++, row);
+
+            GridPane.setMargin(anchorPane, new Insets(10));
+
+            i++;
+            if (i >= size) stop();
+        }
     }
 }

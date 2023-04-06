@@ -36,6 +36,7 @@ public class DatabaseConnector
     private final String shopsFileName;
     private final String shopItemsFileName;
     private final String vendorsShopFileName;
+    private final String customerShopsFileName;
     private DatabaseConnector()
     {
         userAccountsFileName = Constants.USERACCOUNTS;
@@ -46,6 +47,7 @@ public class DatabaseConnector
         shopsFileName = Constants.SHOPS;
         shopItemsFileName = Constants.SHOPITEMS;
         vendorsShopFileName = Constants.VENDORSSHOP;
+        customerShopsFileName = Constants.CUSTOMERSHOPS;
     }
     public boolean isFoundUser(String username, String password)
     {
@@ -283,6 +285,36 @@ public class DatabaseConnector
     public void addFavouriteItem(double userId, double itemId) { this.addItemToList(userId, itemId, favouriteItemsFileName); }
     public void addPurchasedItem(double userId, double itemId) { this.addItemToList(userId, itemId, purchasedItemsFileName); }
     public void addShoppingItem(double userId, double itemId) { this.addItemToList(userId, itemId, shoppingItemsFileName); }
+
+    public List<Shop> getFavouriteShops(double customer)
+    {
+        List<Shop> result = new ArrayList<>();
+
+        try
+        {
+            FileInputStream file = new FileInputStream(customerShopsFileName);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            Row row = sheet.getRow((int)customer - 1);
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+                result.add(this.getShop(cell.getNumericCellValue()));
+            }
+            file.close();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+
+        return result;
+    }
 
     public Shop getShop(double id)
     {

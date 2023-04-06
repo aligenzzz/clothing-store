@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0" style="-fx-border-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0" style="-fx-border-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ShopController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="433.0">
          <children>

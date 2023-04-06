@@ -11,6 +11,8 @@ public final class Constants {
     public static final String LOGIN = "./src/main/resources/com/example/test/login.fxml";
     public static final String SIGNUP = "./src/main/resources/com/example/test/signup.fxml";
     public static final String ITEM = "./src/main/resources/com/example/test/item.fxml";
+    public static final String SHOP = "./src/main/resources/com/example/test/shop.fxml";
+    public static final String PAYMENT = "./src/main/resources/com/example/test/payment.fxml";
 
     public static final String USERACCOUNTS = "./src/main/resources/database/user_account.xlsx";
     public static final String ITEMS = "./src/main/resources/database/item.xlsx";
@@ -20,6 +22,7 @@ public final class Constants {
     public static final String SHOPS = "./src/main/resources/database/shops.xlsx";
     public static final String SHOPITEMS = "./src/main/resources/database/shop_items.xlsx";
     public static final String VENDORSSHOP = "./src/main/resources/database/vendors_shop.xlsx";
+    public static final String CUSTOMERSHOPS = "./src/main/resources/database/customer_shops.xlsx";
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";
