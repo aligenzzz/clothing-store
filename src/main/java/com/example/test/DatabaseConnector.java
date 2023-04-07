@@ -6,6 +6,9 @@ import com.example.test.enums.ItemInfo;
 import com.example.test.enums.ShopInfo;
 import com.example.test.enums.UserAccount;
 import com.example.test.interfaces.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -484,5 +487,60 @@ public class DatabaseConnector
             exception.printStackTrace();
             exception.getCause();
         }
+    }
+
+    public void fillUsersTable(TableView<User> tableView)
+    {
+        tableView.setItems(FXCollections.observableList(this.getUsers()));
+    }
+
+    public List<User> getUsers()
+    {
+        List<User> users = new ArrayList<>();
+
+        double id = -1;
+        String username = "";
+        String password = "";
+        String email = "";
+        String firstName = "";
+        String lastName = "";
+        AccessType accessType = AccessType.nonuser;
+
+        try {
+            FileInputStream file = new FileInputStream(userAccountsFileName);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            for (Row row : sheet) {
+
+                Iterator<Cell> cellIterator = row.cellIterator();
+                int column = 0;
+                while (cellIterator.hasNext())
+                {
+                    Cell cell = cellIterator.next();
+
+                    if (column == UserAccount.ID.getIndex()) id = cell.getNumericCellValue();
+                    else if (column == UserAccount.USERNAME.getIndex()) username = cell.getStringCellValue();
+                    else if (column == UserAccount.PASSWORD.getIndex()) password = cell.getStringCellValue();
+                    else if (column == UserAccount.EMAIL.getIndex()) email = cell.getStringCellValue();
+                    else if (column == UserAccount.FIRSTNAME.getIndex()) firstName = cell.getStringCellValue();
+                    else if (column == UserAccount.LASTNAME.getIndex()) lastName = cell.getStringCellValue();
+                    else if (column == UserAccount.ACCESSTYPE.getIndex()) accessType = AccessType.valueOf(cell.getStringCellValue());
+
+                    column++;
+                }
+
+                users.add(new User(id, username, password, email, firstName, lastName, accessType));
+            }
+            file.close();
+
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+
+        return users;
     }
 }
