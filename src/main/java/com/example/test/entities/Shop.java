@@ -16,12 +16,12 @@ public class Shop
 
     public Shop()
     {
-        id = 0;
-        name = "";
-        List<Item> items = new ArrayList<>();
-        imageSource = "";
-        textColor = Color.web("#FFFFFF");
-        double vendor = 0;
+        this.id = 0;
+        this.name = "";
+        this.items = new ArrayList<>();
+        this.imageSource = "";
+        this.textColor = Color.web("#FFFFFF");
+        this.vendor = 0;
     }
 
     public Shop(double id, String name, List<Item> items, String imageSource, Color textColor, double vendor)

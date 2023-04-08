@@ -2,6 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.Constants;
 import com.example.test.entities.Item;
+import com.example.test.entities.Order;
 import com.example.test.entities.Shop;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
@@ -36,7 +37,6 @@ public class GridAnimation extends AnimationTimer
         this.scrollPane = scrollPane;
         this.listener = listener;
         this.maxColumn = maxColumn;
-
     }
     @Override
     public void handle(long now)
@@ -44,7 +44,7 @@ public class GridAnimation extends AnimationTimer
         scrollPane.setHvalue(0);
         scrollPane.setVvalue(0);
 
-        if (this.list == null) return;
+        if (this.list == null || this.list.size() == 0) return;
 
         try { doHandle(); }
         catch (IOException e) { throw new RuntimeException(e); }
@@ -65,6 +65,7 @@ public class GridAnimation extends AnimationTimer
 
         Item item = null;
         Shop shop = null;
+        Order order = null;
         if (list.get(0) instanceof Item)
         {
             item = (Item) list.get(i);
@@ -74,6 +75,11 @@ public class GridAnimation extends AnimationTimer
         {
             shop = (Shop) list.get(i);
             path = Constants.SHOP;
+        }
+        else if (list.get(0) instanceof Order)
+        {
+            order = (Order) list.get(i);
+            path = Constants.ORDER;
         }
 
         assert path != null;
@@ -95,6 +101,11 @@ public class GridAnimation extends AnimationTimer
         {
             ShopController shopController = fxmlLoader.getController();
             shopController.setData(shop);
+        }
+        else if (order != null)
+        {
+            OrderController orderController = fxmlLoader.getController();
+            orderController.setData(order);
         }
 
         gridPane.add(anchorPane, column++, row);

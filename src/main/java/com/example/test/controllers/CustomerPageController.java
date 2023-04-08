@@ -21,36 +21,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerPageController implements Initializable
 {
-    @FXML
-    private Button profileButton;
-    @FXML
-    private Button favouriteItemsButton;
-    @FXML
-    private Button shoppingItemsButton;
-    @FXML
-    private Button ordersButton;
-    @FXML
-    private Button purchasedItemsButton;
-    @FXML
-    private Button shopsButton;
-    @FXML
-    private Button settingsButton;
-    @FXML
-    private Button returnButton;
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private StackPane stackPane;
-    @FXML
-    private GridPane gridPane;
+    @FXML private Button profileButton;
+    @FXML private Button favouriteItemsButton;
+    @FXML private Button shoppingItemsButton;
+    @FXML private Button ordersButton;
+    @FXML private Button purchasedItemsButton;
+    @FXML private Button shopsButton;
+    @FXML private Button settingsButton;
+    @FXML private Button returnButton;
+    @FXML private ScrollPane scrollPane;
+    @FXML private StackPane stackPane;
+    @FXML private GridPane gridPane;
+    @FXML private VBox vBox;
     private IListener listener;
     private final Customer customer = (Customer) GlobalEntities.USER;
     private GridAnimation animation;
@@ -60,12 +52,16 @@ public class CustomerPageController implements Initializable
         listener = this::chooseItemCard;
         disactiveButtons();
         try { this.profileButtonOnAction(); }
-        catch (IOException e) { throw new RuntimeException(e); }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
 
         Task<Void> task = new Task<>()
         {
             @Override
-            protected Void call()
+            protected Void call() throws IOException
             {
                 DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
@@ -73,6 +69,7 @@ public class CustomerPageController implements Initializable
                 customer.setShoppingItems(databaseConnector.getShoppingItems(customer.getId()));
                 customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.getId()));
                 customer.setFavouriteShops(databaseConnector.getFavouriteShops(customer.getId()));
+                customer.setOrders(databaseConnector.getOrders(customer.getId()));
 
                 return null;
             }
@@ -91,35 +88,26 @@ public class CustomerPageController implements Initializable
         thread.setDaemon(true);
         thread.start();
     }
-
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private Label itemNameLabel;
-    @FXML
-    private Label itemPriceLabel;
-    @FXML
-    private Label itemShopLabel;
-    @FXML
-    private AnchorPane anchorPane;
-
-    public void chooseItemCard(Item item)
+    @FXML private ImageView imageView;
+    @FXML private Label itemNameLabel;
+    @FXML private Label itemPriceLabel;
+    @FXML private Label itemShopLabel;
+    @FXML private AnchorPane anchorPane;
+    public void chooseItemCard(@NotNull Item item) throws IOException
     {
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(String.valueOf(item.getPrice()));
+        itemPriceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
         itemShopLabel.setText(DatabaseConnector.getInstance().getShop(item.getShop()).getName());
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
-    @FXML
-    Button closeItemCardButton;
+    @FXML Button closeItemCardButton;
     public void closeItemCardButtonOnAction()
     {
         scrollPane.setDisable(false);
         anchorPane.setVisible(false);
     }
-
     public void profileButtonOnAction() throws IOException
     {
         if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
@@ -138,97 +126,11 @@ public class CustomerPageController implements Initializable
 
         profileButton.setTextFill(Constants.ACTIVECOLOR);
     }
-
-    public void favouriteItemsButtonOnAction()
-    {
-        if (favouriteItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        scrollPane.setVisible(true);
-
-        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
-        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-
-        if (animation != null) animation.stop();
-        gridPane.getChildren().clear();
-        animation = new GridAnimation(customer.getFavouriteItems(), gridPane, scrollPane, listener, 4);
-        animation.start();
-        favouriteItemsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    @FXML
-    private VBox vBox;
-
-    public void shoppingItemsButtonOnAction() throws IOException
-    {
-        if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        scrollPane.setVisible(true);
-
-        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new File(Constants.PAYMENT).toURI().toURL());
-        AnchorPane anchorPane = fxmlLoader.load();
-        PaymentController paymentController = fxmlLoader.getController();
-        paymentController.setData();
-        vBox.getChildren().add(anchorPane);
-
-        if (animation != null) animation.stop();
-        gridPane.getChildren().clear();
-        animation = new GridAnimation(customer.getShoppingItems(), gridPane, scrollPane, listener, 4);
-        animation.start();
-        shoppingItemsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    public void ordersButtonOnAction()
-    {
-        if (ordersButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        scrollPane.setVisible(false);
-
-        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
-        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-
-        ordersButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    public void purchasedItemsButtonOnAction()
-    {
-        if (purchasedItemsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        scrollPane.setVisible(true);
-
-        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
-        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-
-        if (animation != null) animation.stop();
-        gridPane.getChildren().clear();
-        animation = new GridAnimation(customer.getPurchasedItems(), gridPane, scrollPane, listener, 4);
-        animation.start();
-        purchasedItemsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    public void shopsButtonOnAction()
-    {
-        if (shopsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        scrollPane.setVisible(true);
-
-        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
-        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-
-        if (animation != null) animation.stop();
-        gridPane.getChildren().clear();
-        animation = new GridAnimation(customer.getFavouriteShops(), gridPane, scrollPane, listener, 1);
-        animation.start();
-        shopsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
+    public void favouriteItemsButtonOnAction() throws IOException { this.itemsButtonOnAction(favouriteItemsButton, customer.getFavouriteItems(), 4); }
+    public void shoppingItemsButtonOnAction() throws IOException  { this.itemsButtonOnAction(shoppingItemsButton, customer.getShoppingItems(), 4); }
+    public void ordersButtonOnAction() throws IOException { this.itemsButtonOnAction(ordersButton, customer.getOrders(), 1); }
+    public void purchasedItemsButtonOnAction() throws IOException { this.itemsButtonOnAction(purchasedItemsButton, customer.getPurchasedItems(), 4); }
+    public void shopsButtonOnAction() throws IOException { this.itemsButtonOnAction(shopsButton, customer.getFavouriteShops(), 1); }
     public void settingsButtonOnAction()
     {
         if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
@@ -241,7 +143,6 @@ public class CustomerPageController implements Initializable
 
         settingsButton.setTextFill(Constants.ACTIVECOLOR);
     }
-
     public void returnButtonOnAction() throws IOException
     {
         Parent root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
@@ -249,13 +150,38 @@ public class CustomerPageController implements Initializable
         stage.setScene(new Scene(root, 900, 700));
         stage.centerOnScreen();
     }
-
     public void closeMenuButtonOnAction()
     {
         Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.close();
     }
+    private void itemsButtonOnAction(@NotNull Button button, List<?> list, int maxColumn) throws IOException
+    {
+        if (button.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
 
+        scrollPane.setVisible(true);
+
+        if (button != shoppingItemsButton && vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
+        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+
+        if (button == shoppingItemsButton)
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(new File(Constants.PAYMENT).toURI().toURL());
+            AnchorPane anchorPane = fxmlLoader.load();
+            PaymentController paymentController = fxmlLoader.getController();
+            paymentController.setData();
+            vBox.getChildren().add(anchorPane);
+        }
+
+        if (animation != null) animation.stop();
+        gridPane.getChildren().clear();
+        animation = new GridAnimation(list, gridPane, scrollPane, listener, maxColumn);
+        animation.start();
+
+        button.setTextFill(Constants.ACTIVECOLOR);
+    }
     private void disactiveButtons()
     {
         profileButton.setTextFill(Color.WHITE);

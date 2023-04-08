@@ -1,28 +1,39 @@
 package com.example.test.controllers;
 
 import com.example.test.Constants;
+import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.entities.Customer;
-import com.example.test.entities.Shop;
+import com.example.test.entities.Order;
+import com.example.test.enums.OrderState;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+
+import java.io.IOException;
 
 public class PaymentController
 {
-    @FXML
-    private Label totalItemsLabel;
-    @FXML
-    private Label totalPriceLabel;
-    @FXML
-    private Button bookButton;
-    @FXML
-    private Button payButton;
+    @FXML private Label totalItemsLabel;
+    @FXML private Label totalPriceLabel;
+    Customer customer = (Customer) GlobalEntities.USER;
     public void setData()
     {
-        Customer customer = (Customer) GlobalEntities.USER;
-        totalPriceLabel.setText(customer.getTotalPrice() + " $");
+        totalPriceLabel.setText(Constants.FORMAT.format(customer.getTotalPrice()) + " $");
         totalItemsLabel.setText(customer.getShoppingItems().size() + " items");
+    }
+    public void bookButtonOnAction() throws IOException
+    {
+        Order order = new Order(0, OrderState.booked, customer.getTotalPrice(), customer.getId());
+        order.setItems(customer.getShoppingItems());
+        DatabaseConnector.getInstance().addOrder(order);
+        customer.addOrder(order);
+    }
+    public void payButtonOnAction() throws IOException
+    {
+        Order order = new Order(0, OrderState.paid, customer.getTotalPrice(), customer.getId());
+        order.setItems(customer.getShoppingItems());
+        DatabaseConnector.getInstance().addOrder(order);
+        customer.addOrder(order);
     }
 }

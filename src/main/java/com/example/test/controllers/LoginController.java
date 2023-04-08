@@ -19,28 +19,19 @@ import java.io.IOException;
 
 public class LoginController
 {
-    @FXML
-    private Label messageLabel;
-    @FXML
-    private TextField usernameTextField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button signupButton;
-    @FXML
-    private Button cancelButton;
-    @FXML
-    private Button skipButton;
+    @FXML private Label messageLabel;
+    @FXML private TextField usernameTextField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button loginButton;
+    @FXML private Button signupButton;
+    @FXML private Button cancelButton;
+    @FXML private Button skipButton;
+    @FXML private ProgressIndicator progressIndicator;
     public void loginButtonOnAction()
     {
         if(!usernameTextField.getText().isBlank() && !passwordField.getText().isBlank()) validateLogin();
         else messageLabel.setVisible(true);
     }
-
-    @FXML
-    private ProgressIndicator progressIndicator;
     private void validateLogin()
     {
         if (messageLabel.isVisible()) messageLabel.setVisible(false);
@@ -83,36 +74,21 @@ public class LoginController
         thread.setDaemon(true);
         thread.start();
     }
-    public void signupButtonOnAction()
+    public void signupButtonOnAction() throws IOException
     {
-        try
-        {
-            Parent root = FXMLLoader.load(new File(Constants.SIGNUP).toURI().toURL());
-            Stage stage = (Stage) signupButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 520, 400));
-            stage.centerOnScreen();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            exception.getCause();
-        }
+        Parent root = FXMLLoader.load(new File(Constants.SIGNUP).toURI().toURL());
+        Stage stage = (Stage) signupButton.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
     }
-    public void skipButtonOnAction()
+    public void skipButtonOnAction() throws IOException
     {
         GlobalEntities.USER = new NonUser(AccessType.nonuser);
-        try
-        {
-            Parent root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
-            Stage stage = (Stage) skipButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 700));
-            stage.centerOnScreen();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            exception.getCause();
-        }
+
+        Parent root = FXMLLoader.load(new File(Constants.MAINPAGE).toURI().toURL());
+        Stage stage = (Stage) skipButton.getScene().getWindow();
+        stage.setScene(new Scene(root, 900, 700));
+        stage.centerOnScreen();
     }
     public void cancelButtonOnAction()
     {

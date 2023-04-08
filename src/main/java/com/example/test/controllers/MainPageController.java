@@ -23,6 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,40 +36,10 @@ import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable
 {
-    @FXML
-    private GridPane gridPane;
-    @FXML
-    private ScrollPane scrollPane;
-
-    public void closeMenuButtonOnAction()
-    {
-        Stage stage = (Stage) gridPane.getScene().getWindow();
-        stage.close();
-    }
-
-    public void profileMenuButtonOnAction()
-    {
-        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
-        {
-            alert.show();
-            return;
-        }
-
-        try
-        {
-            Parent root = FXMLLoader.load(new File(Constants.CUSTOMERPAGE).toURI().toURL());
-            Stage stage = (Stage) gridPane.getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 700));
-            stage.centerOnScreen();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            exception.getCause();
-        }
-    }
-
-    private final List<Item> itemList = new ArrayList<>();
+    @FXML private GridPane gridPane;
+    @FXML private ScrollPane scrollPane;
+    private GridAnimation animation;
+    private List<Item> itemList = new ArrayList<>();
     private IListener listener;
     Alert alert = new Alert(Alert.AlertType.ERROR);
     @Override
@@ -77,34 +49,44 @@ public class MainPageController implements Initializable
         disactiveButtons();
         homeButton.setTextFill(Constants.ACTIVECOLOR);
 
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        try { databaseConnector.getItems(itemList); }
+        try { this.itemList = DatabaseConnector.getInstance().getItems(); }
         catch (IOException exception) { throw new RuntimeException(exception); }
     }
+    public void closeMenuButtonOnAction()
+    {
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();
+    }
 
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private Label itemNameLabel;
-    @FXML
-    private Label itemPriceLabel;
-    @FXML
-    private Label itemShopLabel;
-    @FXML
-    private AnchorPane anchorPane;
+    public void profileMenuButtonOnAction() throws IOException
+    {
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.show();
+            return;
+        }
 
+        Parent root = FXMLLoader.load(new File(Constants.CUSTOMERPAGE).toURI().toURL());
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.setScene(new Scene(root, 900, 700));
+        stage.centerOnScreen();
+    }
+    @FXML private ImageView imageView;
+    @FXML private Label itemNameLabel;
+    @FXML private Label itemPriceLabel;
+    @FXML private Label itemShopLabel;
+    @FXML private AnchorPane anchorPane;
     private double itemId;
     private double shopId;
-    public void chooseItemCard(Item item)
+    public void chooseItemCard(@NotNull Item item) throws IOException
     {
         this.itemId = item.getId();
         this.shopId = item.getShop();
 
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(String.valueOf(item.getPrice()));
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        itemShopLabel.setText(databaseConnector.getShop(shopId).getName());
+        itemPriceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
+        itemShopLabel.setText( DatabaseConnector.getInstance().getShop(shopId).getName());
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
@@ -113,11 +95,8 @@ public class MainPageController implements Initializable
         scrollPane.setDisable(false);
         anchorPane.setVisible(false);
     }
-
-    @FXML
-    private AnchorPane homePage;
-    @FXML
-    private Button homeButton;
+    @FXML private AnchorPane homePage;
+    @FXML private Button homeButton;
     public void homeButtonOnAction()
     {
         if (homeButton.getTextFill() == Constants.ACTIVECOLOR) return;
@@ -128,57 +107,28 @@ public class MainPageController implements Initializable
 
         homeButton.setTextFill(Constants.ACTIVECOLOR);
     }
-    @FXML
-    private Button allItemsButton;
+    @FXML private Button allItemsButton;
     public void allItemsButtonOnAction() { this.itemsButtonOnAction(allItemsButton, "none", "none"); }
-    @FXML
-    private Button blousesButton;
+    @FXML private Button blousesButton;
     public void blousesButtonOnAction() { this.itemsButtonOnAction(blousesButton, "blouse", "sweatshirt"); }
-    @FXML
-    private Button topsButton;
+    @FXML private Button topsButton;
     public void topsButtonOnAction() { this.itemsButtonOnAction(topsButton, "top", "t-shirt"); }
-    @FXML
-    private Button shirtsButton;
+    @FXML private Button shirtsButton;
     public void shirtsButtonOnAction() { this.itemsButtonOnAction(shirtsButton, "shirt", "none"); }
-    @FXML
-    private Button pantsButton;
+    @FXML private Button pantsButton;
     public void pantsButtonOnAction() { this.itemsButtonOnAction(pantsButton, "pants", "jeans"); }
-    @FXML
-    private Button shortsButton;
+    @FXML private Button shortsButton;
     public void shortsButtonOnAction() { this.itemsButtonOnAction(shortsButton, "shorts", "none"); }
-    @FXML
-    private Button skirtsButton;
+    @FXML private Button skirtsButton;
     public void skirtsButtonOnAction() { this.itemsButtonOnAction(skirtsButton, "skirt", "none"); }
-    @FXML
-    private Button dressesButton;
+    @FXML private Button dressesButton;
     public void dressesButtonOnAction() { this.itemsButtonOnAction(dressesButton, "dress", "none"); }
-    @FXML
-    private Button jacketsButton;
+    @FXML private Button jacketsButton;
     public void jacketsButtonOnAction() { this.itemsButtonOnAction(jacketsButton, "jacket", "none"); }
-    @FXML
-    private Button shoesButton;
+    @FXML private Button shoesButton;
     public void shoesButtonOnAction() { this.itemsButtonOnAction(shoesButton, "shoes", "none"); }
 
-    private void itemsButtonOnAction(Button button, String parameter, String additional)
-    {
-        if (button.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        if (animation != null) animation.stop();
-
-        gridPane.getChildren().clear();
-        animation = new GridAnimation(this.getItemList(parameter, additional), gridPane, scrollPane, listener, 4);
-
-        if (homePage.isVisible())
-        {
-            homePage.setVisible(false);
-            scrollPane.setVisible(true);
-        }
-        animation.start();
-        button.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    public void toFavouriteButtonOnAction()
+    public void toFavouriteButtonOnAction() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {
@@ -189,7 +139,7 @@ public class MainPageController implements Initializable
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
-    public void toShoppingButtonOnAction()
+    public void toShoppingButtonOnAction() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {
@@ -208,7 +158,7 @@ public class MainPageController implements Initializable
         Task<Void> task = new Task<>()
         {
             @Override
-            protected Void call()
+            protected @Nullable Void call() throws IOException
             {
                 DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 GlobalEntities.SHOP = databaseConnector.getShop(GlobalEntities.SHOP.getId());
@@ -256,10 +206,25 @@ public class MainPageController implements Initializable
         jacketsButton.setTextFill(Color.WHITE);
         shoesButton.setTextFill(Color.WHITE);
     }
+    private void itemsButtonOnAction(@NotNull Button button, String parameter, String additional)
+    {
+        if (button.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
 
-    private GridAnimation animation;
+        if (animation != null) animation.stop();
 
-    private List<Item> getItemList(String parameter, String additional)
+        gridPane.getChildren().clear();
+        animation = new GridAnimation(this.getItemList(parameter, additional), gridPane, scrollPane, listener, 4);
+
+        if (homePage.isVisible())
+        {
+            homePage.setVisible(false);
+            scrollPane.setVisible(true);
+        }
+        animation.start();
+        button.setTextFill(Constants.ACTIVECOLOR);
+    }
+    private @NotNull List<Item> getItemList(String parameter, String additional)
     {
         List<Item> result = new ArrayList<>();
 
@@ -272,5 +237,4 @@ public class MainPageController implements Initializable
 
         return result;
     }
-
 }

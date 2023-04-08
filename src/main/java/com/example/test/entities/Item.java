@@ -2,7 +2,7 @@ package com.example.test.entities;
 
 public class Item
 {
-    private double id;
+    private final double id;
     private String name;
     private String imageSource;
     private double price;

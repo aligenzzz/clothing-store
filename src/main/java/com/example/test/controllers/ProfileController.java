@@ -6,16 +6,11 @@ import javafx.scene.control.Label;
 
 public class ProfileController
 {
-    @FXML
-    private Label usernameLabel;
-    @FXML
-    private Label emailLabel;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label accessTypeLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label emailLabel;
+    @FXML private Label firstNameLabel;
+    @FXML private Label lastNameLabel;
+    @FXML private Label accessTypeLabel;
 
     public void setData()
     {

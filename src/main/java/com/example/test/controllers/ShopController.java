@@ -13,24 +13,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class ShopController
 {
-    @FXML
-    private AnchorPane anchorPane;
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private Label shopNameLabel;
-
+    @FXML private ImageView imageView;
+    @FXML private Label shopNameLabel;
     private Shop shop;
-    public void setData(Shop shop)
+    public void setData(@NotNull Shop shop)
     {
         Image image = new Image(Constants.SHOPSIMAGEPATH + shop.getImageSource());
         imageView.setImage(image);
@@ -47,7 +44,7 @@ public class ShopController
         Task<Void> task = new Task<>()
         {
             @Override
-            protected Void call()
+            protected @Nullable Void call() throws IOException
             {
                 DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 GlobalEntities.SHOP = databaseConnector.getShop(GlobalEntities.SHOP.getId());
@@ -79,6 +76,5 @@ public class ShopController
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
-
     }
 }

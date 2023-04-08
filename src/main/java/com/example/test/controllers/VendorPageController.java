@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,31 +26,27 @@ import java.util.ResourceBundle;
 
 public class VendorPageController implements Initializable
 {
-    private Vendor vendor = (Vendor) GlobalEntities.USER;
-    @FXML
-    private Button shopButton;
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private Button profileButton;
-    @FXML
-    private Button ordersButton;
-    @FXML
-    private Button settingsButton;
-    @FXML
-    private StackPane stackPane;
+    private final Vendor vendor = (Vendor) GlobalEntities.USER;
+    @FXML private Button shopButton;
+    @FXML private ScrollPane scrollPane;
+    @FXML private Button profileButton;
+    @FXML private Button ordersButton;
+    @FXML private Button settingsButton;
+    @FXML private StackPane stackPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         disactiveButtons();
-        try {
-            this.profileButtonOnAction();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try { this.profileButtonOnAction(); }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
         }
     }
-    public void profileButtonOnAction() throws IOException {
+    public void profileButtonOnAction() throws IOException
+    {
         if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
@@ -70,8 +67,7 @@ public class VendorPageController implements Initializable
         Task<Void> task = new Task<>()
         {
             @Override
-            protected Void call()
-            {
+            protected @Nullable Void call() throws IOException {
                 DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 GlobalEntities.SHOP = databaseConnector.getShop(databaseConnector.getShopId(vendor.getId()));
                 return null;
@@ -110,6 +106,4 @@ public class VendorPageController implements Initializable
         ordersButton.setTextFill(Color.WHITE);
         settingsButton.setTextFill(Color.WHITE);
     }
-
-
 }

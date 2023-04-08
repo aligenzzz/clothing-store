@@ -2,7 +2,11 @@ package com.example.test;
 
 import javafx.scene.paint.Color;
 
-public final class Constants {
+import java.text.DecimalFormat;
+
+public final class Constants
+{
+    public static DecimalFormat FORMAT = new DecimalFormat("#.##");
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
     public static final String CUSTOMERPAGE = "./src/main/resources/com/example/test/customer_page.fxml";
     public static final String VENDORPAGE = "./src/main/resources/com/example/test/vendor_page.fxml";
@@ -14,6 +18,7 @@ public final class Constants {
     public static final String SHOP = "./src/main/resources/com/example/test/shop.fxml";
     public static final String PAYMENT = "./src/main/resources/com/example/test/payment.fxml";
     public static final String PROFILE = "./src/main/resources/com/example/test/profile.fxml";
+    public static final String ORDER = "./src/main/resources/com/example/test/order.fxml";
 
     public static final String USERACCOUNTS = "./src/main/resources/database/user_account.xlsx";
     public static final String ITEMS = "./src/main/resources/database/item.xlsx";
@@ -24,6 +29,8 @@ public final class Constants {
     public static final String SHOPITEMS = "./src/main/resources/database/shop_items.xlsx";
     public static final String VENDORSSHOP = "./src/main/resources/database/vendors_shop.xlsx";
     public static final String CUSTOMERSHOPS = "./src/main/resources/database/customer_shops.xlsx";
+    public static final String ORDERS = "./src/main/resources/database/orders.xlsx";
+    public static final String ORDERITEMS = "./src/main/resources/database/order_items.xlsx";
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";

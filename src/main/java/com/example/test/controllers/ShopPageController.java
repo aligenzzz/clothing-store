@@ -24,35 +24,27 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ShopPageController implements Initializable
 {
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private GridPane gridPane;
-    @FXML
-    private HBox customerButtons;
-    @FXML
-    private HBox vendorButtons;
-    @FXML
-    private ImageView bannerImageView;
-    @FXML
-    private Label shopNameLabel;
-    @FXML
-    private Menu returnMenuItem;
-
-    private IListener listener;
-
+    @FXML private ScrollPane scrollPane;
+    @FXML private GridPane gridPane;
+    @FXML private HBox customerButtons;
+    @FXML private HBox vendorButtons;
+    @FXML private ImageView bannerImageView;
+    @FXML private Label shopNameLabel;
+    @FXML private Menu returnMenuItem;
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        listener = this::chooseItemCard;
+        IListener listener = this::chooseItemCard;
 
         if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser) customerButtons.setVisible(true);
         if (GlobalEntities.USER instanceof Vendor)
@@ -69,24 +61,18 @@ public class ShopPageController implements Initializable
         GridAnimation animation = new GridAnimation(itemList, gridPane, scrollPane, listener, 5);
         animation.start();
     }
-
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private Label itemNameLabel;
-    @FXML
-    private Label itemPriceLabel;
-    @FXML
-    private AnchorPane anchorPane;
-
+    @FXML private ImageView imageView;
+    @FXML private Label itemNameLabel;
+    @FXML private Label itemPriceLabel;
+    @FXML private AnchorPane anchorPane;
     private double itemId;
-    public void chooseItemCard(Item item)
+    public void chooseItemCard(@NotNull Item item)
     {
         this.itemId = item.getId();
 
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(String.valueOf(item.getPrice()));
+        itemPriceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
 
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
@@ -96,35 +82,26 @@ public class ShopPageController implements Initializable
         scrollPane.setDisable(false);
         anchorPane.setVisible(false);
     }
-
-    public void toFavouriteButtonOnAction()
+    public void toFavouriteButtonOnAction() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
 
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
-    public void toShoppingButtonOnAction()
+    public void toShoppingButtonOnAction() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
 
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
     }
-    public void returnMenuButtonOnAction()
+    public void returnMenuButtonOnAction() throws IOException
     {
-        try
-        {
-            Parent root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
-            Stage stage = (Stage) scrollPane.getScene().getWindow();
-            stage.setScene(new Scene(root, 900, 700));
-            stage.centerOnScreen();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            exception.getCause();
-        }
+        Parent root = FXMLLoader.load(new File(Constants.VENDORPAGE).toURI().toURL());
+        Stage stage = (Stage) scrollPane.getScene().getWindow();
+        stage.setScene(new Scene(root, 900, 700));
+        stage.centerOnScreen();
     }
     public void closeMenuButtonOnAction()
     {
