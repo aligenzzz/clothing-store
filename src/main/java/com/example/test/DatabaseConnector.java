@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -252,6 +253,31 @@ public class DatabaseConnector
         file.close();
 
         return items;
+    }
+    public @NotNull Item getItem(double id) throws IOException
+    {
+        String name = "";
+        String imageSource = "";
+        double price = 0;
+        double shop = 0;
+
+        FileInputStream file = new FileInputStream(this.itemsFileName);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+        Row row = sheet.getRow((int)id - 1);
+        Iterator<Cell> cellIterator = row.cellIterator();
+        int column = 0;
+        while (cellIterator.hasNext())
+        {
+            Cell cell = cellIterator.next();
+            if (column == ItemInfo.NAME.getIndex()) name = cell.getStringCellValue();
+            else if (column == ItemInfo.IMAGESOURCE.getIndex()) imageSource = cell.getStringCellValue();
+            else if (column == ItemInfo.PRICE.getIndex()) price = Double.parseDouble(cell.getStringCellValue().replaceAll("[ $]", ""));
+            else if (column == ItemInfo.SHOP.getIndex()) shop = cell.getNumericCellValue();
+            column++;
+        }
+
+        return new Item(id, name, imageSource, price, shop);
     }
     public List<Item> getFavouriteItems(double customer) throws IOException { return this.getSubItems(customer, this.favouriteItemsFileName); }
     public List<Item> getPurchasedItems(double customer) throws IOException { return this.getSubItems(customer, this.purchasedItemsFileName); }

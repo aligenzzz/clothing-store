@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -28,11 +29,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainPageController implements Initializable
 {
@@ -41,10 +40,34 @@ public class MainPageController implements Initializable
     private GridAnimation animation;
     private List<Item> itemList = new ArrayList<>();
     private IListener listener;
-    Alert alert = new Alert(Alert.AlertType.ERROR);
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        alert.setHeaderText("You have no rights to this action!");
+        alert.setContentText("Do yo want signup or login???");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().setBorder(Border.stroke(Color.web("#b56d8c")));
+        alert.setOnCloseRequest(event ->
+        {
+            ButtonType result = alert.getResult();
+            if (result == ButtonType.OK)
+            {
+                try
+                {
+                    Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+                    Stage stage = (Stage) gridPane.getScene().getWindow();
+                    stage.setScene(new Scene(root, 520, 400));
+                    stage.centerOnScreen();
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                    exception.getCause();
+                }
+            }
+        });
+
         listener = this::chooseItemCard;
         disactiveButtons();
         homeButton.setTextFill(Constants.ACTIVECOLOR);
@@ -62,7 +85,7 @@ public class MainPageController implements Initializable
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {
-            alert.show();
+            alert.showAndWait();
             return;
         }
 
@@ -99,7 +122,7 @@ public class MainPageController implements Initializable
     @FXML private Button homeButton;
     public void homeButtonOnAction()
     {
-        if (homeButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        if (homeButton.getTextFill() == Constants.ACTIVECOLOR && homePage.isVisible()) return;
         disactiveButtons();
 
         scrollPane.setVisible(false);
@@ -128,11 +151,48 @@ public class MainPageController implements Initializable
     @FXML private Button shoesButton;
     public void shoesButtonOnAction() { this.itemsButtonOnAction(shoesButton, "shoes", "none"); }
 
+    public void modifyCollectionButtonOnAction() throws IOException
+    {
+        List<Item> items = new ArrayList<>();
+        for (int i = 0; i < Constants.MODIFYCOLLECTION.length; i++)
+            items.add(DatabaseConnector.getInstance().getItem(Constants.MODIFYCOLLECTION[i]));
+
+        if (animation != null) animation.stop();
+
+        gridPane.getChildren().clear();
+        animation = new GridAnimation(items, gridPane, scrollPane, listener, 4);
+
+        if (homePage.isVisible())
+        {
+            homePage.setVisible(false);
+            scrollPane.setVisible(true);
+        }
+        animation.start();
+    }
+    public void dazedCollectionButtonOnAction() throws IOException
+    {
+        List<Item> items = new ArrayList<>();
+        for (int i = 0; i < Constants.DAZEDCOLLECTION.length; i++)
+            items.add(DatabaseConnector.getInstance().getItem(Constants.DAZEDCOLLECTION[i]));
+
+        if (animation != null) animation.stop();
+
+        gridPane.getChildren().clear();
+        animation = new GridAnimation(items, gridPane, scrollPane, listener, 4);
+
+        if (homePage.isVisible())
+        {
+            homePage.setVisible(false);
+            scrollPane.setVisible(true);
+        }
+        animation.start();
+    }
+
     public void toFavouriteButtonOnAction() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {
-            alert.show();
+            alert.showAndWait();
             return;
         }
 
@@ -143,7 +203,7 @@ public class MainPageController implements Initializable
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {
-            alert.show();
+            alert.showAndWait();
             return;
         }
 

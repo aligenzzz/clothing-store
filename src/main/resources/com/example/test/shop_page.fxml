@@ -30,7 +30,7 @@
    </ImageView>
    <Label fx:id="shopNameLabel" alignment="CENTER" layoutX="260.0" layoutY="101.0" prefHeight="54.0" prefWidth="378.0" text="SHOP NAME" textAlignment="CENTER" textFill="WHITE">
       <font>
-         <Font name="Candara Light" size="36.0" />
+         <Font name="Candara Bold" size="36.0" />
       </font>
    </Label>
    <MenuBar layoutX="-32.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="938.0" style="-fx-background-color: #f4f4f4;" stylesheets="@../../../styles/others.css">

@@ -39,6 +39,7 @@ public class Customer extends User
     public double getTotalPrice()
     {
         double result = 0;
+        if (this.shoppingItems == null || this.shoppingItems.size() == 0) return result;
         for (Item item: this.shoppingItems) result += item.getPrice();
 
         return result;

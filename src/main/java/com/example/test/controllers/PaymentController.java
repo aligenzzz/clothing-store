@@ -19,6 +19,7 @@ public class PaymentController
     Customer customer = (Customer) GlobalEntities.USER;
     public void setData()
     {
+        if(customer.getShoppingItems() == null || customer.getShoppingItems().size() == 0) return;
         totalPriceLabel.setText(Constants.FORMAT.format(customer.getTotalPrice()) + " $");
         totalItemsLabel.setText(customer.getShoppingItems().size() + " items");
     }

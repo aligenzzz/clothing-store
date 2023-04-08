@@ -15,15 +15,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -41,9 +42,34 @@ public class ShopPageController implements Initializable
     @FXML private ImageView bannerImageView;
     @FXML private Label shopNameLabel;
     @FXML private Menu returnMenuItem;
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        alert.setHeaderText("You have no rights to this action!");
+        alert.setContentText("Do yo want signup or login???");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.getDialogPane().setBorder(Border.stroke(Color.web("#b56d8c")));
+        alert.setOnCloseRequest(event ->
+        {
+            ButtonType result = alert.getResult();
+            if (result == ButtonType.OK)
+            {
+                try
+                {
+                    Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+                    Stage stage = (Stage) gridPane.getScene().getWindow();
+                    stage.setScene(new Scene(root, 520, 400));
+                    stage.centerOnScreen();
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                    exception.getCause();
+                }
+            }
+        });
+
         IListener listener = this::chooseItemCard;
 
         if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser) customerButtons.setVisible(true);
@@ -84,14 +110,22 @@ public class ShopPageController implements Initializable
     }
     public void toFavouriteButtonOnAction() throws IOException
     {
-        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.showAndWait();
+            return;
+        }
 
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void toShoppingButtonOnAction() throws IOException
     {
-        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser) return;
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.showAndWait();
+            return;
+        }
 
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
         databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);

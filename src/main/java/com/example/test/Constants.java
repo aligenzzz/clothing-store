@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 
 public final class Constants
 {
+    public static double[] MODIFYCOLLECTION = new double[] { 4, 24, 34, 58, 72, 80, 91,102, 107, 114, 118, 120, 123 };
+    public static double[] DAZEDCOLLECTION = new double[] { 58, 63, 65, 79, 87, 89, 99, 105, 108, 109, 118, 122, 129, 130 };
     public static DecimalFormat FORMAT = new DecimalFormat("#.##");
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
     public static final String CUSTOMERPAGE = "./src/main/resources/com/example/test/customer_page.fxml";

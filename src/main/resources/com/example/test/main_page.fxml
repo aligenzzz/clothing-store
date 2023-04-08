@@ -23,13 +23,10 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
-            prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.test.controllers.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.MainPageController">
    <left>
        <VBox prefHeight="506.0" prefWidth="260.0" style="-fx-background-color: #9BA5B8;" BorderPane.alignment="CENTER">
-           <Button fx:id="homeButton" alignment="CENTER" mnemonicParsing="false" onAction="#homeButtonOnAction"
-                   prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Home">
+           <Button fx:id="homeButton" alignment="CENTER" mnemonicParsing="false" onAction="#homeButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Home">
               <VBox.margin>
                   <Insets />
               </VBox.margin>
@@ -37,8 +34,7 @@
                <Font name="Candara" size="14.0" />
             </font>
            </Button>
-           <Button fx:id="allItemsButton" alignment="CENTER" mnemonicParsing="false" onAction="#allItemsButtonOnAction"
-                   prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="All">
+           <Button fx:id="allItemsButton" alignment="CENTER" mnemonicParsing="false" onAction="#allItemsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="All">
               <VBox.margin>
                   <Insets />
               </VBox.margin>
@@ -46,8 +42,7 @@
                <Font name="Candara" size="14.0" />
             </font>
            </Button>
-           <Button fx:id="blousesButton" alignment="CENTER" mnemonicParsing="false" onAction="#blousesButtonOnAction"
-                   prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="blouses / sweatshirts">
+           <Button fx:id="blousesButton" alignment="CENTER" mnemonicParsing="false" onAction="#blousesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="blouses / sweatshirts">
               <VBox.margin>
                   <Insets />
               </VBox.margin>
@@ -55,8 +50,7 @@
                <Font name="Candara" size="14.0" />
             </font>
            </Button>
-           <Button fx:id="topsButton" alignment="CENTER" mnemonicParsing="false" onAction="#topsButtonOnAction"
-                   prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="tops / t-shirts">
+           <Button fx:id="topsButton" alignment="CENTER" mnemonicParsing="false" onAction="#topsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="tops / t-shirts">
               <VBox.margin>
                   <Insets />
               </VBox.margin>
@@ -64,44 +58,37 @@
                <Font name="Candara" size="14.0" />
             </font>
            </Button>
-         <Button fx:id="shirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shirtsButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shirts">
+         <Button fx:id="shirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shirtsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shirts">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="pantsButton" alignment="CENTER" mnemonicParsing="false" onAction="#pantsButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="pants / jeans">
+         <Button fx:id="pantsButton" alignment="CENTER" mnemonicParsing="false" onAction="#pantsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="pants / jeans">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="shortsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shortsButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shorts">
+         <Button fx:id="shortsButton" alignment="CENTER" mnemonicParsing="false" onAction="#shortsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shorts">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="skirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#skirtsButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="skirts">
+         <Button fx:id="skirtsButton" alignment="CENTER" mnemonicParsing="false" onAction="#skirtsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="skirts">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="dressesButton" alignment="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#dressesButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="dresses">
+         <Button fx:id="dressesButton" alignment="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#dressesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="dresses">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="jacketsButton" alignment="CENTER" mnemonicParsing="false" onAction="#jacketsButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="jackets">
+         <Button fx:id="jacketsButton" alignment="CENTER" mnemonicParsing="false" onAction="#jacketsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="jackets">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="shoesButton" alignment="CENTER" mnemonicParsing="false" onAction="#shoesButtonOnAction"
-                 prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shoes">
+         <Button fx:id="shoesButton" alignment="CENTER" mnemonicParsing="false" onAction="#shoesButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="shoes">
             <font>
                <Font name="Candara" size="14.0" />
             </font>
@@ -115,16 +102,14 @@
                    <opaqueInsets>
                        <Insets />
                    </opaqueInsets>
-                   <Button layoutX="9.0" layoutY="251.0" mnemonicParsing="false" prefHeight="240.0" prefWidth="309.0"
-                           styleClass="button-adv2" stylesheets="@../../../styles/buttons.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+                   <Button layoutX="9.0" layoutY="251.0" mnemonicParsing="false" onAction="#dazedCollectionButtonOnAction" prefHeight="240.0" prefWidth="309.0" styleClass="button-adv2" stylesheets="@../../../styles/buttons.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
                    <ImageView fitHeight="219.0" fitWidth="119.0" layoutX="147.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
                        <effect>
                            <Glow level="0.45" />
                        </effect>
                        <Image url="@../../../images/cd2.png" />
                    </ImageView>
-                   <ImageView fitHeight="240.0" fitWidth="393.0" layoutX="244.0" layoutY="251.0" pickOnBounds="true"
-                              preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0">
+                   <ImageView fitHeight="240.0" fitWidth="393.0" layoutX="244.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0">
                        <effect>
                            <DropShadow height="64.28" radius="33.1025" spread="0.49" width="70.13">
                                <color>
@@ -134,14 +119,12 @@
                        </effect>
                        <Image url="@../../../images/adv2.png" />
                    </ImageView>
-                   <Button layoutX="375.0" layoutY="10.0" mnemonicParsing="false" prefHeight="238.0" prefWidth="286.0"
-                           styleClass="button-adv1" stylesheets="@../../../styles/buttons.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                   <Button layoutX="375.0" layoutY="10.0" mnemonicParsing="false" onAction="#modifyCollectionButtonOnAction" prefHeight="238.0" prefWidth="286.0" styleClass="button-adv1" stylesheets="@../../../styles/buttons.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                        <effect>
                            <Glow level="0.15" />
                        </effect>
                    </Button>
-                   <ImageView fitHeight="240.0" fitWidth="389.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true"
-                              AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                   <ImageView fitHeight="240.0" fitWidth="389.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                        <effect>
                            <Glow level="0.39" />
                        </effect>
@@ -206,7 +189,7 @@
                            </effect>
                            <Image url="@../../../images/items/item20.png" />
                        </ImageView>
-                       <VBox layoutX="209.0" layoutY="38.0" prefHeight="192.0" prefWidth="170.0">
+                       <VBox layoutX="209.0" layoutY="38.0" prefHeight="192.0" prefWidth="170.0" spacing="3.0">
                            <Label fx:id="itemNameLabel" alignment="CENTER" prefWidth="200.0" text="☆ NAME ☆">
                                <font>
                                    <Font name="Candara" size="22.0" />
@@ -233,38 +216,32 @@
                                    </font>
                                </Label>
                            </HBox>
-                           <HBox prefHeight="50.0" prefWidth="200.0">
+                           <HBox prefHeight="50.0" prefWidth="200.0" spacing="5.0">
                                <Label prefWidth="100.0" text="Shop:">
                                    <font>
                                        <Font name="Candara" size="20.0" />
                                    </font>
                                </Label>
-                               <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" onMouseClicked="#shopButtonOnAction" prefWidth="100.0" styleClass="label-button" stylesheets="@../../../styles/textfield.css" text="Shop">
+                               <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" onMouseClicked="#shopButtonOnAction" prefHeight="48.0" prefWidth="169.0" styleClass="label-button" stylesheets="@../../../styles/textfield.css" text="Shop" textAlignment="CENTER" wrapText="true">
                                    <font>
-                                       <Font name="Candara" size="20.0" />
+                                       <Font name="Candara" size="18.0" />
                                    </font>
                                </Label>
                            </HBox>
                            <HBox prefHeight="39.0" prefWidth="170.0">
-                               <Button minWidth="85.0" mnemonicParsing="false" onAction="#toFavouriteButtonOnAction"
-                                       styleClass="mini-button"
-                                       stylesheets="@../../../styles/buttons.css" text="💗">
+                               <Button minWidth="85.0" mnemonicParsing="false" onAction="#toFavouriteButtonOnAction" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="💗">
                                    <font>
-                                       <Font size="18.0"/>
+                                       <Font size="18.0" />
                                    </font>
                                </Button>
-                               <Button minWidth="85.0" mnemonicParsing="false" onAction="#toShoppingButtonOnAction"
-                                       prefHeight="26.0" prefWidth="73.0"
-                                       styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🛒">
+                               <Button minWidth="85.0" mnemonicParsing="false" onAction="#toShoppingButtonOnAction" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🛒">
                                    <font>
-                                       <Font size="18.0"/>
+                                       <Font size="18.0" />
                                    </font>
                                </Button>
                            </HBox>
                        </VBox>
-                       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
-                               onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0"
-                               styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">
+                       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">
                            <font>
                                <Font size="14.0" />
                            </font>
@@ -276,31 +253,27 @@
    </center>
    <top>
        <AnchorPane minWidth="90.0" prefHeight="186.0" prefWidth="900.0" BorderPane.alignment="CENTER">
-           <AnchorPane layoutY="26.0" minHeight="170.0" minWidth="900.0" prefHeight="174.0" prefWidth="900.0"
-                       style="-fx-background-color: #f4f4f4;">
+           <AnchorPane layoutY="26.0" minHeight="170.0" minWidth="900.0" prefHeight="174.0" prefWidth="900.0" style="-fx-background-color: #f4f4f4;">
                <ImageView disable="true" fitHeight="193.0" fitWidth="911.0" pickOnBounds="true" preserveRatio="true">
-                   <Image url="@../../../images/banner.jpg"/>
+                   <Image url="@../../../images/banner.jpg" />
                </ImageView>
             <effect>
-                <ColorAdjust saturation="-0.36"/>
+                <ColorAdjust saturation="-0.36" />
             </effect>
            </AnchorPane>
-           <MenuBar layoutY="1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="900.0"
-                    style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
+           <MenuBar layoutY="1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="900.0" style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
                <Menu mnemonicParsing="false" text="❎">
-                   <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction"
-                             text="Exit"/>
+                   <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
                </Menu>
                <Menu mnemonicParsing="false" text="🙎‍♀️">
-                   <MenuItem mnemonicParsing="false" onAction="#profileMenuButtonOnAction"
-                             text="Profile"/>
-                   <MenuItem mnemonicParsing="false" text="Log out"/>
+                   <MenuItem mnemonicParsing="false" onAction="#profileMenuButtonOnAction" text="Profile" />
+                   <MenuItem mnemonicParsing="false" text="Log out" />
                </Menu>
                <Menu mnemonicParsing="false" text="💗">
-                   <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
+                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                </Menu>
                <Menu mnemonicParsing="false" text="🛒">
-                   <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
+                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                </Menu>
            </MenuBar>
        </AnchorPane>
