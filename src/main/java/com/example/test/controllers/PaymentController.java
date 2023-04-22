@@ -27,14 +27,14 @@ public class PaymentController
     {
         Order order = new Order(0, OrderState.booked, customer.getTotalPrice(), customer.getId());
         order.setItems(customer.getShoppingItems());
-        DatabaseConnector.getInstance().addOrder(order);
         customer.addOrder(order);
+        customer.deleteAllShoppingItems();
     }
     public void payButtonOnAction() throws IOException
     {
         Order order = new Order(0, OrderState.paid, customer.getTotalPrice(), customer.getId());
         order.setItems(customer.getShoppingItems());
-        DatabaseConnector.getInstance().addOrder(order);
         customer.addOrder(order);
+        customer.deleteAllShoppingItems();
     }
 }

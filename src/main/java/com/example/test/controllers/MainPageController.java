@@ -4,6 +4,7 @@ import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
+import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
@@ -29,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -196,8 +196,8 @@ public class MainPageController implements Initializable
             return;
         }
 
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
+        Customer customer = (Customer) GlobalEntities.USER;
+        customer.addFavouriteItem(this.itemId);
     }
     public void toShoppingButtonOnAction() throws IOException
     {
@@ -207,8 +207,8 @@ public class MainPageController implements Initializable
             return;
         }
 
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
+        Customer customer = (Customer) GlobalEntities.USER;
+        customer.addShoppingItem(this.itemId);
     }
     public void shopButtonOnAction()
     {
@@ -268,6 +268,9 @@ public class MainPageController implements Initializable
     }
     private void itemsButtonOnAction(@NotNull Button button, String parameter, String additional)
     {
+        anchorPane.setVisible(false);
+        scrollPane.setDisable(false);
+
         if (button.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 

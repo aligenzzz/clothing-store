@@ -149,17 +149,42 @@
                               </font>
                            </Label>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
-                           <Label prefWidth="100.0" text="Shop:">
-                              <font>
-                                 <Font name="Candara" size="20.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" prefWidth="100.0" text="Shop">
-                              <font>
-                                 <Font name="Candara" size="20.0" />
-                              </font>
-                           </Label>
+                        <HBox prefHeight="50.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="26.0" prefWidth="54.0" text="Shop:">
+                                 <font>
+                                    <Font name="Candara" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="itemShopLabel" alignment="TOP_RIGHT" onMouseClicked="#shopButtonOnAction" prefHeight="48.0" prefWidth="118.0" styleClass="label-button" stylesheets="@../../../styles/textfield.css" text="Shop" textAlignment="CENTER" wrapText="true">
+                                 <font>
+                                    <Font name="Candara" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="39.0" prefWidth="170.0">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="toFavouriteButton" minWidth="85.0" mnemonicParsing="false" onAction="#toFavouriteButtonOnAction" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="💗" visible="false">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="toShoppingButton" minWidth="85.0" mnemonicParsing="false" onAction="#toShoppingButtonOnAction" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🛒" visible="false">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </StackPane>
+                              <Button minWidth="85.0" mnemonicParsing="false" onAction="#deleteButtonOnAction" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="❌">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
                         </HBox>
                      </VBox>
                      <Button fx:id="closeItemCardButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeItemCardButtonOnAction" prefHeight="13.0" prefWidth="32.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="⇽">

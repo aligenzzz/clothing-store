@@ -1,9 +1,12 @@
 package com.example.test.entities;
 
+import com.example.test.DatabaseConnector;
+import com.example.test.GlobalEntities;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
 import com.example.test.interfaces.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,55 @@ public class Customer extends User
         return result;
     }
 
-    public void addOrder(Order order) { this.orders.add(order); }
+    public void addFavouriteItem(double item) throws IOException
+    {
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+
+        this.favouriteItems.add(databaseConnector.getItem(item));
+        databaseConnector.addFavouriteItem(this.id, item);
+    }
+
+    public void addShoppingItem(double item) throws IOException
+    {
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+
+        this.shoppingItems.add(databaseConnector.getItem(item));
+        databaseConnector.addShoppingItem(this.id, item);
+    }
+
+    public void deleteFavouriteItem(double item) throws IOException
+    {
+        for (Item i: this.favouriteItems)
+            if (i.getId() == item)
+            {
+                this.favouriteItems.remove(i);
+                break;
+            }
+        DatabaseConnector.getInstance().deleteFavouriteItem(this.id, item);
+    }
+
+    public void deleteShoppingItem(double item) throws IOException
+    {
+        for (Item i: this.shoppingItems)
+            if (i.getId() == item)
+            {
+                this.shoppingItems.remove(i);
+                break;
+            }
+        DatabaseConnector.getInstance().deleteShoppingItem(this.id, item);
+    }
+
+    public void deleteAllShoppingItems() throws IOException
+    {
+        this.shoppingItems.clear();
+        DatabaseConnector.getInstance().deleteAllShoppingItems(this.id);
+    }
+
+    public void addOrder(Order order) throws IOException
+    {
+        this.orders.add(order);
+        DatabaseConnector.getInstance().addOrder(order);
+    }
     public void setOrders(List<Order> orders) { this.orders = orders; }
     public List<Order> getOrders() { return this.orders; }
 

@@ -285,6 +285,27 @@ public class DatabaseConnector
     public void addFavouriteItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.favouriteItemsFileName); }
     public void addPurchasedItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.purchasedItemsFileName); }
     public void addShoppingItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.shoppingItemsFileName); }
+    public void deleteFavouriteItem(double customer, double item) throws IOException { this.deleteItemFromList(customer, item, this.favouriteItemsFileName); }
+    public void deleteShoppingItem(double customer, double item) throws IOException { this.deleteItemFromList(customer, item, this.shoppingItemsFileName); }
+    public void deleteAllShoppingItems(double customer) throws IOException
+    {
+        FileInputStream file = new FileInputStream(this.shoppingItemsFileName);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        int row_num = (int) customer - 1;
+        Row row = sheet.getRow(row_num);
+        for (int i = 0; i < row.getLastCellNum(); i++)
+        {
+            Cell cell = row.getCell(i);
+            if (cell != null) row.removeCell(cell);
+        }
+
+        FileOutputStream out = new FileOutputStream(this.shoppingItemsFileName);
+        workbook.write(out);
+        out.close();
+        file.close();
+    }
     public List<Shop> getFavouriteShops(double customer) throws IOException
     {
         List<Shop> result = new ArrayList<>();
@@ -546,6 +567,40 @@ public class DatabaseConnector
         {
             Cell cell = row.createCell(row.getLastCellNum());
             cell.setCellValue(item);
+        }
+
+        FileOutputStream out = new FileOutputStream(path);
+        workbook.write(out);
+        out.close();
+        file.close();
+    }
+
+    private void deleteItemFromList(double user, double item, String path) throws IOException
+    {
+        FileInputStream file = new FileInputStream(path);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        int row_num = (int) user - 1;
+        Row row = sheet.getRow(row_num);
+
+        Iterator<Cell> cellIterator = row.cellIterator();
+        int column = 0;
+        while (cellIterator.hasNext())
+        {
+            Cell cell = cellIterator.next();
+            if (item == cell.getNumericCellValue())
+            {
+                column = cell.getColumnIndex();
+                break;
+            }
+        }
+
+        if (row.getLastCellNum() == column + 1)  row.removeCell(row.getCell(column));
+        else
+        {
+            row.removeCell(row.getCell(column));
+            row.shiftCellsLeft(column + 1, row.getLastCellNum() - 1, 1);
         }
 
         FileOutputStream out = new FileOutputStream(path);
