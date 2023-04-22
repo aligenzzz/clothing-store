@@ -126,6 +126,7 @@ public class CustomerPageController implements Initializable
         scrollPane.setVisible(false);
 
         if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
+        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new File(Constants.PROFILE).toURI().toURL());
@@ -141,7 +142,7 @@ public class CustomerPageController implements Initializable
     public void ordersButtonOnAction() throws IOException { this.itemsButtonOnAction(ordersButton, customer.getOrders(), 1, false); }
     public void purchasedItemsButtonOnAction() throws IOException { this.itemsButtonOnAction(purchasedItemsButton, customer.getPurchasedItems(), 4, false); }
     public void shopsButtonOnAction() throws IOException { this.itemsButtonOnAction(shopsButton, customer.getFavouriteShops(), 1, false); }
-    public void settingsButtonOnAction()
+    public void settingsButtonOnAction() throws IOException
     {
         if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
@@ -150,6 +151,11 @@ public class CustomerPageController implements Initializable
 
         if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
         if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.SETTINGS).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        stackPane.getChildren().add(anchorPane);
 
         settingsButton.setTextFill(Constants.ACTIVECOLOR);
     }
@@ -277,5 +283,13 @@ public class CustomerPageController implements Initializable
         shopsButton.setTextFill(Color.WHITE);
         settingsButton.setTextFill(Color.WHITE);
         returnButton.setTextFill(Color.WHITE);
+    }
+
+    public void logoutMenuButtonOnAction() throws IOException
+    {
+        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+        Stage stage = (Stage) scrollPane.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
     }
 }

@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -557,7 +556,7 @@ public class DatabaseConnector
         int row_num = (int)user - 1;
         Row row = sheet.getRow(row_num);
 
-        if (row == null)
+        if (row == null || row.getLastCellNum() == -1)
         {
             row = sheet.createRow(row_num);
             Cell cell = row.createCell(0);

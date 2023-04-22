@@ -35,30 +35,31 @@
             </font>
          </Label>
          <StackPane layoutX="396.0" prefHeight="128.0" prefWidth="190.0">
-            <children>
-               <AnchorPane fx:id="customerAnchorPane" prefHeight="112.0" prefWidth="148.0" visible="false">
-                  <children>
-                     <Button fx:id="payButton" layoutX="35.0" layoutY="74.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Pay">
-                        <font>
-                           <Font name="Candara" size="14.0" />
-                        </font>
-                     </Button>
-                     <Label fx:id="orderStateLabel" alignment="CENTER" layoutX="15.0" layoutY="33.0" prefHeight="31.0" prefWidth="159.0" text="Booked" textAlignment="CENTER" textFill="#45cc23">
-                        <font>
-                           <Font name="Candara" size="14.0" />
-                        </font>
-                     </Label>
-                  </children>
-               </AnchorPane>
-               <AnchorPane fx:id="vendorAnchorPain" prefHeight="135.0" prefWidth="189.0" visible="false">
-                  <Button fx:id="expandButton1" layoutX="35.0" layoutY="80.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Change state">
-                     <font>
-                        <Font name="Candara" size="14.0" />
-                     </font>
-                  </Button>
-                  <ChoiceBox fx:id="stateChoiceBox" layoutX="20.0" layoutY="39.0" prefWidth="150.0" />
-               </AnchorPane>
-            </children>
+            <AnchorPane fx:id="customerAnchorPane" prefHeight="112.0" prefWidth="148.0" visible="false">
+               <Button fx:id="payButton" layoutX="35.0" layoutY="74.0" mnemonicParsing="false" prefHeight="26.0"
+                       prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css"
+                       text="Pay">
+                  <font>
+                     <Font name="Candara" size="14.0"/>
+                  </font>
+               </Button>
+               <Label fx:id="orderStateLabel" alignment="CENTER" layoutX="15.0" layoutY="33.0" prefHeight="31.0"
+                      prefWidth="159.0" text="Booked" textAlignment="CENTER" textFill="#45cc23">
+                  <font>
+                     <Font name="Candara" size="14.0"/>
+                  </font>
+               </Label>
+            </AnchorPane>
+            <AnchorPane fx:id="vendorAnchorPain" prefHeight="135.0" prefWidth="189.0" visible="false">
+               <Button fx:id="expandButton1" layoutX="35.0" layoutY="80.0" mnemonicParsing="false" prefHeight="26.0"
+                       prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css"
+                       text="Change state">
+                  <font>
+                     <Font name="Candara" size="14.0"/>
+                  </font>
+               </Button>
+               <ChoiceBox fx:id="stateChoiceBox" layoutX="20.0" layoutY="39.0" prefWidth="150.0"/>
+            </AnchorPane>
          </StackPane>
          <Label fx:id="expandButton" alignment="CENTER" layoutX="595.0" layoutY="56.0" styleClass="label-button" stylesheets="@../../../styles/textfield.css" text="↓">
             <font>

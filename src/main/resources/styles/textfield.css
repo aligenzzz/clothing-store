@@ -24,3 +24,13 @@
 .label-button:pressed {
     -fx-text-fill: lightgray;
 }
+
+.text-field-settings {
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+}
+
+.text-field-settings:focused {
+    -fx-focus-color: #9BA5B8;
+    -fx-background-color: -fx-focus-color, -fx-background;
+}

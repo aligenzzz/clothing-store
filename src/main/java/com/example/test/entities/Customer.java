@@ -1,7 +1,6 @@
 package com.example.test.entities;
 
 import com.example.test.DatabaseConnector;
-import com.example.test.GlobalEntities;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
 import com.example.test.interfaces.User;

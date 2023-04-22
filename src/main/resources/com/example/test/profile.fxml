@@ -72,59 +72,57 @@
       </Label>
    </HBox>
    <ImageView fitHeight="128.0" fitWidth="131.0" layoutX="22.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat1.png" />
-      </image>
       <effect>
-         <Glow />
-      </effect></ImageView>
-   <ImageView fitHeight="128.0" fitWidth="130.0" layoutX="250.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat2.png" />
-      </image>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat1.png"/>
+   </ImageView>
+   <ImageView fitHeight="128.0" fitWidth="130.0" layoutX="250.0" layoutY="507.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
-   <ImageView fitHeight="137.0" fitWidth="155.0" layoutX="491.0" layoutY="464.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat3.png" />
-      </image>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat2.png"/>
+   </ImageView>
+   <ImageView fitHeight="137.0" fitWidth="155.0" layoutX="491.0" layoutY="464.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
-   <ImageView fitHeight="128.0" fitWidth="140.0" layoutX="21.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat4.png" />
-      </image>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat3.png"/>
+   </ImageView>
+   <ImageView fitHeight="128.0" fitWidth="140.0" layoutX="21.0" layoutY="443.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
-   <ImageView fitHeight="137.0" fitWidth="140.0" layoutX="17.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat5.png" />
-      </image>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat4.png"/>
+   </ImageView>
+   <ImageView fitHeight="137.0" fitWidth="140.0" layoutX="17.0" layoutY="256.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat5.png"/>
+   </ImageView>
    <ImageView fitHeight="128.0" fitWidth="130.0" layoutX="230.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat6.png" />
-      </image>
       <effect>
-         <Bloom />
-      </effect></ImageView>
-   <ImageView fitHeight="128.0" fitWidth="130.0" layoutX="431.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat7.png" />
-      </image>
+         <Bloom/>
+      </effect>
+      <Image url="@../../../images/cat6.png"/>
+   </ImageView>
+   <ImageView fitHeight="128.0" fitWidth="130.0" layoutX="431.0" layoutY="21.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
-   <ImageView fitHeight="120.0" fitWidth="130.0" layoutX="507.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../images/cat8.png" />
-      </image>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat7.png"/>
+   </ImageView>
+   <ImageView fitHeight="120.0" fitWidth="130.0" layoutX="507.0" layoutY="216.0" pickOnBounds="true"
+              preserveRatio="true">
       <effect>
-         <Glow />
-      </effect></ImageView>
+         <Glow/>
+      </effect>
+      <Image url="@../../../images/cat8.png"/>
+   </ImageView>
 </AnchorPane>

@@ -1,7 +1,6 @@
 package com.example.test.controllers;
 
 import com.example.test.Constants;
-import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Order;
@@ -23,6 +22,7 @@ public class PaymentController
         totalPriceLabel.setText(Constants.FORMAT.format(customer.getTotalPrice()) + " $");
         totalItemsLabel.setText(customer.getShoppingItems().size() + " items");
     }
+
     public void bookButtonOnAction() throws IOException
     {
         Order order = new Order(0, OrderState.booked, customer.getTotalPrice(), customer.getId());
