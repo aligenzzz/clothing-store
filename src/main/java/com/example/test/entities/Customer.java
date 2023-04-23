@@ -117,10 +117,12 @@ public class Customer extends User
     public void setOrders(List<Order> orders) { this.orders = orders; }
     public List<Order> getOrders() { return this.orders; }
 
-
-    void CreateOrder(Order order)
+    public boolean isFoundOrder(double order)
     {
-        orders.add(order);
+        for (Order o : orders)
+            if (o.getId() == order)
+                return true;
+        return false;
     }
 
     void CancelOrder(double id)

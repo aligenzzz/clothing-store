@@ -267,13 +267,13 @@
                </Menu>
                <Menu mnemonicParsing="false" text="🙎‍♀️">
                    <MenuItem mnemonicParsing="false" onAction="#profileMenuButtonOnAction" text="Profile" />
-                   <MenuItem mnemonicParsing="false" text="Log out" />
+                   <MenuItem mnemonicParsing="false" onAction="#logoutMenuButtonOnAction" text="Log out" />
                </Menu>
                <Menu mnemonicParsing="false" text="💗">
-                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                   <MenuItem mnemonicParsing="false" text="Favourite" />
                </Menu>
                <Menu mnemonicParsing="false" text="🛒">
-                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                   <MenuItem mnemonicParsing="false" text="Shopping" />
                </Menu>
            </MenuBar>
        </AnchorPane>

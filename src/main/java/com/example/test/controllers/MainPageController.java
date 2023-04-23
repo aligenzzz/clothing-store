@@ -4,7 +4,6 @@ import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
-import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
@@ -296,5 +295,13 @@ public class MainPageController implements Initializable
         }
 
         return result;
+    }
+
+    public void logoutMenuButtonOnAction() throws IOException
+    {
+        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+        Stage stage = (Stage) scrollPane.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
     }
 }
