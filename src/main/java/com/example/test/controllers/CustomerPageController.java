@@ -9,6 +9,7 @@ import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.interfaces.IListener;
 
+import com.example.test.interfaces.ItemsObserver;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CustomerPageController implements Initializable
+public class CustomerPageController implements Initializable, ItemsObserver
 {
     @FXML private Button profileButton;
     @FXML private Button favouriteItemsButton;
@@ -92,6 +93,8 @@ public class CustomerPageController implements Initializable
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+
+        Customer.addObserver(this);
     }
     @FXML private ImageView imageView;
     @FXML private Label itemNameLabel;
@@ -179,15 +182,9 @@ public class CustomerPageController implements Initializable
     public void deleteButtonOnAction() throws IOException
     {
         if (favouriteItemsButton.getTextFill() == Constants.ACTIVECOLOR)
-        {
             customer.deleteFavouriteItem(this.itemId);
-            this.itemsButtonOnAction(favouriteItemsButton, customer.getFavouriteItems(), 4, true);
-        }
         if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR)
-        {
             customer.deleteShoppingItem(this.itemId);
-            this.itemsButtonOnAction(shoppingItemsButton, customer.getShoppingItems(), 4, true);
-        }
     }
     private void itemsButtonOnAction(@NotNull Button button, List<?> list, int maxColumn, boolean update) throws IOException
     {
@@ -291,5 +288,22 @@ public class CustomerPageController implements Initializable
         Stage stage = (Stage) scrollPane.getScene().getWindow();
         stage.setScene(new Scene(root, 520, 400));
         stage.centerOnScreen();
+    }
+
+    @Override
+    public void update()
+    {
+        try
+        {
+            if (favouriteItemsButton.getTextFill() == Constants.ACTIVECOLOR)
+                this.itemsButtonOnAction(favouriteItemsButton, customer.getFavouriteItems(), 4, true);
+            if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR)
+                this.itemsButtonOnAction(shoppingItemsButton, customer.getShoppingItems(), 4, true);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
     }
 }

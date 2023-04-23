@@ -3,6 +3,7 @@ package com.example.test.entities;
 import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
+import com.example.test.interfaces.ItemsObserver;
 import com.example.test.interfaces.User;
 
 import java.io.IOException;
@@ -11,6 +12,13 @@ import java.util.List;
 
 public class Customer extends User
 {
+    static private final List<ItemsObserver> observers = new ArrayList<>();
+    static public void addObserver(ItemsObserver observer) { observers.add(observer); }
+    private void notifyObservers()
+    {
+        for (ItemsObserver observer : observers)
+            observer.update();
+    }
     private List<Item> favouriteItems;
     private List<Item> shoppingItems;
     private List<Order> orders;
@@ -53,6 +61,8 @@ public class Customer extends User
 
         this.favouriteItems.add(databaseConnector.getItem(item));
         databaseConnector.addFavouriteItem(this.id, item);
+
+        this.notifyObservers();
     }
 
     public void addShoppingItem(double item) throws IOException
@@ -61,6 +71,8 @@ public class Customer extends User
 
         this.shoppingItems.add(databaseConnector.getItem(item));
         databaseConnector.addShoppingItem(this.id, item);
+
+        this.notifyObservers();
     }
 
     public void deleteFavouriteItem(double item) throws IOException
@@ -72,6 +84,8 @@ public class Customer extends User
                 break;
             }
         DatabaseConnector.getInstance().deleteFavouriteItem(this.id, item);
+
+        this.notifyObservers();
     }
 
     public void deleteShoppingItem(double item) throws IOException
@@ -83,12 +97,16 @@ public class Customer extends User
                 break;
             }
         DatabaseConnector.getInstance().deleteShoppingItem(this.id, item);
+
+        this.notifyObservers();
     }
 
     public void deleteAllShoppingItems() throws IOException
     {
         this.shoppingItems.clear();
         DatabaseConnector.getInstance().deleteAllShoppingItems(this.id);
+
+        this.notifyObservers();
     }
 
     public void addOrder(Order order) throws IOException

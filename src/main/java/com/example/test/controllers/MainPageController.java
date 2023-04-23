@@ -196,8 +196,7 @@ public class MainPageController implements Initializable
             return;
         }
 
-        Customer customer = (Customer) GlobalEntities.USER;
-        customer.addFavouriteItem(this.itemId);
+        DatabaseConnector.getInstance().addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void toShoppingButtonOnAction() throws IOException
     {
@@ -207,8 +206,7 @@ public class MainPageController implements Initializable
             return;
         }
 
-        Customer customer = (Customer) GlobalEntities.USER;
-        customer.addShoppingItem(this.itemId);
+        DatabaseConnector.getInstance().addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
     }
     public void shopButtonOnAction()
     {
@@ -238,7 +236,6 @@ public class MainPageController implements Initializable
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.show();
                 stage.centerOnScreen();
-
             }
             catch (Exception exception)
             {

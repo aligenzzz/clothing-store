@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="160.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.PaymentController">
-   <Label layoutX="73.0" layoutY="40.0" prefHeight="18.0" prefWidth="194.0" text="Total:">
+<AnchorPane prefHeight="141.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.PaymentController">
+   <Label layoutX="74.0" layoutY="32.0" prefHeight="18.0" prefWidth="194.0" text="Total:">
       <font>
          <Font name="Candara Bold" size="36.0" />
       </font>
    </Label>
-   <Label fx:id="totalItemsLabel" alignment="CENTER_RIGHT" layoutX="267.0" layoutY="85.0" prefHeight="18.0" prefWidth="131.0" text="0 items">
+   <Label fx:id="totalItemsLabel" alignment="CENTER_RIGHT" layoutX="268.0" layoutY="77.0" prefHeight="18.0" prefWidth="131.0" text="0 items">
       <font>
          <Font name="Candara" size="18.0" />
       </font>
    </Label>
-   <Label fx:id="totalPriceLabel" alignment="CENTER_RIGHT" layoutX="205.0" layoutY="40.0" prefHeight="43.0" prefWidth="194.0" text="0.00 $">
+   <Label fx:id="totalPriceLabel" alignment="CENTER_RIGHT" layoutX="206.0" layoutY="32.0" prefHeight="43.0" prefWidth="194.0" text="0.00 $">
       <font>
          <Font name="Candara" size="36.0" />
       </font>
    </Label>
-   <Button fx:id="bookButton" layoutX="494.0" layoutY="22.0" mnemonicParsing="false" onAction="#bookButtonOnAction" prefHeight="52.0" prefWidth="91.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="BOOK">
+   <Button fx:id="bookButton" layoutX="495.0" layoutY="14.0" mnemonicParsing="false" onAction="#bookButtonOnAction" prefHeight="52.0" prefWidth="91.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="BOOK">
       <font>
          <Font name="Candara" size="18.0" />
       </font>
    </Button>
-   <Button fx:id="payButton" layoutX="494.0" layoutY="74.0" mnemonicParsing="false" onAction="#payButtonOnAction" prefHeight="52.0" prefWidth="91.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="PAY">
+   <Button fx:id="payButton" layoutX="495.0" layoutY="66.0" mnemonicParsing="false" onAction="#payButtonOnAction" prefHeight="52.0" prefWidth="91.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="PAY">
       <font>
          <Font name="Candara" size="18.0" />
       </font>
    </Button>
+   <padding>
+      <Insets bottom="20.0" />
+   </padding>
 </AnchorPane>

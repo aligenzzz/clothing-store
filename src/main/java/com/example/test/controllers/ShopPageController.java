@@ -116,8 +116,11 @@ public class ShopPageController implements Initializable
             return;
         }
 
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        databaseConnector.addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
+        Customer customer = (Customer) GlobalEntities.USER;
+        if (customer.getFavouriteItems() == null)
+            DatabaseConnector.getInstance().addFavouriteItem(customer.getId(), this.itemId);
+        else
+            customer.addFavouriteItem(this.itemId);
     }
     public void toShoppingButtonOnAction() throws IOException
     {
@@ -127,8 +130,11 @@ public class ShopPageController implements Initializable
             return;
         }
 
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        databaseConnector.addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
+        Customer customer = (Customer) GlobalEntities.USER;
+        if (customer.getShoppingItems() == null)
+            DatabaseConnector.getInstance().addShoppingItem(customer.getId(), this.itemId);
+        else
+            customer.addShoppingItem(this.itemId);
     }
     public void returnMenuButtonOnAction() throws IOException
     {

@@ -80,3 +80,17 @@
     -fx-background-color: #acd8e6;
 }
 
+.button-big {
+    -fx-background-radius: 0;
+    -fx-background-color: #9BA5B8;
+}
+
+.button-big:hover {
+    -fx-background-color: #7a88a1;
+}
+
+.button-big:pressed {
+    -fx-background-color: #606e87;
+}
+
+
