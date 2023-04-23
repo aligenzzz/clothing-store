@@ -41,7 +41,7 @@ public class OrderController
     {
         this.order = order;
 
-        idLabel.setText(String.valueOf(order.getId()));
+        idLabel.setText(String.valueOf(Math.floor(order.getId())));
         itemsLabel.setText(order.getItems().size() + " items");
         priceLabel.setText(Constants.FORMAT.format(order.getPrice()) + " $");
 

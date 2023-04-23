@@ -34,6 +34,7 @@ public class ShopController
         imageView.setStyle("-fx-background-position: CENTER;");
         shopNameLabel.setText(shop.getName());
         shopNameLabel.setTextFill(shop.getTextColor());
+        shopNameLabel.setOpacity(0.8);
 
         this.shop = shop;
     }
