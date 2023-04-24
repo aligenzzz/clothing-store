@@ -7,6 +7,7 @@ import com.example.test.Main;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
+import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
 
 import javafx.concurrent.Task;
@@ -81,6 +82,23 @@ public class MainPageController implements Initializable
     }
 
     public void profileMenuButtonOnAction() throws IOException
+    {
+        GlobalEntities.CHOICE = CustomerChoice.PROFILE;
+        this.loadCustomerPage();
+    }
+
+    public void favouriteMenuButtonOnAction() throws IOException
+    {
+        GlobalEntities.CHOICE = CustomerChoice.FAVOURITE;
+        this.loadCustomerPage();
+    }
+    public void shoppingMenuButtonOnAction() throws IOException
+    {
+        GlobalEntities.CHOICE = CustomerChoice.SHOPPING;
+        this.loadCustomerPage();
+    }
+
+    private void loadCustomerPage() throws IOException
     {
         if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
         {

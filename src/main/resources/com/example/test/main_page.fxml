@@ -270,10 +270,10 @@
                    <MenuItem mnemonicParsing="false" onAction="#logoutMenuButtonOnAction" text="Log out" />
                </Menu>
                <Menu mnemonicParsing="false" text="💗">
-                   <MenuItem mnemonicParsing="false" text="Favourite" />
+                   <MenuItem mnemonicParsing="false" onAction="#favouriteMenuButtonOnAction" text="Favourite" />
                </Menu>
                <Menu mnemonicParsing="false" text="🛒">
-                   <MenuItem mnemonicParsing="false" text="Shopping" />
+                   <MenuItem mnemonicParsing="false" onAction="#shoppingMenuButtonOnAction" text="Shopping" />
                </Menu>
            </MenuBar>
        </AnchorPane>

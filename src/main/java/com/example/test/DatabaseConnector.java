@@ -326,6 +326,7 @@ public class DatabaseConnector
 
         return result;
     }
+    public void deleteFavouriteShop(double customer, double shop) throws IOException { this.deleteItemFromList(customer, shop, this.customerShopsFileName); }
     public Shop getShop(double id) throws IOException
     {
         String name = "";

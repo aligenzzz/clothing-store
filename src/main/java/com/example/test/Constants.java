@@ -24,7 +24,6 @@ public final class Constants
     public static final String ORDER = "./src/main/resources/com/example/test/order.fxml";
     public static final String SETTINGS = "./src/main/resources/com/example/test/settings.fxml";
     public static final String PAYMENTPAGE = "./src/main/resources/com/example/test/payment_page.fxml";
-
     public static final String USERACCOUNTS = "./src/main/resources/database/user_account.xlsx";
     public static final String ITEMS = "./src/main/resources/database/item.xlsx";
     public static final String FAVOURITEITEMS = "./src/main/resources/database/favourite_items.xlsx";

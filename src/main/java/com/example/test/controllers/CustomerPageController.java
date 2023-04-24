@@ -7,6 +7,7 @@ import com.example.test.Main;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
+import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
 
 import com.example.test.interfaces.ItemsObserver;
@@ -80,6 +81,19 @@ public class CustomerPageController implements Initializable, ItemsObserver
                 return null;
             }
         };
+        task.setOnSucceeded(event ->
+        {
+            try
+            {
+                if (GlobalEntities.CHOICE == CustomerChoice.FAVOURITE) this.favouriteItemsButtonOnAction();
+                else if (GlobalEntities.CHOICE == CustomerChoice.SHOPPING) this.shoppingItemsButtonOnAction();
+            }
+            catch (Exception exception)
+            {
+                exception.printStackTrace();
+                exception.getCause();
+            }
+        });
 
         profileButton.disableProperty().bind(task.runningProperty());
         favouriteItemsButton.disableProperty().bind(task.runningProperty());

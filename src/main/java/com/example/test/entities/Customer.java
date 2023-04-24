@@ -46,6 +46,19 @@ public class Customer extends User
     public List<Shop> getFavouriteShops() { return this.favouriteShops; }
     public void setFavouriteShops(List<Shop> shopList) { this.favouriteShops = shopList; }
 
+    public void deleteFavouriteShop(double shop) throws IOException
+    {
+        for (Shop s: this.favouriteShops)
+            if (s.getId() == shop)
+            {
+                this.favouriteItems.remove(s);
+                break;
+            }
+        DatabaseConnector.getInstance().deleteFavouriteShop(this.id, shop);
+
+        this.notifyObservers();
+    }
+
     public double getTotalPrice()
     {
         double result = 0;
