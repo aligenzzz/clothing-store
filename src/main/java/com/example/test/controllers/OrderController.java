@@ -1,9 +1,6 @@
 package com.example.test.controllers;
 
-import com.example.test.Constants;
-import com.example.test.DatabaseConnector;
-import com.example.test.GlobalEntities;
-import com.example.test.Main;
+import com.example.test.*;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
 import com.example.test.entities.Order;
@@ -108,15 +105,15 @@ public class OrderController
 
         if (n == 1 && !GlobalEntities.EXPANDEDORDER)
         {
-            List<Item> orderItems = DatabaseConnector.getInstance().getOrderItems(order.getId());
+            List<MyPair<Item, OrderState>> orderItems = DatabaseConnector.getInstance().getOrderItems(order.getId());
 
-            for (Item i : orderItems)
+            for (MyPair<Item, OrderState> i : orderItems)
             {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
                 AnchorPane anchorPane = fxmlLoader.load();
                 OrderItemController orderItemController = fxmlLoader.getController();
-                orderItemController.setData(i);
+                orderItemController.setData(i.getFirst(), i.getSecond());
                 vBox.getChildren().add(anchorPane);
             }
 

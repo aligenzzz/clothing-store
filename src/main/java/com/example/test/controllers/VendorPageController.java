@@ -44,6 +44,26 @@ public class VendorPageController implements Initializable
             exception.printStackTrace();
             exception.getCause();
         }
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+                vendor.setOrders(databaseConnector.getVendorOrders(vendor.getId()));
+
+                return null;
+            }
+        };
+
+        profileButton.disableProperty().bind(task.runningProperty());
+        ordersButton.disableProperty().bind(task.runningProperty());
+        settingsButton.disableProperty().bind(task.runningProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
     public void profileButtonOnAction() throws IOException
     {
@@ -105,5 +125,10 @@ public class VendorPageController implements Initializable
         shopButton.setTextFill(Color.WHITE);
         ordersButton.setTextFill(Color.WHITE);
         settingsButton.setTextFill(Color.WHITE);
+    }
+
+    public void ordersButtonOnAction() throws IOException
+    {
+
     }
 }

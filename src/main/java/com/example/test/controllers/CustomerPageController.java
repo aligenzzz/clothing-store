@@ -1,16 +1,13 @@
 package com.example.test.controllers;
 
-import com.example.test.Constants;
-import com.example.test.DatabaseConnector;
-import com.example.test.GlobalEntities;
-import com.example.test.Main;
+import com.example.test.*;
 import com.example.test.entities.Customer;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
 
-import com.example.test.interfaces.ItemsObserver;
+import com.example.test.interfaces.ItemObserver;
 import com.example.test.interfaces.OrderObserver;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -38,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CustomerPageController implements Initializable, ItemsObserver, OrderObserver
+public class CustomerPageController implements Initializable, ItemObserver, OrderObserver
 {
     @FXML private Button profileButton;
     @FXML private Button favouriteItemsButton;

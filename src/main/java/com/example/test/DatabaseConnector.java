@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class DatabaseConnector
 {
@@ -454,9 +453,9 @@ public class DatabaseConnector
 
             if(temp == customer)
             {
-                List<Item> items = this.getOrderItems(id);
+                List<MyPair<Item, OrderState>> items = this.getOrderItems(id);
                 orders.add(new Order(id, state, price, customer));
-                orders.get(orders.size() - 1).setItems(items);
+                orders.get(orders.size() - 1).setItems_(items);
             }
         }
         file.close();
@@ -515,9 +514,9 @@ public class DatabaseConnector
         file.close();
     }
 
-    public @NotNull List<Item> getOrderItems(double order) throws IOException
+    public @NotNull List<MyPair<Item, OrderState>> getOrderItems(double order) throws IOException
     {
-        List<Item> items = new ArrayList<>();
+        List<MyPair<Item, OrderState>> items = new ArrayList<>();
 
         FileInputStream file = new FileInputStream(this.orderItemsFileName);
         XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -528,10 +527,35 @@ public class DatabaseConnector
         {
             if (row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue() == order)
             {
-                items.add(this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue()));
+                Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+                OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
+                items.add(new MyPair<>(item, state));
                 was = true;
             }
             else if (was) break;
+        }
+        file.close();
+
+        return items;
+    }
+
+    public List<MyPair<Item, OrderState>> getVendorOrders(double vendor) throws IOException
+    {
+        List<MyPair<Item, OrderState>> items = new ArrayList<>();
+
+        FileInputStream file = new FileInputStream(this.orderItemsFileName);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        boolean was = false;
+        for (Row row : sheet)
+        {
+            if (row.getCell(OrderItemInfo.VENDOR.getIndex()).getNumericCellValue() == vendor)
+            {
+                Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+                OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
+                items.add(new MyPair<>(item, state));
+            }
         }
         file.close();
 

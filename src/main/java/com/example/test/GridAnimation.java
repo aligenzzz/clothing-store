@@ -1,6 +1,8 @@
-package com.example.test.controllers;
+package com.example.test;
 
-import com.example.test.Constants;
+import com.example.test.controllers.ItemController;
+import com.example.test.controllers.OrderController;
+import com.example.test.controllers.ShopController;
 import com.example.test.entities.Item;
 import com.example.test.entities.Order;
 import com.example.test.entities.Shop;

@@ -1,9 +1,6 @@
 package com.example.test.controllers;
 
-import com.example.test.Constants;
-import com.example.test.DatabaseConnector;
-import com.example.test.GlobalEntities;
-import com.example.test.Main;
+import com.example.test.*;
 import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;

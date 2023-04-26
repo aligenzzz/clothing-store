@@ -3,7 +3,7 @@ package com.example.test.entities;
 import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
-import com.example.test.interfaces.ItemsObserver;
+import com.example.test.interfaces.ItemObserver;
 import com.example.test.interfaces.User;
 
 import java.io.IOException;
@@ -12,11 +12,11 @@ import java.util.List;
 
 public class Customer extends User
 {
-    static private final List<ItemsObserver> observers = new ArrayList<>();
-    static public void addObserver(ItemsObserver observer) { observers.add(observer); }
+    static private final List<ItemObserver> observers = new ArrayList<>();
+    static public void addObserver(ItemObserver observer) { observers.add(observer); }
     private void notifyObservers()
     {
-        for (ItemsObserver observer : observers)
+        for (ItemObserver observer : observers)
             observer.update();
     }
     private List<Item> favouriteItems;
