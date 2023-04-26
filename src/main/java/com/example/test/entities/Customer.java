@@ -68,6 +68,19 @@ public class Customer extends User
         return result;
     }
 
+    public double getOrderIndex(double order)
+    {
+        int index = 0;
+        for (Order o: this.orders)
+        {
+            if (o.getId() == order)
+                return index;
+            index++;
+        }
+
+        return -1;
+    }
+
     public void addFavouriteItem(double item) throws IOException
     {
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();

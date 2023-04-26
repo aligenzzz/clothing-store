@@ -1,12 +1,15 @@
 package com.example.test.controllers;
 
 import com.example.test.Constants;
+import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
 import com.example.test.entities.Customer;
+import com.example.test.entities.Item;
 import com.example.test.entities.Order;
 import com.example.test.entities.Vendor;
 import com.example.test.enums.OrderState;
+import com.example.test.interfaces.OrderObserver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,12 +21,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderController
@@ -36,6 +42,10 @@ public class OrderController
     @FXML private AnchorPane vendorAnchorPane;
     @FXML private Label orderStateLabel;
     @FXML private ChoiceBox<String> stateChoiceBox;
+    @FXML private Label expandButton;
+    @FXML private VBox vBox;
+
+
     private Order order;
     public void setData(@NotNull Order order)
     {
@@ -82,5 +92,44 @@ public class OrderController
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
         stage.centerOnScreen();
+    }
+
+    static private final List<OrderObserver> observers = new ArrayList<>();
+    static public void addObserver(OrderObserver observer) { observers.add(observer); }
+    private void notifyObservers(int index, boolean add)
+    {
+        for (OrderObserver observer : observers)
+            observer.update(index, add);
+    }
+    public void expandButtonOnAction() throws IOException
+    {
+        Customer customer = (Customer) GlobalEntities.USER;
+        int n = vBox.getChildren().size();
+
+        if (n == 1 && !GlobalEntities.EXPANDEDORDER)
+        {
+            List<Item> orderItems = DatabaseConnector.getInstance().getOrderItems(order.getId());
+
+            for (Item i : orderItems)
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
+                AnchorPane anchorPane = fxmlLoader.load();
+                OrderItemController orderItemController = fxmlLoader.getController();
+                orderItemController.setData(i);
+                vBox.getChildren().add(anchorPane);
+            }
+
+            notifyObservers((int) customer.getOrderIndex(order.getId()), true);
+
+            GlobalEntities.EXPANDEDORDER = true;
+        }
+        else if (n > 1 && GlobalEntities.EXPANDEDORDER)
+        {
+            vBox.getChildren().remove(1, n);
+            notifyObservers((int) customer.getOrderIndex(order.getId()), false);
+
+            GlobalEntities.EXPANDEDORDER = false;
+        }
     }
 }
