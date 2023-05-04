@@ -11,6 +11,8 @@ module com.example.test
     requires org.apache.poi.ooxml;
     requires org.apache.logging.log4j;
     requires org.jetbrains.annotations;
+    requires serialize;
+    requires com.google.gson;
 
     opens com.example.test to javafx.fxml;
     exports com.example.test;

@@ -6,7 +6,6 @@ import com.example.test.entities.Shop;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
-
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +27,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable
 {
@@ -76,6 +78,9 @@ public class MainPageController implements Initializable
     {
         Stage stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
+
+//        User user = new User(GlobalEntities.USER);
+//        Serializer.serialize(user, Constants.JSONFILE);
     }
 
     public void profileMenuButtonOnAction() throws IOException

@@ -43,4 +43,5 @@ public final class Constants
     public static final String ICONPATH = "/images/icon.png";
 
     public static final Color ACTIVECOLOR = Color.web("#484c58");
+    public static final String JSONFILE = "./src/main/resources/data.json";
 }

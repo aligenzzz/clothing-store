@@ -1,16 +1,23 @@
 package com.example.test.interfaces;
 
 import com.example.test.enums.AccessType;
+import org.jetbrains.annotations.NotNull;
 
 public class User
 {
-    protected double id;
-    protected String username;
-    protected String password;
-    protected String email;
-    protected String firstName;
-    protected String lastName;
-    protected AccessType accessType;
+    // uberu public potom
+    public double id;
+
+    public String username;
+
+    public String password;
+
+    public String email;
+    public String firstName;
+
+    public String lastName;
+
+    public AccessType accessType;
 
     public User()
     {
@@ -31,6 +38,17 @@ public class User
         this.firstName = firstname;
         this.lastName = lastname;
         this.accessType = accessType;
+    }
+
+    public User(@NotNull User user)
+    {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.accessType = user.getAccessType();
     }
 
     public void setId(double id) { this.id = id; }
