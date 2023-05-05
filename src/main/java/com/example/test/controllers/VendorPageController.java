@@ -131,4 +131,12 @@ public class VendorPageController implements Initializable
     {
 
     }
+
+    public void logoutMenuButtonOnAction() throws IOException
+    {
+        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
+    }
 }

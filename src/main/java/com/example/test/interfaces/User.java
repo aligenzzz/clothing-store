@@ -1,22 +1,31 @@
 package com.example.test.interfaces;
 
 import com.example.test.enums.AccessType;
+import com.google.gson.annotations.SerializedName;
 import org.jetbrains.annotations.NotNull;
 
 public class User
 {
     // uberu public potom
+    @SerializedName("id")
     public double id;
 
+    @SerializedName("username")
     public String username;
 
+    @SerializedName("password")
     public String password;
 
+    @SerializedName("email")
     public String email;
+
+    @SerializedName("firstName")
     public String firstName;
 
+    @SerializedName("lastName")
     public String lastName;
 
+    @SerializedName("accessType")
     public AccessType accessType;
 
     public User()
@@ -52,6 +61,7 @@ public class User
     }
 
     public void setId(double id) { this.id = id; }
+
     public double getId() { return this.id; }
     public void setUsername(String username) { this.username = username; }
     public String getUsername() { return this.username; }

@@ -94,5 +94,7 @@ public class LoginController
     {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+
+        GlobalEntities.USER = new User();
     }
 }

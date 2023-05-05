@@ -10,6 +10,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -136,5 +138,13 @@ public class AdminPageController implements Initializable
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public void logoutMenuButtonOnAction() throws IOException
+    {
+        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
     }
 }

@@ -15,40 +15,31 @@
 
 <BorderPane maxHeight="700.0" maxWidth="900.0" minHeight="700.0" minWidth="900.0" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.AdminPageController">
    <left>
-      <AnchorPane minWidth="260.0" prefHeight="627.0" prefWidth="260.0" style="-fx-background-color: #9BA5B8;"
-                  BorderPane.alignment="CENTER">
-         <Button fx:id="settingsButton" layoutY="588.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0"
-                 styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Settings">
+      <AnchorPane minWidth="260.0" prefHeight="627.0" prefWidth="260.0" style="-fx-background-color: #9BA5B8;" BorderPane.alignment="CENTER">
+         <Button fx:id="settingsButton" layoutY="588.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Settings">
             <font>
-               <Font name="Candara" size="14.0"/>
+               <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="usersButton" layoutY="60.0" minHeight="60.0" minWidth="260.0" mnemonicParsing="false"
-                 onAction="#usersButtonOnAction" styleClass="left-pane-button"
-                 stylesheets="@../../../styles/buttons.css" text="Users">
+         <Button fx:id="usersButton" layoutY="60.0" minHeight="60.0" minWidth="260.0" mnemonicParsing="false" onAction="#usersButtonOnAction" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Users">
             <font>
-               <Font name="Candara" size="14.0"/>
+               <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonOnAction" prefHeight="60.0"
-                 prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css"
-                 text="Profile">
+         <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Profile">
             <font>
-               <Font name="Candara" size="14.0"/>
+               <Font name="Candara" size="14.0" />
             </font>
          </Button>
       </AnchorPane>
    </left>
    <center>
-      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;"
-                 BorderPane.alignment="CENTER">
-         <AnchorPane fx:id="tableAnchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;"
-                     visible="false">
-            <TableView fx:id="tableView" editable="true" layoutX="-2.0" layoutY="-1.0" prefHeight="549.0"
-                       prefWidth="641.0">
+      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;" BorderPane.alignment="CENTER">
+         <AnchorPane fx:id="tableAnchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;" visible="false">
+            <TableView fx:id="tableView" editable="true" layoutX="-2.0" layoutY="-1.0" prefHeight="549.0" prefWidth="641.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1"/>
-                  <TableColumn prefWidth="75.0" text="C2"/>
+                  <TableColumn prefWidth="75.0" text="C1" />
+                  <TableColumn prefWidth="75.0" text="C2" />
                </columns>
             </TableView>
          </AnchorPane>
@@ -57,15 +48,14 @@
    <top>
       <AnchorPane prefHeight="32.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <ImageView fitHeight="124.0" fitWidth="1143.0" layoutX="-137.0" layoutY="-72.0">
-            <Image url="@../../../images/banner.jpg"/>
+            <Image url="@../../../images/banner.jpg" />
          </ImageView>
-         <MenuBar layoutX="26.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="926.0"
-                  style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
+         <MenuBar layoutX="26.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="926.0" style="-fx-background-color: transparent;" stylesheets="@../../../styles/others.css">
             <Menu mnemonicParsing="false" text="❎">
-               <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit"/>
+               <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
             </Menu>
             <Menu mnemonicParsing="false" text="🚪">
-               <MenuItem mnemonicParsing="false" text="Log out"/>
+               <MenuItem mnemonicParsing="false" onAction="#logoutMenuButtonOnAction" text="Log out" />
             </Menu>
          </MenuBar>
       </AnchorPane>

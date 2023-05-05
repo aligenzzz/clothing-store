@@ -72,7 +72,7 @@
                <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
             </Menu>
             <Menu mnemonicParsing="false" text="🚪">
-               <MenuItem mnemonicParsing="false" text="Log out" />
+               <MenuItem mnemonicParsing="false" onAction="#logoutMenuButtonOnAction" text="Log out" />
             </Menu>
          </MenuBar>
       </AnchorPane>
