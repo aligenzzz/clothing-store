@@ -37,6 +37,8 @@ public class Customer extends User
         this.favouriteShops = new ArrayList<>();
     }
 
+    public Customer(User user) { super(user); }
+
     public List<Item> getFavouriteItems() { return this.favouriteItems; }
     public void setFavouriteItems(List<Item> itemList) { this.favouriteItems = itemList; }
     public List<Item> getShoppingItems() { return this.shoppingItems;}

@@ -33,6 +33,8 @@ public class Order
     public double getCustomer() { return this.customer; }
     public void setItems(@NotNull List<Item> items)
     {
+        if (this.items == null)
+            this.items = new ArrayList<>();
         for (Item i : items)
             this.items.add(new MyPair<>(i, this.state));
     }

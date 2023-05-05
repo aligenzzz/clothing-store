@@ -1,5 +1,9 @@
 package com.example.test;
 
+import com.example.test.entities.Admin;
+import com.example.test.entities.Customer;
+import com.example.test.entities.NonUser;
+import com.example.test.entities.Vendor;
 import com.example.test.enums.AccessType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,19 +24,27 @@ public class LoginHandler
         Scene scene = new Scene(fxmlLoader.load(), 520, 400);
 
         String path = "";
-        if (GlobalEntities.USER.accessType == AccessType.nonuser ||
-            GlobalEntities.USER.accessType == AccessType.customer)
+        if (GlobalEntities.USER.accessType == AccessType.nonuser)
         {
+            GlobalEntities.USER = new NonUser(GlobalEntities.USER);
+            fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
+            scene = new Scene(fxmlLoader.load(), 900, 700);
+        }
+        else if (GlobalEntities.USER.accessType == AccessType.customer)
+        {
+            GlobalEntities.USER = new Customer(GlobalEntities.USER);
             fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
             scene = new Scene(fxmlLoader.load(), 900, 700);
         }
         else if (GlobalEntities.USER.accessType == AccessType.vendor)
         {
+            GlobalEntities.USER = new Vendor(GlobalEntities.USER);
             fxmlLoader = new FXMLLoader(new File(Constants.VENDORPAGE).toURI().toURL());
             scene = new Scene(fxmlLoader.load(), 900, 700);
         }
         else if (GlobalEntities.USER.accessType == AccessType.admin)
         {
+            GlobalEntities.USER = new Admin(GlobalEntities.USER);
             fxmlLoader = new FXMLLoader(new File(Constants.ADMINPAGE).toURI().toURL());
             scene = new Scene(fxmlLoader.load(), 900, 700);
         }

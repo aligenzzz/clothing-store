@@ -39,4 +39,6 @@ public class Vendor extends User
     {
 
     }
+
+    public Vendor(User user) { super(user); }
 }

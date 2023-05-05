@@ -17,6 +17,8 @@ public class Admin extends User
         databaseConnector = DatabaseConnector.getInstance();
     }
 
+    public Admin(User user) { super(user); }
+
     // OrdersHandler ordersHandler;
 
     public void EditRole(double id)

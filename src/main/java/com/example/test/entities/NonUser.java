@@ -15,4 +15,6 @@ public class NonUser extends User
         this.lastName = "NaN";
         this.accessType = accessType;
     }
+
+    public NonUser(User user) { super(user); }
 }
