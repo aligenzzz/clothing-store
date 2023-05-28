@@ -29,9 +29,9 @@ public class ShopController
     private Shop shop;
     public void setData(@NotNull Shop shop)
     {
-        Image image = new Image(Constants.SHOPSIMAGEPATH + shop.getImageSource());
-        imageView.setImage(image);
-        imageView.setStyle("-fx-background-position: CENTER;");
+        // Image image = new Image(Constants.SHOPSIMAGEPATH + shop.getImageSource());
+        // imageView.setImage(image);
+        // imageView.setStyle("-fx-background-position: CENTER;");
         shopNameLabel.setText(shop.getName());
         shopNameLabel.setTextFill(shop.getTextColor());
         shopNameLabel.setOpacity(0.8);

@@ -1,27 +1,23 @@
 package com.example.test.controllers;
 
 import com.example.test.*;
-import com.example.test.entities.Customer;
-import com.example.test.entities.Item;
-import com.example.test.entities.Shop;
+import com.example.test.entities.*;
 import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
-
 import com.example.test.interfaces.ItemObserver;
-import com.example.test.interfaces.OrderObserver;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CustomerPageController implements Initializable, ItemObserver, OrderObserver
+public class CustomerPageController implements Initializable, ItemObserver
 {
     @FXML private Button profileButton;
     @FXML private Button favouriteItemsButton;
@@ -108,7 +104,6 @@ public class CustomerPageController implements Initializable, ItemObserver, Orde
         thread.start();
 
         Customer.addObserver(this);
-        OrderController.addObserver(this);
     }
     @FXML private ImageView imageView;
     @FXML private Label itemNameLabel;
@@ -321,35 +316,4 @@ public class CustomerPageController implements Initializable, ItemObserver, Orde
         }
     }
 
-    @Override
-    public void update(int index, boolean add)
-    {
-        int n = gridPane.getChildren().size();
-        for (int i = n - 1; i > index; i--)
-            gridPane.getChildren().remove(i);
-
-        int shift = 0;
-        if (add) shift = customer.getOrders().get(index).getItems().size();
-
-        for (int i = index + 1; i < customer.getOrders().size(); i++)
-        {
-            try
-            {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File(Constants.ORDER).toURI().toURL());
-                AnchorPane anchorPane = fxmlLoader.load();
-                OrderController orderController = fxmlLoader.getController();
-                orderController.setData(customer.getOrders().get(i));
-
-                gridPane.add(anchorPane, 0, i + 4 * shift);
-
-                GridPane.setMargin(anchorPane, new Insets(10));
-            }
-            catch (Exception exception)
-            {
-                exception.printStackTrace();
-                exception.getCause();
-            }
-        }
-    }
 }

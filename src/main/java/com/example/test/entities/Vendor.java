@@ -1,6 +1,5 @@
 package com.example.test.entities;
 
-import com.example.test.MyPair;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
 import com.example.test.interfaces.User;
@@ -10,7 +9,7 @@ import java.util.List;
 
 public class Vendor extends User
 {
-    private List<MyPair<Item, OrderState>> orders;
+    private List<OrderItem> orders;
     public Vendor()
     {
         super();
@@ -21,15 +20,15 @@ public class Vendor extends User
         super(id, username, password, email, firstname, lastname, accessType);
     }
 
-    public List<MyPair<Item, OrderState>> getOrders() { return orders; }
+    public List<OrderItem> getOrders() { return orders; }
     public List<Item> getItems()
     {
         List<Item> items = new ArrayList<>();
-        for (MyPair<Item, OrderState> item : orders)
-            items.add(item.getFirst());
+        for (OrderItem item : orders)
+            items.add(item.getItem());
         return items;
     }
-    public void setOrders(List<MyPair<Item, OrderState>> orders) { this.orders = orders; }
+    public void setOrders(List<OrderItem> orders) { this.orders = orders; }
     void ChangeOrderState(double order, OrderState state)
     {
 

@@ -453,9 +453,9 @@ public class DatabaseConnector
 
             if(temp == customer)
             {
-                List<MyPair<Item, OrderState>> items = this.getOrderItems(id);
+                List<OrderItem> items = this.getOrderItems(id);
                 orders.add(new Order(id, state, price, customer));
-                orders.get(orders.size() - 1).setItems_(items);
+                orders.get(orders.size() - 1).setItems(items);
             }
         }
         file.close();
@@ -492,7 +492,7 @@ public class DatabaseConnector
         workbook = new XSSFWorkbook(file);
         sheet = workbook.getSheetAt (0);
 
-        for (Item item : order.getItems())
+        for (OrderItem item : order.getItems())
         {
             row_num = sheet.getLastRowNum();
             row_num++;
@@ -501,9 +501,9 @@ public class DatabaseConnector
             cell = row.createCell(OrderItemInfo.ORDER.getIndex());
             cell.setCellValue(order.getId());
             cell = row.createCell(OrderItemInfo.ITEM.getIndex());
-            cell.setCellValue(item.getId());
-            cell = row.createCell(OrderItemInfo.VENDOR.getIndex());
-            cell.setCellValue(this.getVendorId(item.getId()));
+            cell.setCellValue(item.getItem().getId());
+            cell = row.createCell(OrderItemInfo.SHOP.getIndex());
+            cell.setCellValue(this.getVendorId(item.getItem().getId()));
             cell = row.createCell(OrderItemInfo.STATE.getIndex());
             cell.setCellValue(order.getState().toString());
         }
@@ -514,9 +514,9 @@ public class DatabaseConnector
         file.close();
     }
 
-    public @NotNull List<MyPair<Item, OrderState>> getOrderItems(double order) throws IOException
+    public @NotNull List<OrderItem> getOrderItems(double order) throws IOException
     {
-        List<MyPair<Item, OrderState>> items = new ArrayList<>();
+        List<OrderItem> items = new ArrayList<>();
 
         FileInputStream file = new FileInputStream(this.orderItemsFileName);
         XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -528,8 +528,9 @@ public class DatabaseConnector
             if (row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue() == order)
             {
                 Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+                double shop = row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue();
                 OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
-                items.add(new MyPair<>(item, state));
+                items.add(new OrderItem(order, item, shop, state));
                 was = true;
             }
             else if (was) break;
@@ -539,28 +540,31 @@ public class DatabaseConnector
         return items;
     }
 
-    public List<MyPair<Item, OrderState>> getVendorOrders(double vendor) throws IOException
+    public List<OrderItem> getVendorOrders(double vendor) throws IOException
     {
-        List<MyPair<Item, OrderState>> items = new ArrayList<>();
+        List<OrderItem> items = new ArrayList<>();
 
         FileInputStream file = new FileInputStream(this.orderItemsFileName);
         XSSFWorkbook workbook = new XSSFWorkbook(file);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
-        boolean was = false;
+        double shop = this.getShopId(vendor);
+
         for (Row row : sheet)
         {
-            if (row.getCell(OrderItemInfo.VENDOR.getIndex()).getNumericCellValue() == vendor)
+            if (row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue() == shop)
             {
+                double order = row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue();
                 Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
                 OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
-                items.add(new MyPair<>(item, state));
+                items.add(new OrderItem(order, item, shop, state));
             }
         }
         file.close();
 
         return items;
     }
+
     private boolean isFoundUser(String username, String password) throws IOException
     {
         FileInputStream file = new FileInputStream(this.userAccountsFileName);

@@ -1,21 +1,20 @@
 package com.example.test.controllers;
 
-import com.example.test.*;
+import com.example.test.Constants;
+import com.example.test.GlobalEntities;
+import com.example.test.Main;
 import com.example.test.entities.Customer;
-import com.example.test.entities.Item;
 import com.example.test.entities.Order;
+import com.example.test.entities.OrderItem;
 import com.example.test.entities.Vendor;
 import com.example.test.enums.OrderState;
-import com.example.test.interfaces.OrderObserver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -25,8 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class OrderController
@@ -42,10 +39,11 @@ public class OrderController
     @FXML private Label expandButton;
     @FXML private VBox vBox;
 
+    @FXML private ComboBox<AnchorPane> comboBox;
+
 
     private Order order;
-    public void setData(@NotNull Order order)
-    {
+    public void setData(@NotNull Order order) throws IOException {
         this.order = order;
 
         idLabel.setText(String.valueOf(Math.floor(order.getId())));
@@ -58,6 +56,23 @@ public class OrderController
             orderStateLabel.setText(order.getState().toString());
 
             if (order.getState() == OrderState.paid) payButton.setDisable(true);
+
+            comboBox.setMaxWidth(180);
+
+            for (OrderItem i : order.getItems())
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
+                AnchorPane anchorPane = fxmlLoader.load();
+                OrderItemController orderItemController = fxmlLoader.getController();
+                orderItemController.setData(i.getItem(), i.getState());
+
+                anchorPane.setOnMouseClicked(event -> System.out.print('9'));
+
+                comboBox.getItems().add(anchorPane);
+            }
+            comboBox.setEditable(false);
+            comboBox.setCellFactory(param -> new AnchorPaneListCell());
         }
         else if (GlobalEntities.USER instanceof Vendor)
         {
@@ -91,42 +106,20 @@ public class OrderController
         stage.centerOnScreen();
     }
 
-    static private final List<OrderObserver> observers = new ArrayList<>();
-    static public void addObserver(OrderObserver observer) { observers.add(observer); }
-    private void notifyObservers(int index, boolean add)
+    private static class AnchorPaneListCell extends ListCell<AnchorPane>
     {
-        for (OrderObserver observer : observers)
-            observer.update(index, add);
-    }
-    public void expandButtonOnAction() throws IOException
-    {
-        Customer customer = (Customer) GlobalEntities.USER;
-        int n = vBox.getChildren().size();
-
-        if (n == 1 && !GlobalEntities.EXPANDEDORDER)
+        @Override
+        protected void updateItem(AnchorPane item, boolean empty)
         {
-            List<MyPair<Item, OrderState>> orderItems = DatabaseConnector.getInstance().getOrderItems(order.getId());
 
-            for (MyPair<Item, OrderState> i : orderItems)
+            if (empty || item == null)
             {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
-                AnchorPane anchorPane = fxmlLoader.load();
-                OrderItemController orderItemController = fxmlLoader.getController();
-                orderItemController.setData(i.getFirst(), i.getSecond());
-                vBox.getChildren().add(anchorPane);
+                setText(null);
+                setGraphic(null);
+            } else {
+                setGraphic(item);
+
             }
-
-            notifyObservers((int) customer.getOrderIndex(order.getId()), true);
-
-            GlobalEntities.EXPANDEDORDER = true;
-        }
-        else if (n > 1 && GlobalEntities.EXPANDEDORDER)
-        {
-            vBox.getChildren().remove(1, n);
-            notifyObservers((int) customer.getOrderIndex(order.getId()), false);
-
-            GlobalEntities.EXPANDEDORDER = false;
         }
     }
 }

@@ -4,23 +4,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="50.0" minWidth="640.0" prefHeight="50.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.OrderItemController">
-   <Label fx:id="itemIdLabel" alignment="CENTER_RIGHT" layoutX="49.0" layoutY="14.0" prefHeight="22.0" prefWidth="54.0"
-          text="0" textFill="#00000099">
+<AnchorPane minHeight="50.0" minWidth="313.0" prefHeight="50.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.OrderItemController">
+   <Label fx:id="itemIdLabel" alignment="CENTER_RIGHT" layoutX="49.0" layoutY="14.0" prefHeight="22.0" prefWidth="54.0" text="0" textFill="#00000099">
       <font>
-         <Font name="Candara" size="14.0"/>
+         <Font name="Candara" size="14.0" />
       </font>
    </Label>
    <Label layoutX="34.0" layoutY="17.0" text="Id:" textFill="#00000099">
       <font>
-         <Font name="Candara" size="14.0"/>
+         <Font name="Candara" size="14.0" />
       </font>
    </Label>
-   <Label fx:id="stateLabel" alignment="CENTER" layoutX="512.0" layoutY="14.0" prefHeight="22.0" prefWidth="88.0"
-          text="state" textFill="#4f19e3cc">
+   <Label fx:id="stateLabel" alignment="CENTER" layoutX="232.0" layoutY="14.0" prefHeight="22.0" prefWidth="88.0" text="state" textFill="#45cc23cc">
       <font>
-         <Font name="Candara" size="14.0"/>
+         <Font name="Candara" size="14.0" />
       </font>
    </Label>
 </AnchorPane>

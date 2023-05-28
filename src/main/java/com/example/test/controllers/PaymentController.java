@@ -35,14 +35,14 @@ public class PaymentController
     public void bookButtonOnAction() throws IOException
     {
         GlobalEntities.ORDER = new Order(0, OrderState.booked, customer.getTotalPrice(), customer.getId());
-        GlobalEntities.ORDER.setItems(customer.getShoppingItems());
+        GlobalEntities.ORDER.setItems(customer.getShoppingItems(), OrderState.booked);
 
         this.loadPaymentPage();
     }
     public void payButtonOnAction() throws IOException
     {
         GlobalEntities.ORDER = new Order(0, OrderState.paid, customer.getTotalPrice(), customer.getId());
-        GlobalEntities.ORDER.setItems(customer.getShoppingItems());
+        GlobalEntities.ORDER.setItems(customer.getShoppingItems(), OrderState.paid);
 
         this.loadPaymentPage();
     }

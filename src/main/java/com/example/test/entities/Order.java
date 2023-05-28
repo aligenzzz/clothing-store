@@ -1,8 +1,6 @@
 package com.example.test.entities;
 
-import com.example.test.MyPair;
 import com.example.test.enums.OrderState;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ public class Order
     private OrderState state;
     private double price;
     private double customer;
-    private List<MyPair<Item, OrderState>> items;
+    private List<OrderItem> items = new ArrayList<>();
 
     public Order(double id, OrderState state, double price, double customer)
     {
@@ -31,21 +29,18 @@ public class Order
     public double getPrice() { return this.price; }
     public void setCustomer(double customer) { this.customer = customer; }
     public double getCustomer() { return this.customer; }
-    public void setItems(@NotNull List<Item> items)
+    public void setItems(List<OrderItem> items) { this.items = items; }
+    public void setItems(List<Item> items, OrderState state)
     {
-        if (this.items == null)
-            this.items = new ArrayList<>();
-        for (Item i : items)
-            this.items.add(new MyPair<>(i, this.state));
+        for (Item item : items)
+            this.items.add(new OrderItem(this.id, item, item.getShop(), state));
     }
-    public void setItems_(List<MyPair<Item, OrderState>> items) { this.items = items; }
-
-    public List<MyPair<Item, OrderState>> getItems_() { return this.items; }
-    public List<Item> getItems()
+    public List<OrderItem> getItems() { return this.items; }
+    public List<Item> getOnlyItems()
     {
         List<Item> items = new ArrayList<>();
-        for (MyPair<Item, OrderState> i : this.items)
-            items.add(i.getFirst());
+        for (OrderItem i : this.items)
+            items.add(i.getItem());
         return items;
     }
 }
