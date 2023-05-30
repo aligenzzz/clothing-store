@@ -3,18 +3,17 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
-import com.example.test.entities.Customer;
 import com.example.test.entities.Order;
 import com.example.test.entities.OrderItem;
-import com.example.test.entities.Vendor;
 import com.example.test.enums.OrderState;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -31,16 +30,10 @@ public class OrderController
     @FXML private Label idLabel;
     @FXML private Label itemsLabel;
     @FXML private Label priceLabel;
-    @FXML private AnchorPane customerAnchorPane;
     @FXML private Button payButton;
-    @FXML private AnchorPane vendorAnchorPane;
     @FXML private Label orderStateLabel;
-    @FXML private ChoiceBox<String> stateChoiceBox;
-    @FXML private Label expandButton;
     @FXML private VBox vBox;
-
     @FXML private ComboBox<AnchorPane> comboBox;
-
 
     private Order order;
     public void setData(@NotNull Order order) throws IOException {
@@ -50,44 +43,26 @@ public class OrderController
         itemsLabel.setText(order.getItems().size() + " items");
         priceLabel.setText(Constants.FORMAT.format(order.getPrice()) + " $");
 
-        if (GlobalEntities.USER instanceof Customer)
+        orderStateLabel.setText(order.getState().toString());
+
+        if (order.getState() == OrderState.paid) payButton.setDisable(true);
+
+        comboBox.setMaxWidth(180);
+
+        for (OrderItem i : order.getItems())
         {
-            customerAnchorPane.setVisible(true);
-            orderStateLabel.setText(order.getState().toString());
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
+            AnchorPane anchorPane = fxmlLoader.load();
+            OrderItemController orderItemController = fxmlLoader.getController();
+            orderItemController.setData(i);
 
-            if (order.getState() == OrderState.paid) payButton.setDisable(true);
+            anchorPane.setOnMouseClicked(event -> System.out.print('9'));
 
-            comboBox.setMaxWidth(180);
-
-            for (OrderItem i : order.getItems())
-            {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File(Constants.ORDERITEM).toURI().toURL());
-                AnchorPane anchorPane = fxmlLoader.load();
-                OrderItemController orderItemController = fxmlLoader.getController();
-                orderItemController.setData(i.getItem(), i.getState());
-
-                anchorPane.setOnMouseClicked(event -> System.out.print('9'));
-
-                comboBox.getItems().add(anchorPane);
-            }
-            comboBox.setEditable(false);
-            comboBox.setCellFactory(param -> new AnchorPaneListCell());
+            comboBox.getItems().add(anchorPane);
         }
-        else if (GlobalEntities.USER instanceof Vendor)
-        {
-            vendorAnchorPane.setVisible(true);
-
-            ObservableList<String> choices = FXCollections.observableArrayList();
-            choices.add(OrderState.booked.toString());
-            choices.add(OrderState.paid.toString());
-            choices.add(OrderState.confirmed.toString());
-            choices.add(OrderState.collected.toString());
-            choices.add(OrderState.sent.toString());
-            choices.add(OrderState.approved.toString());
-            choices.add(OrderState.finished.toString());
-            stateChoiceBox.setItems(choices);
-        }
+        comboBox.setEditable(false);
+        comboBox.setCellFactory(param -> new AnchorPaneListCell());
     }
 
     public void payButtonOnAction() throws IOException

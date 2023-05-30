@@ -13,6 +13,7 @@ module com.example.test
     requires org.jetbrains.annotations;
     requires serialize;
     requires com.google.gson;
+    requires github.api;
 
     opens com.example.test to javafx.fxml;
     exports com.example.test;

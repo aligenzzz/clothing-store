@@ -33,4 +33,21 @@
 .text-field-settings:focused {
     -fx-focus-color: #9BA5B8;
     -fx-background-color: -fx-focus-color, -fx-background;
+    -fx-text-inner-color: #9BA5B8;
+    -fx-highlight-fill: #b56d8c;
+}
+
+.text-area {
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+.text-area:focused {
+    -fx-background-color: transparent;
+    -fx-focus-color: #9BA5B8;
+    -fx-background-color: -fx-focus-color, -fx-background;
+    -fx-text-inner-color: #9BA5B8;
+    -fx-highlight-fill: #b56d8c;
 }

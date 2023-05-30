@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
@@ -24,14 +23,10 @@ import java.util.Objects;
 
 public class ShopController
 {
-    @FXML private ImageView imageView;
     @FXML private Label shopNameLabel;
     private Shop shop;
     public void setData(@NotNull Shop shop)
     {
-        // Image image = new Image(Constants.SHOPSIMAGEPATH + shop.getImageSource());
-        // imageView.setImage(image);
-        // imageView.setStyle("-fx-background-position: CENTER;");
         shopNameLabel.setText(shop.getName());
         shopNameLabel.setTextFill(shop.getTextColor());
         shopNameLabel.setOpacity(0.8);

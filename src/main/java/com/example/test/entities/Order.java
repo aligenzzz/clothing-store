@@ -33,7 +33,7 @@ public class Order
     public void setItems(List<Item> items, OrderState state)
     {
         for (Item item : items)
-            this.items.add(new OrderItem(this.id, item, item.getShop(), state));
+            this.items.add(new OrderItem(0, this.id, item, item.getShop(), state));
     }
     public List<OrderItem> getItems() { return this.items; }
     public List<Item> getOnlyItems()

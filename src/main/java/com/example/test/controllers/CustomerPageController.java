@@ -1,7 +1,9 @@
 package com.example.test.controllers;
 
 import com.example.test.*;
-import com.example.test.entities.*;
+import com.example.test.entities.Customer;
+import com.example.test.entities.Item;
+import com.example.test.entities.Shop;
 import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
 import com.example.test.interfaces.ItemObserver;
@@ -11,14 +13,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +42,7 @@ public class CustomerPageController implements Initializable, ItemObserver
     @FXML private Button ordersButton;
     @FXML private Button purchasedItemsButton;
     @FXML private Button shopsButton;
+    @FXML private Button requestsButton;
     @FXML private Button settingsButton;
     @FXML private Button returnButton;
     @FXML private ScrollPane scrollPane;
@@ -96,6 +100,7 @@ public class CustomerPageController implements Initializable, ItemObserver
         ordersButton.disableProperty().bind(task.runningProperty());
         purchasedItemsButton.disableProperty().bind(task.runningProperty());
         shopsButton.disableProperty().bind(task.runningProperty());
+        requestsButton.disableProperty().bind(task.runningProperty());
         settingsButton.disableProperty().bind(task.runningProperty());
         returnButton.disableProperty().bind(task.runningProperty());
 
@@ -281,14 +286,15 @@ public class CustomerPageController implements Initializable, ItemObserver
     }
     private void disactiveButtons()
     {
-        profileButton.setTextFill(Color.WHITE);
-        favouriteItemsButton.setTextFill(Color.WHITE);
-        shoppingItemsButton.setTextFill(Color.WHITE);
-        ordersButton.setTextFill(Color.WHITE);
-        purchasedItemsButton.setTextFill(Color.WHITE);
-        shopsButton.setTextFill(Color.WHITE);
-        settingsButton.setTextFill(Color.WHITE);
-        returnButton.setTextFill(Color.WHITE);
+        profileButton.setTextFill(Constants.DISACTIVECOLOR);
+        favouriteItemsButton.setTextFill(Constants.DISACTIVECOLOR);
+        shoppingItemsButton.setTextFill(Constants.DISACTIVECOLOR);
+        ordersButton.setTextFill(Constants.DISACTIVECOLOR);
+        purchasedItemsButton.setTextFill(Constants.DISACTIVECOLOR);
+        shopsButton.setTextFill(Constants.DISACTIVECOLOR);
+        requestsButton.setTextFill(Constants.DISACTIVECOLOR);
+        settingsButton.setTextFill(Constants.DISACTIVECOLOR);
+        returnButton.setTextFill(Constants.DISACTIVECOLOR);
     }
 
     public void logoutMenuButtonOnAction() throws IOException
@@ -316,4 +322,21 @@ public class CustomerPageController implements Initializable, ItemObserver
         }
     }
 
+    public void requestsButtonOnAction() throws IOException
+    {
+        if (requestsButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        scrollPane.setVisible(false);
+
+        if (vBox.getChildren().size() == 2) vBox.getChildren().remove(1);
+        if (stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.REQUESTSPAGE).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        stackPane.getChildren().add(anchorPane);
+
+        requestsButton.setTextFill(Constants.ACTIVECOLOR);
+    }
 }

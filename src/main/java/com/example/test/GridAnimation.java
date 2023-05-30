@@ -2,9 +2,11 @@ package com.example.test;
 
 import com.example.test.controllers.ItemController;
 import com.example.test.controllers.OrderController;
+import com.example.test.controllers.OrderItemController;
 import com.example.test.controllers.ShopController;
 import com.example.test.entities.Item;
 import com.example.test.entities.Order;
+import com.example.test.entities.OrderItem;
 import com.example.test.entities.Shop;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
@@ -68,6 +70,7 @@ public class GridAnimation extends AnimationTimer
         Item item = null;
         Shop shop = null;
         Order order = null;
+        OrderItem orderItem = null;
         if (list.get(0) instanceof Item)
         {
             item = (Item) list.get(i);
@@ -82,6 +85,11 @@ public class GridAnimation extends AnimationTimer
         {
             order = (Order) list.get(i);
             path = Constants.ORDER;
+        }
+        else if (list.get(0) instanceof OrderItem)
+        {
+            orderItem = (OrderItem) list.get(i);
+            path = Constants.ORDERITEM;
         }
 
         assert path != null;
@@ -108,6 +116,11 @@ public class GridAnimation extends AnimationTimer
         {
             OrderController orderController = fxmlLoader.getController();
             orderController.setData(order);
+        }
+        else if (orderItem != null)
+        {
+            OrderItemController orderItemController = fxmlLoader.getController();
+            orderItemController.setData(orderItem);
         }
 
         gridPane.add(anchorPane, column++, row);

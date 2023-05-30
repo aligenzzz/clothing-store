@@ -25,17 +25,18 @@ public final class Constants
     public static final String SETTINGS = "./src/main/resources/com/example/test/settings.fxml";
     public static final String PAYMENTPAGE = "./src/main/resources/com/example/test/payment_page.fxml";
     public static final String ORDERITEM = "./src/main/resources/com/example/test/order_item.fxml";
+    public static final String REQUESTSPAGE = "./src/main/resources/com/example/test/requests_page.fxml";
 
-    public static final String USERACCOUNTS = "./src/main/resources/database/user_account.xlsx";
-    public static final String ITEMS = "./src/main/resources/database/item.xlsx";
-    public static final String FAVOURITEITEMS = "./src/main/resources/database/favourite_items.xlsx";
-    public static final String PURCHASEDITEMS = "./src/main/resources/database/purchased_items.xlsx";
-    public static final String SHOPPINGITEMS = "./src/main/resources/database/shopping_items.xlsx";
-    public static final String SHOPS = "./src/main/resources/database/shops.xlsx";
-    public static final String SHOPITEMS = "./src/main/resources/database/shop_items.xlsx";
-    public static final String CUSTOMERSHOPS = "./src/main/resources/database/customer_shops.xlsx";
-    public static final String ORDERS = "./src/main/resources/database/orders.xlsx";
-    public static final String ORDERITEMS = "./src/main/resources/database/order_items.xlsx";
+    public static final String USERACCOUNTS = "user_account.xlsx";
+    public static final String ITEMS = "item.xlsx";
+    public static final String FAVOURITEITEMS = "favourite_items.xlsx";
+    public static final String PURCHASEDITEMS = "purchased_items.xlsx";
+    public static final String SHOPPINGITEMS = "shopping_items.xlsx";
+    public static final String SHOPS = "shops.xlsx";
+    public static final String SHOPITEMS = "shop_items.xlsx";
+    public static final String CUSTOMERSHOPS = "customer_shops.xlsx";
+    public static final String ORDERS = "orders.xlsx";
+    public static final String ORDERITEMS = "order_items.xlsx";
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";
@@ -43,5 +44,6 @@ public final class Constants
     public static final String ICONPATH = "/images/icon.png";
 
     public static final Color ACTIVECOLOR = Color.web("#484c58");
+    public static final Color DISACTIVECOLOR = Color.WHITE;
     public static final String JSONFILE = "./src/main/resources/data.json";
 }

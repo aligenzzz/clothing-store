@@ -78,9 +78,6 @@ public class MainPageController implements Initializable
     {
         Stage stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
-
-//        User user = new User(GlobalEntities.USER);
-//        Serializer.serialize(user, Constants.JSONFILE);
     }
 
     public void profileMenuButtonOnAction() throws IOException

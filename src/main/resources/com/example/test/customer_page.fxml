@@ -65,6 +65,11 @@
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
+         <Button fx:id="requestsButton" layoutY="360.0" mnemonicParsing="false" onAction="#requestsButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Requests">
+            <font>
+               <Font name="Candara" size="14.0" />
+            </font>
+         </Button>
       </AnchorPane>
    </left>
    <top>

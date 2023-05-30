@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -37,28 +35,18 @@
             </font>
          </Label>
          <Separator layoutX="396.0" orientation="VERTICAL" prefHeight="128.0" prefWidth="18.0" />
-         <StackPane layoutX="405.0" layoutY="3.0" prefHeight="122.0" prefWidth="166.0">
-            <AnchorPane fx:id="customerAnchorPane" prefHeight="112.0" prefWidth="148.0" visible="false">
-               <Button fx:id="payButton" layoutX="35.0" layoutY="74.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Pay">
-                  <font>
-                     <Font name="Candara" size="14.0" />
-                  </font>
-               </Button>
-               <Label fx:id="orderStateLabel" alignment="CENTER" layoutX="15.0" layoutY="33.0" prefHeight="31.0" prefWidth="159.0" text="Booked" textAlignment="CENTER" textFill="#45cc23">
-                  <font>
-                     <Font name="Candara" size="14.0" />
-                  </font>
-               </Label>
-            </AnchorPane>
-            <AnchorPane fx:id="vendorAnchorPain" prefHeight="135.0" prefWidth="189.0" visible="false">
-               <Button fx:id="expandButton1" layoutX="35.0" layoutY="80.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Change state">
-                  <font>
-                     <Font name="Candara" size="14.0" />
-                  </font>
-               </Button>
-               <ChoiceBox fx:id="stateChoiceBox" layoutX="20.0" layoutY="39.0" prefWidth="150.0" />
-            </AnchorPane>
-         </StackPane>
+         <AnchorPane layoutX="405.0" layoutY="3.0" prefHeight="128.0" prefWidth="174.0">
+            <Button fx:id="payButton" layoutX="27.0" layoutY="73.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Pay">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="orderStateLabel" alignment="CENTER" layoutX="7.0" layoutY="32.0" prefHeight="31.0" prefWidth="159.0" text="Booked" textAlignment="CENTER" textFill="#45cc23">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Label>
+         </AnchorPane>
          <ComboBox fx:id="comboBox" layoutX="210.0" layoutY="37.0" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: transparent;" />
       </AnchorPane>
    </VBox>

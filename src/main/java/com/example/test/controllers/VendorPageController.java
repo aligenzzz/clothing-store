@@ -3,6 +3,7 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
+import com.example.test.GridAnimation;
 import com.example.test.entities.Shop;
 import com.example.test.entities.Vendor;
 import javafx.concurrent.Task;
@@ -14,8 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,8 +32,11 @@ public class VendorPageController implements Initializable
     @FXML private ScrollPane scrollPane;
     @FXML private Button profileButton;
     @FXML private Button ordersButton;
+    @FXML private Button addItemButton;
+    @FXML private Button requestsButton;
     @FXML private Button settingsButton;
     @FXML private StackPane stackPane;
+    @FXML private GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -58,7 +62,10 @@ public class VendorPageController implements Initializable
         };
 
         profileButton.disableProperty().bind(task.runningProperty());
+        shopButton.disableProperty().bind(task.runningProperty());
         ordersButton.disableProperty().bind(task.runningProperty());
+        addItemButton.disableProperty().bind(task.runningProperty());
+        requestsButton.disableProperty().bind(task.runningProperty());
         settingsButton.disableProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
@@ -67,8 +74,12 @@ public class VendorPageController implements Initializable
     }
     public void profileButtonOnAction() throws IOException
     {
+        scrollPane.setVisible(false);
+
         if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
+
+        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new File(Constants.PROFILE).toURI().toURL());
@@ -121,15 +132,64 @@ public class VendorPageController implements Initializable
 
     private void disactiveButtons()
     {
-        profileButton.setTextFill(Color.WHITE);
-        shopButton.setTextFill(Color.WHITE);
-        ordersButton.setTextFill(Color.WHITE);
-        settingsButton.setTextFill(Color.WHITE);
+        profileButton.setTextFill(Constants.DISACTIVECOLOR);
+        shopButton.setTextFill(Constants.DISACTIVECOLOR);
+        ordersButton.setTextFill(Constants.DISACTIVECOLOR);
+        addItemButton.setTextFill(Constants.DISACTIVECOLOR);
+        requestsButton.setTextFill(Constants.DISACTIVECOLOR);
+        settingsButton.setTextFill(Constants.DISACTIVECOLOR);
     }
 
+    private GridAnimation animation;
     public void ordersButtonOnAction() throws IOException
     {
+        if (ordersButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
 
+        scrollPane.setVisible(true);
+
+        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
+
+        if (animation != null) animation.stop();
+        gridPane.getChildren().clear();
+        animation = new GridAnimation(vendor.getOrders(), gridPane, scrollPane, null, 2);
+        animation.start();
+
+        ordersButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+
+    public void requestsButtonOnAction() throws IOException
+    {
+        scrollPane.setVisible(false);
+
+        if (requestsButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.REQUESTSPAGE).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        stackPane.getChildren().add(anchorPane);
+
+        requestsButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+
+    public void settingsButtonOnAction() throws IOException
+    {
+        scrollPane.setVisible(false);
+
+        if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.SETTINGS).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        stackPane.getChildren().add(anchorPane);
+
+        settingsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
     public void logoutMenuButtonOnAction() throws IOException

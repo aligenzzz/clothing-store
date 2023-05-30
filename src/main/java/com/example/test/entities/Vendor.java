@@ -1,14 +1,17 @@
 package com.example.test.entities;
 
+import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
 import com.example.test.interfaces.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Vendor extends User
 {
+    private final DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
     private List<OrderItem> orders;
     public Vendor()
     {
@@ -29,9 +32,9 @@ public class Vendor extends User
         return items;
     }
     public void setOrders(List<OrderItem> orders) { this.orders = orders; }
-    void ChangeOrderState(double order, OrderState state)
+    public void changeOrderState(double orderItem, OrderState state) throws IOException
     {
-
+        databaseConnector.changeOrderState(orderItem, state);
     }
 
     void RequestHelp(Request request)
