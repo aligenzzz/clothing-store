@@ -24,3 +24,11 @@
     -fx-text-fill: darkgray;
     -fx-rotate: -2;
 }
+
+.progress-bar {
+    -fx-accent: #b56d8c;
+}
+
+.progress-bar .track {
+    -fx-background-color: transparent;
+}

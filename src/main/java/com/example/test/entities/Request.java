@@ -1,10 +1,15 @@
 package com.example.test.entities;
 
+import com.example.test.DatabaseConnector;
+
+import java.io.IOException;
+
 public class Request
 {
-    private double id;
-    private String subject;
-    private String message;
+    private final DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+    private final double id;
+    private final String subject;
+    private final String message;
 
     public Request(String subject, String message)
     {
@@ -20,8 +25,13 @@ public class Request
         this.message = message;
     }
 
+    public double getId() { return this.id; }
+    public String getSubject() { return this.subject; }
+    public String getMessage() { return this.message; }
+    public void Send() throws IOException { databaseConnector.addRequest(this); }
+
     public void Delete()
     {
-
+        // databaseConnector.deleteRequest(this);
     }
 }

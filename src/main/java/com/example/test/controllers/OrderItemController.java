@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.Constants;
 import com.example.test.GlobalEntities;
 import com.example.test.entities.Customer;
 import com.example.test.entities.OrderItem;
@@ -44,7 +45,7 @@ public class OrderItemController
             choiceBox.setValue(orderItem.getState().toString());
         }
 
-        itemIdLabel.setText(String.valueOf(orderItem.getItem().getId()));
+        itemIdLabel.setText(Constants.ID_FORMAT.format(orderItem.getItem().getId()));
     }
 
     public void confirmButtonOnAction()

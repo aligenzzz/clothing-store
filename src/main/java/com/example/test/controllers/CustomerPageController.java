@@ -124,7 +124,7 @@ public class CustomerPageController implements Initializable, ItemObserver
 
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
+        itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
         itemShopLabel.setText(DatabaseConnector.getInstance().getShop(item.getShop()).getName());
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);

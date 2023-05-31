@@ -61,7 +61,6 @@ public class User
     }
 
     public void setId(double id) { this.id = id; }
-
     public double getId() { return this.id; }
     public void setUsername(String username) { this.username = username; }
     public String getUsername() { return this.username; }

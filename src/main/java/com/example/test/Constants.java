@@ -8,7 +8,13 @@ public final class Constants
 {
     public static double[] MODIFYCOLLECTION = new double[] { 4, 24, 34, 58, 72, 80, 91,102, 107, 114, 118, 120, 123 };
     public static double[] DAZEDCOLLECTION = new double[] { 58, 63, 65, 79, 87, 89, 99, 105, 108, 109, 118, 122, 129, 130 };
-    public static DecimalFormat FORMAT = new DecimalFormat("#.##");
+    public static DecimalFormat PRICE_FORMAT = new DecimalFormat("#.##");
+    public static DecimalFormat ID_FORMAT = new DecimalFormat("#");
+    public static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
     public static final String CUSTOMERPAGE = "./src/main/resources/com/example/test/customer_page.fxml";
     public static final String VENDORPAGE = "./src/main/resources/com/example/test/vendor_page.fxml";
@@ -26,6 +32,9 @@ public final class Constants
     public static final String PAYMENTPAGE = "./src/main/resources/com/example/test/payment_page.fxml";
     public static final String ORDERITEM = "./src/main/resources/com/example/test/order_item.fxml";
     public static final String REQUESTSPAGE = "./src/main/resources/com/example/test/requests_page.fxml";
+    public static final String REQUEST = "./src/main/resources/com/example/test/request.fxml";
+    public static final String CONNECTIONERROR = "./src/main/resources/com/example/test/connection_error.fxml";
+
 
     public static final String USERACCOUNTS = "user_account.xlsx";
     public static final String ITEMS = "item.xlsx";
@@ -37,11 +46,14 @@ public final class Constants
     public static final String CUSTOMERSHOPS = "customer_shops.xlsx";
     public static final String ORDERS = "orders.xlsx";
     public static final String ORDERITEMS = "order_items.xlsx";
+    public static final String REQUESTS = "requests.xlsx";
+
 
     // по другому почему-то не работает...
     public static final String ITEMSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\items\\";
     public static final String SHOPSIMAGEPATH = "D:\\Repositories\\clothing-store\\src\\main\\resources\\images\\banners\\";
     public static final String ICONPATH = "/images/icon.png";
+
 
     public static final Color ACTIVECOLOR = Color.web("#484c58");
     public static final Color DISACTIVECOLOR = Color.WHITE;

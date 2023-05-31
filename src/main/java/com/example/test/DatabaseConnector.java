@@ -25,7 +25,7 @@ import java.util.List;
 
 public class DatabaseConnector
 {
-    static String accessToken = "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";
+    static String accessToken = "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";
     static String repositoryOwner = "aligenzzz";
     static String repositoryName = "clothing-store-database";
     static GHRepository repository;
@@ -37,11 +37,6 @@ public class DatabaseConnector
             try
             {
                 instance = new DatabaseConnector();
-
-                GitHub github = new GitHubBuilder().withOAuthToken(accessToken).build();
-                repository = github.getRepository(repositoryOwner + "/" + repositoryName);
-
-
             }
             catch (Exception exception)
             {
@@ -62,6 +57,7 @@ public class DatabaseConnector
     private GHContent customerShopsFileContent;
     private GHContent ordersFileContent;
     private GHContent orderItemsFileContent;
+    private GHContent requestsFileContent;
     private DatabaseConnector() throws IOException
     {
         GitHub github = new GitHubBuilder().withOAuthToken(accessToken).build();
@@ -82,6 +78,7 @@ public class DatabaseConnector
         this.customerShopsFileContent = repository.getFileContent(Constants.CUSTOMERSHOPS);
         this.ordersFileContent = repository.getFileContent(Constants.ORDERS);
         this.orderItemsFileContent = repository.getFileContent(Constants.ORDERITEMS);
+        this.requestsFileContent = repository.getFileContent(Constants.REQUESTS);
     }
     public User getUser(String username_, String password_) throws IOException
     {
@@ -619,6 +616,27 @@ public class DatabaseConnector
         return items;
     }
 
+    public List<OrderItem> getOrderItems() throws IOException
+    {
+        List<OrderItem> items = new ArrayList<>();
+
+        InputStream inputStream = orderItemsFileContent.read();
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        for (Row row : sheet)
+        {
+            double shop = row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue();
+            double order = row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue();
+            Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+            OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
+            items.add(new OrderItem(row.getRowNum() + 1, order, item, shop, state));
+        }
+        inputStream.close();
+
+        return items;
+    }
+
     public void changeOrderState(double orderItem, @NotNull OrderState state) throws IOException
     {
         InputStream inputStream = orderItemsFileContent.read();
@@ -637,6 +655,64 @@ public class DatabaseConnector
 
         inputStream.close();
         outputStream.close();
+    }
+
+    public void addRequest(@NotNull Request request) throws IOException
+    {
+        InputStream inputStream = requestsFileContent.read();
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = sheet.getLastRowNum();
+        Row row = sheet.createRow(row_num + 1);
+
+        Cell cell = row.createCell(RequestInfo.SUBJECT.getIndex());
+        cell.setCellValue(request.getSubject());
+        cell = row.createCell(RequestInfo.MESSAGE.getIndex());
+        cell.setCellValue(request.getMessage());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        requestsFileContent.update(updatedContent, "Update");
+        Update();
+
+        inputStream.close();
+        outputStream.close();
+    }
+
+    public List<Request> getRequests() throws IOException
+    {
+        List<Request> requests = new ArrayList<>();
+
+        InputStream inputStream = requestsFileContent.read();
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        for (Row row : sheet)
+        {
+            double id = row.getRowNum() + 1;
+            String subject = "";
+            String message = "";
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+            int column = 0;
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+
+                if (column == RequestInfo.SUBJECT.getIndex()) subject = cell.getStringCellValue();
+                else if (column == RequestInfo.MESSAGE.getIndex()) message = cell.getStringCellValue();
+
+                column++;
+            }
+
+            requests.add(new Request(id, subject, message));
+        }
+        inputStream.close();
+
+        return requests;
     }
 
     private boolean isFoundUser(String username, String password) throws IOException

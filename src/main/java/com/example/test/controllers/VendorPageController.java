@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -28,6 +29,7 @@ import java.util.ResourceBundle;
 public class VendorPageController implements Initializable
 {
     private final Vendor vendor = (Vendor) GlobalEntities.USER;
+
     @FXML private Button shopButton;
     @FXML private ScrollPane scrollPane;
     @FXML private Button profileButton;
@@ -72,24 +74,8 @@ public class VendorPageController implements Initializable
         thread.setDaemon(true);
         thread.start();
     }
-    public void profileButtonOnAction() throws IOException
-    {
-        scrollPane.setVisible(false);
 
-        if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new File(Constants.PROFILE).toURI().toURL());
-        AnchorPane anchorPane = fxmlLoader.load();
-        ProfileController profileController = fxmlLoader.getController();
-        profileController.setData();
-        stackPane.getChildren().add(anchorPane);
-
-        profileButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void profileButtonOnAction() throws IOException { this.showSimplePanel(profileButton, Constants.PROFILE); }
     public void shopButtonOnAction()
     {
         if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
@@ -101,6 +87,7 @@ public class VendorPageController implements Initializable
             protected @Nullable Void call() throws IOException {
                 DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
                 GlobalEntities.SHOP = databaseConnector.getShop(databaseConnector.getShopId(vendor.getId()));
+
                 return null;
             }
         };
@@ -124,24 +111,9 @@ public class VendorPageController implements Initializable
         thread.setDaemon(true);
         thread.start();
     }
-    public void closeMenuButtonOnAction()
-    {
-        Stage stage = (Stage) shopButton.getScene().getWindow();
-        stage.close();
-    }
-
-    private void disactiveButtons()
-    {
-        profileButton.setTextFill(Constants.DISACTIVECOLOR);
-        shopButton.setTextFill(Constants.DISACTIVECOLOR);
-        ordersButton.setTextFill(Constants.DISACTIVECOLOR);
-        addItemButton.setTextFill(Constants.DISACTIVECOLOR);
-        requestsButton.setTextFill(Constants.DISACTIVECOLOR);
-        settingsButton.setTextFill(Constants.DISACTIVECOLOR);
-    }
 
     private GridAnimation animation;
-    public void ordersButtonOnAction() throws IOException
+    public void ordersButtonOnAction()
     {
         if (ordersButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
@@ -158,39 +130,8 @@ public class VendorPageController implements Initializable
         ordersButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
-    public void requestsButtonOnAction() throws IOException
-    {
-        scrollPane.setVisible(false);
-
-        if (requestsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new File(Constants.REQUESTSPAGE).toURI().toURL());
-        AnchorPane anchorPane = fxmlLoader.load();
-        stackPane.getChildren().add(anchorPane);
-
-        requestsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-
-    public void settingsButtonOnAction() throws IOException
-    {
-        scrollPane.setVisible(false);
-
-        if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new File(Constants.SETTINGS).toURI().toURL());
-        AnchorPane anchorPane = fxmlLoader.load();
-        stackPane.getChildren().add(anchorPane);
-
-        settingsButton.setTextFill(Constants.ACTIVECOLOR);
-    }
+    public void requestsButtonOnAction() throws IOException { this.showSimplePanel(requestsButton, Constants.REQUESTSPAGE); }
+    public void settingsButtonOnAction() throws IOException { this.showSimplePanel(settingsButton, Constants.SETTINGS); }
 
     public void logoutMenuButtonOnAction() throws IOException
     {
@@ -198,5 +139,43 @@ public class VendorPageController implements Initializable
         Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(new Scene(root, 520, 400));
         stage.centerOnScreen();
+    }
+    public void closeMenuButtonOnAction()
+    {
+        Stage stage = (Stage) shopButton.getScene().getWindow();
+        stage.close();
+    }
+
+    private void disactiveButtons()
+    {
+        profileButton.setTextFill(Constants.DISACTIVECOLOR);
+        shopButton.setTextFill(Constants.DISACTIVECOLOR);
+        ordersButton.setTextFill(Constants.DISACTIVECOLOR);
+        addItemButton.setTextFill(Constants.DISACTIVECOLOR);
+        requestsButton.setTextFill(Constants.DISACTIVECOLOR);
+        settingsButton.setTextFill(Constants.DISACTIVECOLOR);
+    }
+    private void showSimplePanel(@NotNull Button button, String path) throws IOException
+    {
+        scrollPane.setVisible(false);
+
+        if (button.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if (stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(path).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+
+        if (button == profileButton)
+        {
+            ProfileController profileController = fxmlLoader.getController();
+            profileController.setData();
+        }
+
+        stackPane.getChildren().add(anchorPane);
+
+        button.setTextFill(Constants.ACTIVECOLOR);
     }
 }

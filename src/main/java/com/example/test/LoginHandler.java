@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Objects;
 
 public class LoginHandler
@@ -23,7 +26,6 @@ public class LoginHandler
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 400);
 
-        String path = "";
         if (GlobalEntities.USER.accessType == AccessType.nonuser)
         {
             GlobalEntities.USER = new NonUser(GlobalEntities.USER);
@@ -49,6 +51,15 @@ public class LoginHandler
             scene = new Scene(fxmlLoader.load(), 900, 700);
         }
 
+
+        if (!netIsAvailable())
+        {
+            fxmlLoader = new FXMLLoader(new File(Constants.CONNECTIONERROR).toURI().toURL());
+            scene = new Scene(fxmlLoader.load(), 450, 300);
+        }
+        else
+            DatabaseConnector.getInstance();
+
         stage.setTitle("Online clothing store KIΞO");
         stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream(Constants.ICONPATH))));
         stage.setResizable(false);
@@ -56,5 +67,21 @@ public class LoginHandler
         stage.setScene(scene);
         stage.show();
         stage.centerOnScreen();
+    }
+
+    private static boolean netIsAvailable()
+    {
+        try
+        {
+            final URL url = new URL("http://www.google.com");
+            final URLConnection conn = url.openConnection();
+            conn.connect();
+            conn.getInputStream().close();
+            return true;
+        } catch (MalformedURLException exception) {
+            throw new RuntimeException(exception);
+        } catch (IOException exception) {
+            return false;
+        }
     }
 }

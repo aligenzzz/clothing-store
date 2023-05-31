@@ -37,6 +37,10 @@
     -fx-highlight-fill: #b56d8c;
 }
 
+.text-field-settings:error {
+     -fx-background-color: derive(red, 99%);
+}
+
 .text-area {
     -fx-background-color: white;
     -fx-background-radius: 0;

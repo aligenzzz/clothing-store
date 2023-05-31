@@ -36,12 +36,13 @@ public class OrderController
     @FXML private ComboBox<AnchorPane> comboBox;
 
     private Order order;
-    public void setData(@NotNull Order order) throws IOException {
+    public void setData(@NotNull Order order) throws IOException
+    {
         this.order = order;
 
-        idLabel.setText(String.valueOf(Math.floor(order.getId())));
+        idLabel.setText(Constants.ID_FORMAT.format(order.getId()));
         itemsLabel.setText(order.getItems().size() + " items");
-        priceLabel.setText(Constants.FORMAT.format(order.getPrice()) + " $");
+        priceLabel.setText(Constants.PRICE_FORMAT.format(order.getPrice()) + " $");
 
         orderStateLabel.setText(order.getState().toString());
 
@@ -86,14 +87,12 @@ public class OrderController
         @Override
         protected void updateItem(AnchorPane item, boolean empty)
         {
-
             if (empty || item == null)
             {
                 setText(null);
                 setGraphic(null);
             } else {
                 setGraphic(item);
-
             }
         }
     }

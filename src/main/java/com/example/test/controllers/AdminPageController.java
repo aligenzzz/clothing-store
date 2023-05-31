@@ -2,6 +2,9 @@ package com.example.test.controllers;
 
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
+import com.example.test.GridAnimation;
+import com.example.test.entities.OrderItem;
+import com.example.test.entities.Request;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.User;
 import javafx.collections.FXCollections;
@@ -12,13 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -32,19 +33,20 @@ public class AdminPageController implements Initializable
 {
     @FXML private Button profileButton;
     @FXML private Button usersButton;
+    @FXML private Button ordersButton;
+    @FXML private Button requestsButton;
     @FXML private Button settingsButton;
     @FXML private StackPane stackPane;
     @FXML private AnchorPane tableAnchorPane;
     @FXML private TableView<User> tableView;
+    @FXML private ProgressBar progressBar;
+    @FXML private ScrollPane scrollPane;
+    @FXML private GridPane gridPane;
     public ObservableList<User> users = FXCollections.observableArrayList();
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try
-        {
-            this.profileButtonOnAction();
-            this.fillTable();
-        }
+        try { this.profileButtonOnAction(); }
         catch (IOException exception)
         {
             exception.printStackTrace();
@@ -57,7 +59,9 @@ public class AdminPageController implements Initializable
         if (profileButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
+        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
         tableAnchorPane.setVisible(false);
+        scrollPane.setVisible(false);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new File(Constants.PROFILE).toURI().toURL());
@@ -74,10 +78,66 @@ public class AdminPageController implements Initializable
         if (usersButton.getTextFill() == Constants.ACTIVECOLOR) return;
         disactiveButtons();
 
-        if(stackPane.getChildren().size() == 2) stackPane.getChildren().remove(1);
+        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
         tableAnchorPane.setVisible(true);
+        scrollPane.setVisible(false);
+
+        fillTable();
 
         usersButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+
+    GridAnimation animation;
+    public void ordersButtonOnAction() throws IOException
+    {
+        if (ordersButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+        tableAnchorPane.setVisible(false);
+        scrollPane.setVisible(true);
+
+        if (animation != null) animation.stop();
+        gridPane.getChildren().clear();
+        List<OrderItem> orders = DatabaseConnector.getInstance().getOrderItems();
+        animation = new GridAnimation(orders, gridPane, scrollPane, null, 2);
+        animation.start();
+
+        ordersButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+    public void requestsButtonOnAction() throws IOException
+    {
+        if (requestsButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+        tableAnchorPane.setVisible(false);
+        scrollPane.setVisible(true);
+
+        if (animation != null) animation.stop();
+        gridPane.getChildren().clear();
+        List<Request> requests = DatabaseConnector.getInstance().getRequests();
+        animation = new GridAnimation(requests, gridPane, scrollPane, null, 1);
+        animation.start();
+
+        requestsButton.setTextFill(Constants.ACTIVECOLOR);
+    }
+
+    public void settingsButtonOnAction() throws IOException
+    {
+        if (settingsButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        disactiveButtons();
+
+        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
+        tableAnchorPane.setVisible(false);
+        scrollPane.setVisible(false);
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new File(Constants.SETTINGS).toURI().toURL());
+        AnchorPane anchorPane = fxmlLoader.load();
+        stackPane.getChildren().add(anchorPane);
+
+        settingsButton.setTextFill(Constants.ACTIVECOLOR);
     }
 
     public void closeMenuButtonOnAction()
@@ -86,14 +146,24 @@ public class AdminPageController implements Initializable
         stage.close();
     }
 
-    private void disactiveButtons()
+    public void logoutMenuButtonOnAction() throws IOException
     {
-        profileButton.setTextFill(Color.WHITE);
-        usersButton.setTextFill(Color.WHITE);
-        settingsButton.setTextFill(Color.WHITE);
+        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(new Scene(root, 520, 400));
+        stage.centerOnScreen();
     }
 
-    private void fillTable() throws IOException
+    private void disactiveButtons()
+    {
+        profileButton.setTextFill(Constants.DISACTIVECOLOR);
+        usersButton.setTextFill(Constants.DISACTIVECOLOR);
+        ordersButton.setTextFill(Constants.DISACTIVECOLOR);
+        requestsButton.setTextFill(Constants.DISACTIVECOLOR);
+        settingsButton.setTextFill(Constants.DISACTIVECOLOR);
+    }
+
+    private void fillTable()
     {
         tableView.setItems(users);
 
@@ -133,18 +203,15 @@ public class AdminPageController implements Initializable
 
         profileButton.disableProperty().bind(task.runningProperty());
         usersButton.disableProperty().bind(task.runningProperty());
+        ordersButton.disableProperty().bind(task.runningProperty());
+        requestsButton.disableProperty().bind(task.runningProperty());
         settingsButton.disableProperty().bind(task.runningProperty());
+
+        progressBar.progressProperty().bind(task.progressProperty());
+        progressBar.visibleProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
-    }
-
-    public void logoutMenuButtonOnAction() throws IOException
-    {
-        Parent root = FXMLLoader.load(new File(Constants.LOGIN).toURI().toURL());
-        Stage stage = (Stage) profileButton.getScene().getWindow();
-        stage.setScene(new Scene(root, 520, 400));
-        stage.centerOnScreen();
     }
 }

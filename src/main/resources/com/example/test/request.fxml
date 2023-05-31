@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.test.Request"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.RequestController">
+   <children>
+      <Separator layoutX="477.0" orientation="VERTICAL" prefHeight="200.0" />
+      <TextArea fx:id="messageTextArea" editable="false" layoutX="241.0" layoutY="10.0" prefHeight="180.0" prefWidth="226.0" styleClass="text-area" stylesheets="@../../../styles/textfield.css" wrapText="true" />
+      <TextField fx:id="subjectTextField" editable="false" layoutX="42.0" layoutY="117.0" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css" />
+      <Label layoutX="95.0" layoutY="100.0" text="Subject:" />
+      <Label layoutX="67.0" layoutY="44.0" text="Id:" />
+      <Label fx:id="idLabel" alignment="TOP_RIGHT" layoutX="100.0" layoutY="44.0" prefHeight="18.0" prefWidth="63.0" text="0" />
+      <Button fx:id="approveButton" layoutX="490.0" layoutY="10.0" mnemonicParsing="false" prefHeight="180.0" prefWidth="98.0" styleClass="button-adv1" stylesheets="@../../../styles/buttons.css" text="☑" textFill="#ffffffdb">
+         <font>
+            <Font size="38.0" />
+         </font></Button>
+      <Separator layoutY="82.0" prefHeight="4.0" prefWidth="226.0" />
+      <Separator layoutX="226.0" orientation="VERTICAL" prefHeight="200.0" />
+   </children>
 </AnchorPane>

@@ -1,13 +1,7 @@
 package com.example.test;
 
-import com.example.test.controllers.ItemController;
-import com.example.test.controllers.OrderController;
-import com.example.test.controllers.OrderItemController;
-import com.example.test.controllers.ShopController;
-import com.example.test.entities.Item;
-import com.example.test.entities.Order;
-import com.example.test.entities.OrderItem;
-import com.example.test.entities.Shop;
+import com.example.test.controllers.*;
+import com.example.test.entities.*;
 import com.example.test.interfaces.IListener;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +65,7 @@ public class GridAnimation extends AnimationTimer
         Shop shop = null;
         Order order = null;
         OrderItem orderItem = null;
+        Request request = null;
         if (list.get(0) instanceof Item)
         {
             item = (Item) list.get(i);
@@ -90,6 +85,11 @@ public class GridAnimation extends AnimationTimer
         {
             orderItem = (OrderItem) list.get(i);
             path = Constants.ORDERITEM;
+        }
+        else if (list.get(0) instanceof Request)
+        {
+            request = (Request) list.get(i);
+            path = Constants.REQUEST;
         }
 
         assert path != null;
@@ -121,6 +121,11 @@ public class GridAnimation extends AnimationTimer
         {
             OrderItemController orderItemController = fxmlLoader.getController();
             orderItemController.setData(orderItem);
+        }
+        else if (request != null)
+        {
+            RequestController requestController = fxmlLoader.getController();
+            requestController.setData(request);
         }
 
         gridPane.add(anchorPane, column++, row);

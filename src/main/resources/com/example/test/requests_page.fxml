@@ -12,7 +12,7 @@
    <Label layoutX="223.0" layoutY="232.0" text="There is field for your message:" />
    <Label layoutX="169.0" layoutY="109.0" prefHeight="18.0" prefWidth="150.0" text="The subject of the request:" />
    <TextField fx:id="subjectTextField" layoutX="320.0" layoutY="105.0" prefHeight="26.0" prefWidth="171.0" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css" />
-   <Button layoutX="110.0" layoutY="481.0" mnemonicParsing="false" onAction="#sendButtonOnAction" prefHeight="26.0" prefWidth="414.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css" text="Send" textFill="#f4f4f4" />
+   <Button fx:id="sendButton" layoutX="110.0" layoutY="481.0" mnemonicParsing="false" onAction="#sendButtonOnAction" prefHeight="26.0" prefWidth="414.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css" text="Send" textFill="#f4f4f4" />
    <Label layoutX="188.0" layoutY="14.0" prefHeight="62.0" prefWidth="234.0" text="There you can send request to admin, if you have some problems about order." textAlignment="CENTER" textFill="#000000a3" wrapText="true" />
    <Label layoutX="318.0" layoutY="131.0" prefHeight="54.0" prefWidth="207.0" text="(Please write keywords for your problem, definding specific information to make it easier to help in your situation)" textFill="#00000085" wrapText="true">
       <font>

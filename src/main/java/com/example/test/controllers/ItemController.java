@@ -23,7 +23,7 @@ public class ItemController
         Image image = new Image(Constants.ITEMSIMAGEPATH + item.getImageSource());
         itemImageView.setImage(image);
         itemImageView.setStyle("-fx-background-position: CENTER;");
-        priceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
+        priceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
         this.item = item;
 
         this.listener = listener;

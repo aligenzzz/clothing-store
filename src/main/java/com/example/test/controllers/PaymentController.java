@@ -28,7 +28,7 @@ public class PaymentController
     public void setData()
     {
         if(customer.getShoppingItems() == null || customer.getShoppingItems().size() == 0) return;
-        totalPriceLabel.setText(Constants.FORMAT.format(customer.getTotalPrice()) + " $");
+        totalPriceLabel.setText(Constants.PRICE_FORMAT.format(customer.getTotalPrice()) + " $");
         totalItemsLabel.setText(customer.getShoppingItems().size() + " items");
     }
 

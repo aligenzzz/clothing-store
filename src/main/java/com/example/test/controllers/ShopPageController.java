@@ -99,7 +99,7 @@ public class ShopPageController implements Initializable
 
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
-        itemPriceLabel.setText(Constants.FORMAT.format(item.getPrice()) + " $");
+        itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
 
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);

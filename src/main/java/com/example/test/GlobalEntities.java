@@ -12,5 +12,4 @@ public class GlobalEntities
     public static Order ORDER;
     public static CustomerChoice CHOICE;
 
-    public static boolean EXPANDEDORDER = false;
 }
