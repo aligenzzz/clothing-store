@@ -1,7 +1,6 @@
 package com.example.test.controllers;
 
 import com.example.test.Constants;
-import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.GridAnimation;
 import com.example.test.entities.Customer;
@@ -10,7 +9,6 @@ import com.example.test.entities.NonUser;
 import com.example.test.entities.Vendor;
 import com.example.test.enums.AccessType;
 import com.example.test.interfaces.IListener;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,6 +41,7 @@ public class ShopPageController implements Initializable
     @FXML private ImageView bannerImageView;
     @FXML private Label shopNameLabel;
     @FXML private Menu returnMenuItem;
+    @FXML private Menu shopToFavouriteMenuItem;
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -73,7 +72,11 @@ public class ShopPageController implements Initializable
 
         IListener listener = this::chooseItemCard;
 
-        if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser) customerButtons.setVisible(true);
+        if (GlobalEntities.USER instanceof Customer || GlobalEntities.USER instanceof NonUser)
+        {
+            customerButtons.setVisible(true);
+            shopToFavouriteMenuItem.setVisible(true);
+        }
         if (GlobalEntities.USER instanceof Vendor)
         {
             vendorButtons.setVisible(true);
@@ -118,10 +121,7 @@ public class ShopPageController implements Initializable
         }
 
         Customer customer = (Customer) GlobalEntities.USER;
-        if (customer.getFavouriteItems() == null)
-            DatabaseConnector.getInstance().addFavouriteItem(customer.getId(), this.itemId);
-        else
-            customer.addFavouriteItem(this.itemId);
+        customer.addFavouriteItem(itemId);
     }
     public void toShoppingButtonOnAction() throws IOException
     {
@@ -132,10 +132,19 @@ public class ShopPageController implements Initializable
         }
 
         Customer customer = (Customer) GlobalEntities.USER;
-        if (customer.getShoppingItems() == null)
-            DatabaseConnector.getInstance().addShoppingItem(customer.getId(), this.itemId);
-        else
-            customer.addShoppingItem(this.itemId);
+        customer.addShoppingItem(itemId);
+    }
+
+    public void shopToFavouriteMenuButtonOnAction() throws IOException
+    {
+        if (GlobalEntities.USER.getAccessType() == AccessType.nonuser)
+        {
+            alert.showAndWait();
+            return;
+        }
+
+        Customer customer = (Customer) GlobalEntities.USER;
+        customer.addFavouriteShop(GlobalEntities.SHOP.getId());
     }
     public void returnMenuButtonOnAction() throws IOException
     {

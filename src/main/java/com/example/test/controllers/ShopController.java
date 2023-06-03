@@ -4,6 +4,7 @@ import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
+import com.example.test.entities.Customer;
 import com.example.test.entities.Shop;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -72,5 +73,11 @@ public class ShopController
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public void deleteButtonOnAction() throws IOException
+    {
+        Customer customer = (Customer) GlobalEntities.USER;
+        customer.deleteFavouriteShop(shop.getId());
     }
 }

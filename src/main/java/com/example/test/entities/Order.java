@@ -1,7 +1,9 @@
 package com.example.test.entities;
 
+import com.example.test.DatabaseConnector;
 import com.example.test.enums.OrderState;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +38,13 @@ public class Order
             this.items.add(new OrderItem(0, this.id, item, item.getShop(), state));
     }
     public List<OrderItem> getItems() { return this.items; }
-    public List<Item> getOnlyItems()
+    public void changeState(OrderState state) throws IOException
     {
-        List<Item> items = new ArrayList<>();
-        for (OrderItem i : this.items)
-            items.add(i.getItem());
-        return items;
+        DatabaseConnector.getInstance().changeOrderState(this.id, state);
+        DatabaseConnector.getInstance().changeOrderItemsState(this.id, state);
+
+        this.state = state;
+        for (OrderItem i: this.items)
+            i.setState(state);
     }
 }

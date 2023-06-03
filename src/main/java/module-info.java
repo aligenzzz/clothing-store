@@ -14,6 +14,16 @@ module com.example.test
     requires serialize;
     requires com.google.gson;
     requires github.api;
+    requires google.api.client;
+    requires com.google.api.client;
+    requires google.api.services.drive.v2.rev393;
+    requires com.google.auth.oauth2;
+    requires com.google.api.client.json.gson;
+    requires com.google.auth;
+    requires com.google.api.client.auth;
+    requires com.google.api.client.extensions.java6.auth;
+    requires com.google.api.client.extensions.jetty.auth;
+    requires jdk.httpserver;
 
     opens com.example.test to javafx.fxml;
     exports com.example.test;

@@ -34,7 +34,7 @@ public class Vendor extends User
     public void setOrders(List<OrderItem> orders) { this.orders = orders; }
     public void changeOrderState(double orderItem, OrderState state) throws IOException
     {
-        databaseConnector.changeOrderState(orderItem, state);
+        databaseConnector.changeOrderItemState(orderItem, state);
     }
 
     void RequestHelp(Request request)

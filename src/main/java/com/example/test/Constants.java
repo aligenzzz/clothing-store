@@ -10,9 +10,18 @@ public final class Constants
     public static double[] DAZEDCOLLECTION = new double[] { 58, 63, 65, 79, 87, 89, 99, 105, 108, 109, 118, 122, 129, 130 };
     public static DecimalFormat PRICE_FORMAT = new DecimalFormat("#.##");
     public static DecimalFormat ID_FORMAT = new DecimalFormat("#");
+
+
     public static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    public static final String COUNTRY_PATTERN = "^[A-Za-z- ]+";
+    public static final String CITY_PATTERN = "^[A-Za-z- ]+";
+    public static final String ZIPCODE_PATTERN = "^\\d{6}";
+    public static final String CARDNAME_PATTERN = "^[A-Z -]+";
+    public static final String CARDNUMBER_PATTERN = "^\\d{4} \\d{4} \\d{4} \\d{4}";
+    public static final String EXPDATE_PATTERN = "^\\d{2}/\\d{2}";
+    public static final String CVV_PATTERN = "^\\d{3}";
 
 
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";

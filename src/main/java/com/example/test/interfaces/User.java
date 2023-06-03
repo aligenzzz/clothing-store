@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class User
 {
-    // uberu public potom
     @SerializedName("id")
     public double id;
 

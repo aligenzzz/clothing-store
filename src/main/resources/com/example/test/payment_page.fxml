@@ -13,195 +13,183 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="453.0" prefWidth="600.0" style="-fx-border-radius: 0; -fx-border-color: #b56d8c;"
-            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.test.controllers.PaymentPageController">
+<AnchorPane prefHeight="453.0" prefWidth="600.0" style="-fx-border-radius: 0; -fx-border-color: #b56d8c;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.PaymentPageController">
    <VBox layoutX="37.0" layoutY="27.0" prefHeight="293.0" prefWidth="222.0">
       <Label text="BILLING ADDRESS" textFill="#000000e5">
          <font>
-            <Font name="Candara Bold" size="16.0"/>
+            <Font name="Candara Bold" size="16.0" />
          </font>
          <padding>
-            <Insets bottom="15.0"/>
+            <Insets bottom="15.0" />
          </padding>
       </Label>
       <Label text="Country:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0"/>
+            <Insets bottom="3.0" />
          </padding>
       </Label>
-      <TextField prefHeight="26.0" prefWidth="231.0" styleClass="text-field-settings"
-                 stylesheets="@../../../styles/textfield.css">
+      <TextField fx:id="countryTextField" prefHeight="26.0" prefWidth="231.0" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
       <Label text="City:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0"/>
+            <Insets bottom="3.0" />
          </padding>
       </Label>
-      <TextField styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
+      <TextField fx:id="cityTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
       <Label text="Street:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0"/>
+            <Insets bottom="3.0" />
          </padding>
       </Label>
-      <TextField styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
+      <TextField fx:id="streetTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
       <Label text="Zip Code:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0"/>
+            <Insets bottom="3.0" />
          </padding>
       </Label>
-      <TextField styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css"/>
+      <TextField fx:id="zipCodeTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css" />
    </VBox>
    <VBox layoutX="313.0" layoutY="27.0" prefHeight="332.0" prefWidth="258.0">
       <Label text="PAYMENT" textFill="#000000e5">
          <font>
-            <Font name="Candara Bold" size="16.0"/>
+            <Font name="Candara Bold" size="16.0" />
          </font>
          <padding>
-            <Insets bottom="8.0"/>
+            <Insets bottom="8.0" />
          </padding>
       </Label>
       <Label text="Accepted Cards:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
       </Label>
       <AnchorPane minHeight="40.0" prefHeight="40.0" prefWidth="258.0">
          <opaqueInsets>
-            <Insets/>
+            <Insets />
          </opaqueInsets>
          <VBox.margin>
-            <Insets bottom="1.0"/>
+            <Insets bottom="1.0" />
          </VBox.margin>
          <ImageView fitHeight="78.0" fitWidth="78.0" layoutY="-18.0" pickOnBounds="true" smooth="false">
             <effect>
-               <Glow/>
+               <Glow />
             </effect>
-            <Image url="@../../../images/card1.png"/>
+            <Image url="@../../../images/card1.png" />
          </ImageView>
-         <ImageView fitHeight="71.0" fitWidth="71.0" layoutX="49.0" layoutY="-14.0" pickOnBounds="true"
-                    preserveRatio="true">
+         <ImageView fitHeight="71.0" fitWidth="71.0" layoutX="49.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
             <effect>
-               <Glow/>
+               <Glow />
             </effect>
-            <Image url="@../../../images/card2.png"/>
+            <Image url="@../../../images/card2.png" />
          </ImageView>
-         <ImageView fitHeight="71.0" fitWidth="78.0" layoutX="94.0" layoutY="-14.0" pickOnBounds="true"
-                    preserveRatio="true">
+         <ImageView fitHeight="71.0" fitWidth="78.0" layoutX="94.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
             <effect>
-               <Glow/>
+               <Glow />
             </effect>
-            <Image url="@../../../images/card3.png"/>
+            <Image url="@../../../images/card3.png" />
          </ImageView>
-         <ImageView fitHeight="65.0" fitWidth="86.0" layoutX="145.0" layoutY="-11.0" pickOnBounds="true"
-                    preserveRatio="true">
+         <ImageView fitHeight="65.0" fitWidth="86.0" layoutX="145.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
             <effect>
-               <Glow/>
+               <Glow />
             </effect>
-            <Image url="@../../../images/card4.png"/>
+            <Image url="@../../../images/card4.png" />
          </ImageView>
       </AnchorPane>
       <Label text="Name On Card:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0" top="5.0"/>
+            <Insets bottom="3.0" top="5.0" />
          </padding>
       </Label>
-      <TextField fx:id="nameOnCardTextField" styleClass="text-field-settings"
-                 stylesheets="@../../../styles/textfield.css">
+      <TextField fx:id="nameOnCardTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
       <Label text="Credit Card Number:" textFill="#000000cc">
          <font>
-            <Font name="Candara" size="14.0"/>
+            <Font name="Candara" size="14.0" />
          </font>
          <padding>
-            <Insets bottom="3.0"/>
+            <Insets bottom="3.0" />
          </padding>
       </Label>
-      <TextField fx:id="creditCardNumberTextField" styleClass="text-field-settings"
-                 stylesheets="@../../../styles/textfield.css">
+      <TextField fx:id="creditCardNumberTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
       <HBox prefHeight="66.0" prefWidth="258.0" spacing="50.0">
          <VBox.margin>
-            <Insets/>
+            <Insets />
          </VBox.margin>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <Label text="Exp Date:" textFill="#000000cc">
                <font>
-                  <Font name="Candara" size="14.0"/>
+                  <Font name="Candara" size="14.0" />
                </font>
                <padding>
-                  <Insets bottom="3.0"/>
+                  <Insets bottom="3.0" />
                </padding>
             </Label>
-            <TextField fx:id="expDateTextField" styleClass="text-field-settings"
-                       stylesheets="@../../../styles/textfield.css">
+            <TextField fx:id="expDateTextField" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
                <VBox.margin>
-                  <Insets bottom="6.0"/>
+                  <Insets bottom="6.0" />
                </VBox.margin>
             </TextField>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <Label text="CVV:" textFill="#000000cc">
                <font>
-                  <Font name="Candara" size="14.0"/>
+                  <Font name="Candara" size="14.0" />
                </font>
                <padding>
-                  <Insets bottom="3.0"/>
+                  <Insets bottom="3.0" />
                </padding>
             </Label>
-            <PasswordField fx:id="cvvPasswordField" prefHeight="26.0" prefWidth="107.0"
-                           styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
+            <PasswordField fx:id="cvvPasswordField" prefHeight="26.0" prefWidth="107.0" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css">
                <VBox.margin>
-                  <Insets/>
+                  <Insets />
                </VBox.margin>
             </PasswordField>
          </VBox>
       </HBox>
    </VBox>
-   <Button layoutX="26.0" layoutY="359.0" mnemonicParsing="false" onAction="#proceedButtonOnAction" prefHeight="26.0"
-           prefWidth="548.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css"
-           text="Proceed To Checkout" textFill="#ffffffe5">
+   <Button fx:id="proceedButton" layoutX="26.0" layoutY="359.0" mnemonicParsing="false" onAction="#proceedButtonOnAction" prefHeight="26.0" prefWidth="548.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css" text="Proceed To Checkout" textFill="#ffffffe5">
       <font>
-         <Font name="Candara" size="14.0"/>
+         <Font name="Candara" size="14.0" />
       </font>
    </Button>
-   <Button layoutX="26.0" layoutY="400.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="26.0"
-           prefWidth="548.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css" text="Cancel"
-           textFill="#ffffffe5">
+   <Button layoutX="26.0" layoutY="400.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="26.0" prefWidth="548.0" styleClass="button-big" stylesheets="@../../../styles/buttons.css" text="Cancel" textFill="#ffffffe5">
       <font>
-         <Font name="Candara" size="14.0"/>
+         <Font name="Candara" size="14.0" />
       </font>
    </Button>
+   <Label fx:id="errorLabel" layoutX="259.0" layoutY="332.0" prefHeight="18.0" prefWidth="67.0" text="Invalid data!" textFill="#ff0000c9" visible="false" />
+   <Label fx:id="successLabel" layoutX="183.0" layoutY="332.0" text="the payment was successfully completed!" textFill="#0dff00be" visible="false" />
 </AnchorPane>

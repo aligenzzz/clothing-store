@@ -51,7 +51,6 @@ public class LoginHandler
             scene = new Scene(fxmlLoader.load(), 900, 700);
         }
 
-
         if (!netIsAvailable())
         {
             fxmlLoader = new FXMLLoader(new File(Constants.CONNECTIONERROR).toURI().toURL());

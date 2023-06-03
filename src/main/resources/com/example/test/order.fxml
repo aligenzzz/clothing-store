@@ -36,7 +36,7 @@
          </Label>
          <Separator layoutX="396.0" orientation="VERTICAL" prefHeight="128.0" prefWidth="18.0" />
          <AnchorPane layoutX="405.0" layoutY="3.0" prefHeight="128.0" prefWidth="174.0">
-            <Button fx:id="payButton" layoutX="27.0" layoutY="73.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Pay">
+            <Button fx:id="payButton" layoutX="27.0" layoutY="73.0" mnemonicParsing="false" onAction="#payButtonOnAction" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Pay">
                <font>
                   <Font name="Candara" size="14.0" />
                </font>
@@ -46,6 +46,11 @@
                   <Font name="Candara" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="approveButton" layoutX="27.0" layoutY="73.0" mnemonicParsing="false" onAction="#approveButtonOnAction" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Approve" visible="false">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
          </AnchorPane>
          <ComboBox fx:id="comboBox" layoutX="210.0" layoutY="37.0" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: transparent;" />
       </AnchorPane>

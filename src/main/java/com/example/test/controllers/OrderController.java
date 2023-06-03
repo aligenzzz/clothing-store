@@ -6,6 +6,7 @@ import com.example.test.Main;
 import com.example.test.entities.Order;
 import com.example.test.entities.OrderItem;
 import com.example.test.enums.OrderState;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,10 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +32,8 @@ public class OrderController
     @FXML private Label itemsLabel;
     @FXML private Label priceLabel;
     @FXML private Button payButton;
+    @FXML private Button approveButton;
     @FXML private Label orderStateLabel;
-    @FXML private VBox vBox;
     @FXML private ComboBox<AnchorPane> comboBox;
 
     private Order order;
@@ -50,6 +51,8 @@ public class OrderController
 
         comboBox.setMaxWidth(180);
 
+        boolean allWasSent = true;
+
         for (OrderItem i : order.getItems())
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -58,12 +61,21 @@ public class OrderController
             OrderItemController orderItemController = fxmlLoader.getController();
             orderItemController.setData(i);
 
-            anchorPane.setOnMouseClicked(event -> System.out.print('9'));
-
             comboBox.getItems().add(anchorPane);
+
+            if (i.getState() != OrderState.sent) allWasSent = false;
         }
         comboBox.setEditable(false);
         comboBox.setCellFactory(param -> new AnchorPaneListCell());
+
+        if (allWasSent)
+        {
+            orderStateLabel.setText("sent");
+            payButton.setVisible(false);
+            approveButton.setVisible(true);
+        }
+        if (order.getState() == OrderState.approved)
+            payButton.setVisible(false);
     }
 
     public void payButtonOnAction() throws IOException
@@ -80,6 +92,25 @@ public class OrderController
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
         stage.centerOnScreen();
+    }
+
+    public void approveButtonOnAction()
+    {
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                order.changeState(OrderState.approved);
+
+                return null;
+            }
+        };
+        approveButton.disableProperty().bind(task.runningProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private static class AnchorPaneListCell extends ListCell<AnchorPane>

@@ -3,8 +3,13 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
 import com.example.test.GlobalEntities;
+import com.example.test.entities.Admin;
+import com.example.test.entities.Customer;
+import com.example.test.entities.Vendor;
+import com.example.test.enums.AccessType;
 import com.example.test.enums.UserAccount;
 import com.example.test.interfaces.User;
+import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +43,6 @@ public class SettingsController implements Initializable
         emailTextField.setPromptText(GlobalEntities.USER.getEmail());
         firstnameTextField.setPromptText(GlobalEntities.USER.getFirstName());
         lastnameTextField.setPromptText(GlobalEntities.USER.getLastName());
-
 
         usernameTextField.textProperty().addListener(event ->
         {
@@ -133,8 +138,44 @@ public class SettingsController implements Initializable
             errorLabel.setVisible(true);
         else
         {
-            successLabel.setVisible(true);
-            // to database user with async disability unused button
+            Task<Void> task = new Task<>()
+            {
+                @Override
+                protected @Nullable Void call() throws IOException
+                {
+                    DatabaseConnector.getInstance().EditUser(editedUser);
+
+                    if (editedUser.getAccessType() == AccessType.customer)
+                        GlobalEntities.USER = new Customer(editedUser);
+                    else if (editedUser.getAccessType() == AccessType.vendor)
+                        GlobalEntities.USER = new Vendor(editedUser);
+                    else if (editedUser.getAccessType() == AccessType.admin)
+                        GlobalEntities.USER = new Admin(editedUser);
+
+                    return null;
+                }
+            };
+            task.setOnSucceeded(event ->
+            {
+                successLabel.setVisible(true);
+
+                usernameTextField.setPromptText(GlobalEntities.USER.getUsername());
+                emailTextField.setPromptText(GlobalEntities.USER.getEmail());
+                firstnameTextField.setPromptText(GlobalEntities.USER.getFirstName());
+                lastnameTextField.setPromptText(GlobalEntities.USER.getLastName());
+            });
+
+            changeButton.disableProperty().bind(task.runningProperty());
+
+            Thread thread = new Thread(task);
+            thread.setDaemon(true);
+            thread.start();
+
+            usernameTextField.clear();
+            emailTextField.clear();
+            firstnameTextField.clear();
+            lastnameTextField.clear();
+            passwordField.clear();
         }
     }
 }

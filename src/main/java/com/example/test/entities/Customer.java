@@ -2,9 +2,11 @@ package com.example.test.entities;
 
 import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
-import com.example.test.enums.OrderState;
 import com.example.test.interfaces.ItemObserver;
 import com.example.test.interfaces.User;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,17 +50,51 @@ public class Customer extends User
     public List<Shop> getFavouriteShops() { return this.favouriteShops; }
     public void setFavouriteShops(List<Shop> shopList) { this.favouriteShops = shopList; }
 
+    public void addFavouriteShop(double shop) throws IOException
+    {
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+
+        if (this.favouriteShops != null)
+        {
+            this.favouriteShops.add(databaseConnector.getShop(shop));
+            this.notifyObservers();
+        }
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                databaseConnector.addFavouriteShop(id, shop);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
     public void deleteFavouriteShop(double shop) throws IOException
     {
         for (Shop s: this.favouriteShops)
             if (s.getId() == shop)
             {
-                this.favouriteItems.remove(s);
+                this.favouriteShops.remove(s);
                 break;
             }
-        DatabaseConnector.getInstance().deleteFavouriteShop(this.id, shop);
-
         this.notifyObservers();
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                DatabaseConnector.getInstance().deleteFavouriteShop(id, shop);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public double getTotalPrice()
@@ -70,40 +106,55 @@ public class Customer extends User
         return result;
     }
 
-    public double getOrderIndex(double order)
-    {
-        int index = 0;
-        for (Order o: this.orders)
-        {
-            if (o.getId() == order)
-                return index;
-            index++;
-        }
-
-        return -1;
-    }
-
     public void addFavouriteItem(double item) throws IOException
     {
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
-        this.favouriteItems.add(databaseConnector.getItem(item));
-        databaseConnector.addFavouriteItem(this.id, item);
+        if (this.favouriteItems != null)
+        {
+            this.favouriteItems.add(databaseConnector.getItem(item));
+            this.notifyObservers();
+        }
 
-        this.notifyObservers();
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                databaseConnector.addFavouriteItem(id, item);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void addShoppingItem(double item) throws IOException
     {
         DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
-        this.shoppingItems.add(databaseConnector.getItem(item));
-        databaseConnector.addShoppingItem(this.id, item);
+        if (this.shoppingItems != null)
+        {
+            this.shoppingItems.add(databaseConnector.getItem(item));
+            this.notifyObservers();
+        }
 
-        this.notifyObservers();
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                databaseConnector.addShoppingItem(id, item);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
-    public void deleteFavouriteItem(double item) throws IOException
+    public void deleteFavouriteItem(double item)
     {
         for (Item i: this.favouriteItems)
             if (i.getId() == item)
@@ -111,12 +162,23 @@ public class Customer extends User
                 this.favouriteItems.remove(i);
                 break;
             }
-        DatabaseConnector.getInstance().deleteFavouriteItem(this.id, item);
-
         this.notifyObservers();
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                DatabaseConnector.getInstance().deleteFavouriteItem(id, item);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
-    public void deleteShoppingItem(double item) throws IOException
+    public void deleteShoppingItem(double item)
     {
         for (Item i: this.shoppingItems)
             if (i.getId() == item)
@@ -124,17 +186,28 @@ public class Customer extends User
                 this.shoppingItems.remove(i);
                 break;
             }
-        DatabaseConnector.getInstance().deleteShoppingItem(this.id, item);
-
         this.notifyObservers();
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                DatabaseConnector.getInstance().deleteShoppingItem(id, item);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void deleteAllShoppingItems() throws IOException
     {
         this.shoppingItems.clear();
-        DatabaseConnector.getInstance().deleteAllShoppingItems(this.id);
+        Platform.runLater(this::notifyObservers);
 
-        this.notifyObservers();
+        DatabaseConnector.getInstance().deleteAllShoppingItems(id);
     }
 
     public void addOrder(Order order) throws IOException
@@ -144,32 +217,4 @@ public class Customer extends User
     }
     public void setOrders(List<Order> orders) { this.orders = orders; }
     public List<Order> getOrders() { return this.orders; }
-
-    public boolean isFoundOrder(double order)
-    {
-        for (Order o : orders)
-            if (o.getId() == order)
-                return true;
-        return false;
-    }
-
-    void CancelOrder(double id)
-    {
-
-    }
-
-    void ChangeOrder(double id)
-    {
-
-    }
-
-    OrderState TrackOrder(double id)
-    {
-        return OrderState.booked;
-    }
-
-    public void RequestHelp(Request request)
-    {
-
-    }
 }

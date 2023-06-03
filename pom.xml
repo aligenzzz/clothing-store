@@ -104,6 +104,16 @@
             <artifactId>github-api</artifactId>
             <version>1.128</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.31.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.31.0</version>
+        </dependency>
     </dependencies>
 
 

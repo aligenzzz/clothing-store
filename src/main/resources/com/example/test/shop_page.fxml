@@ -37,6 +37,11 @@
       <Menu mnemonicParsing="false" text="❎">
          <MenuItem mnemonicParsing="false" onAction="#closeMenuButtonOnAction" text="Exit" />
       </Menu>
+      <Menu fx:id="shopToFavouriteMenuItem" mnemonicParsing="false" text="💗" visible="false">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#shopToFavouriteMenuButtonOnAction" text="Shop to favourite" />
+         </items>
+      </Menu>
       <Menu fx:id="returnMenuItem" mnemonicParsing="false" text="-&gt;" visible="false">
          <MenuItem mnemonicParsing="false" onAction="#returnMenuButtonOnAction" text="Return" />
       </Menu>

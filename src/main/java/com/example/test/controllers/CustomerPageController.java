@@ -30,9 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CustomerPageController implements Initializable, ItemObserver
 {
@@ -52,6 +50,7 @@ public class CustomerPageController implements Initializable, ItemObserver
     private IListener listener;
     private final Customer customer = (Customer) GlobalEntities.USER;
     private GridAnimation animation;
+    private Map<Double, String> shops = new HashMap<>();
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -64,28 +63,23 @@ public class CustomerPageController implements Initializable, ItemObserver
             exception.getCause();
         }
 
-        Task<Void> task = new Task<>()
+        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+
+        Task<Void> task1 = new Task<>()
         {
             @Override
             protected Void call() throws IOException
             {
-                DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-
                 customer.setFavouriteItems(databaseConnector.getFavouriteItems(customer.getId()));
-                customer.setShoppingItems(databaseConnector.getShoppingItems(customer.getId()));
-                customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.getId()));
-                customer.setFavouriteShops(databaseConnector.getFavouriteShops(customer.getId()));
-                customer.setOrders(databaseConnector.getOrders(customer.getId()));
-
                 return null;
             }
         };
-        task.setOnSucceeded(event ->
+        task1.setOnSucceeded(event ->
         {
             try
             {
-                if (GlobalEntities.CHOICE == CustomerChoice.FAVOURITE) this.favouriteItemsButtonOnAction();
-                else if (GlobalEntities.CHOICE == CustomerChoice.SHOPPING) this.shoppingItemsButtonOnAction();
+                if (GlobalEntities.CHOICE == CustomerChoice.FAVOURITE)
+                    this.favouriteItemsButtonOnAction();
             }
             catch (Exception exception)
             {
@@ -93,20 +87,98 @@ public class CustomerPageController implements Initializable, ItemObserver
                 exception.getCause();
             }
         });
+        favouriteItemsButton.disableProperty().bind(task1.runningProperty());
 
-        profileButton.disableProperty().bind(task.runningProperty());
-        favouriteItemsButton.disableProperty().bind(task.runningProperty());
-        shoppingItemsButton.disableProperty().bind(task.runningProperty());
-        ordersButton.disableProperty().bind(task.runningProperty());
-        purchasedItemsButton.disableProperty().bind(task.runningProperty());
-        shopsButton.disableProperty().bind(task.runningProperty());
-        requestsButton.disableProperty().bind(task.runningProperty());
-        settingsButton.disableProperty().bind(task.runningProperty());
-        returnButton.disableProperty().bind(task.runningProperty());
+        Task<Void> task2 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                customer.setShoppingItems(databaseConnector.getShoppingItems(customer.getId()));
+                return null;
+            }
+        };
+        task2.setOnSucceeded(event ->
+        {
+            try
+            {
+                if (GlobalEntities.CHOICE == CustomerChoice.SHOPPING)
+                    this.shoppingItemsButtonOnAction();
+            }
+            catch (Exception exception)
+            {
+                exception.printStackTrace();
+                exception.getCause();
+            }
+        });
+        shoppingItemsButton.disableProperty().bind(task2.runningProperty());
 
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+        Task<Void> task3 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                customer.setPurchasedItems(databaseConnector.getPurchasedItems(customer.getId()));
+                return null;
+            }
+        };
+        purchasedItemsButton.disableProperty().bind(task3.runningProperty());
+
+        Task<Void> task4 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                customer.setFavouriteShops(databaseConnector.getFavouriteShops(customer.getId()));
+                return null;
+            }
+        };
+        shopsButton.disableProperty().bind(task4.runningProperty());
+
+        Task<Void> task5 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                customer.setOrders(databaseConnector.getOrders(customer.getId()));
+                return null;
+            }
+        };
+        ordersButton.disableProperty().bind(task5.runningProperty());
+
+        Task<Void> task6 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                shops = DatabaseConnector.getInstance().getShops();
+                return null;
+            }
+        };
+
+        Thread thread1 = new Thread(task1);
+        thread1.setDaemon(true);
+        thread1.start();
+
+        Thread thread2 = new Thread(task2);
+        thread2.setDaemon(true);
+        thread2.start();
+
+        Thread thread3 = new Thread(task3);
+        thread3.setDaemon(true);
+        thread3.start();
+
+        Thread thread4 = new Thread(task4);
+        thread4.setDaemon(true);
+        thread4.start();
+
+        Thread thread5 = new Thread(task5);
+        thread5.setDaemon(true);
+        thread5.start();
+
+        Thread thread6 = new Thread(task6);
+        thread6.setDaemon(true);
+        thread6.start();
 
         Customer.addObserver(this);
     }
@@ -117,7 +189,7 @@ public class CustomerPageController implements Initializable, ItemObserver
     @FXML private AnchorPane anchorPane;
     private double itemId;
     private double shopId;
-    public void chooseItemCard(@NotNull Item item) throws IOException
+    public void chooseItemCard(@NotNull Item item)
     {
         this.itemId = item.getId();
         this.shopId = item.getShop();
@@ -125,7 +197,7 @@ public class CustomerPageController implements Initializable, ItemObserver
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
-        itemShopLabel.setText(DatabaseConnector.getInstance().getShop(item.getShop()).getName());
+        itemShopLabel.setText(shops.get(shopId));
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
@@ -189,16 +261,16 @@ public class CustomerPageController implements Initializable, ItemObserver
         stage.close();
     }
     @FXML private Button toFavouriteButton;
-    public void toFavouriteButtonOnAction() throws IOException { customer.addFavouriteItem(this.itemId); }
+    public void toFavouriteButtonOnAction() throws IOException { customer.addFavouriteItem(itemId); }
     @FXML private Button toShoppingButton;
-    public void toShoppingButtonOnAction() throws IOException { customer.addShoppingItem(this.itemId); }
+    public void toShoppingButtonOnAction() throws IOException { customer.addShoppingItem(itemId); }
 
-    public void deleteButtonOnAction() throws IOException
+    public void deleteButtonOnAction()
     {
         if (favouriteItemsButton.getTextFill() == Constants.ACTIVECOLOR)
-            customer.deleteFavouriteItem(this.itemId);
+            customer.deleteFavouriteItem(itemId);
         if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR)
-            customer.deleteShoppingItem(this.itemId);
+            customer.deleteShoppingItem(itemId);
     }
     private void itemsButtonOnAction(@NotNull Button button, List<?> list, int maxColumn, boolean update) throws IOException
     {
@@ -279,6 +351,7 @@ public class CustomerPageController implements Initializable, ItemObserver
                 exception.getCause();
             }
         });
+        itemShopLabel.disableProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
@@ -314,6 +387,8 @@ public class CustomerPageController implements Initializable, ItemObserver
                 this.itemsButtonOnAction(favouriteItemsButton, customer.getFavouriteItems(), 4, true);
             if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR)
                 this.itemsButtonOnAction(shoppingItemsButton, customer.getShoppingItems(), 4, true);
+            if (shopsButton.getTextFill() == Constants.ACTIVECOLOR)
+                this.itemsButtonOnAction(shopsButton, customer.getFavouriteShops(), 1, true);
         }
         catch (Exception exception)
         {

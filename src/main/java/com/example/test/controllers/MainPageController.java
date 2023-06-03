@@ -27,10 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainPageController implements Initializable
 {
@@ -40,6 +37,7 @@ public class MainPageController implements Initializable
     private List<Item> itemList = new ArrayList<>();
     private IListener listener;
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    private Map<Double, String> shops = new HashMap<>();
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -66,6 +64,20 @@ public class MainPageController implements Initializable
                 }
             }
         });
+
+
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                shops = DatabaseConnector.getInstance().getShops();
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
         listener = this::chooseItemCard;
         disactiveButtons();
@@ -125,7 +137,7 @@ public class MainPageController implements Initializable
         imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
-        itemShopLabel.setText( DatabaseConnector.getInstance().getShop(shopId).getName());
+        itemShopLabel.setText(shops.get(shopId));
         scrollPane.setDisable(true);
         anchorPane.setVisible(true);
     }
@@ -171,7 +183,7 @@ public class MainPageController implements Initializable
     {
         List<Item> items = new ArrayList<>();
         for (int i = 0; i < Constants.MODIFYCOLLECTION.length; i++)
-            items.add(DatabaseConnector.getInstance().getItem(Constants.MODIFYCOLLECTION[i]));
+            items.add(itemList.get((int) Constants.MODIFYCOLLECTION[i] - 1));
 
         if (animation != null) animation.stop();
 
@@ -189,7 +201,7 @@ public class MainPageController implements Initializable
     {
         List<Item> items = new ArrayList<>();
         for (int i = 0; i < Constants.DAZEDCOLLECTION.length; i++)
-            items.add(DatabaseConnector.getInstance().getItem(Constants.DAZEDCOLLECTION[i]));
+            items.add(itemList.get((int) Constants.DAZEDCOLLECTION[i] - 1));
 
         if (animation != null) animation.stop();
 
@@ -212,7 +224,19 @@ public class MainPageController implements Initializable
             return;
         }
 
-        DatabaseConnector.getInstance().addFavouriteItem(GlobalEntities.USER.getId(), this.itemId);
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                DatabaseConnector.getInstance().addFavouriteItem(GlobalEntities.USER.getId(), itemId);
+                return null;
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
     public void toShoppingButtonOnAction() throws IOException
     {
@@ -222,7 +246,19 @@ public class MainPageController implements Initializable
             return;
         }
 
-        DatabaseConnector.getInstance().addShoppingItem(GlobalEntities.USER.getId(), this.itemId);
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                DatabaseConnector.getInstance().addShoppingItem(GlobalEntities.USER.getId(), itemId);
+                return null;
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
     public void shopButtonOnAction()
     {
@@ -259,6 +295,7 @@ public class MainPageController implements Initializable
                 exception.getCause();
             }
         });
+        itemShopLabel.disableProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
