@@ -2,10 +2,11 @@ package com.example.test.controllers;
 
 import com.example.test.Constants;
 import com.example.test.DatabaseConnector;
+import com.example.test.GlobalEntities;
 import com.example.test.GridAnimation;
-import com.example.test.entities.OrderItem;
-import com.example.test.entities.Request;
+import com.example.test.entities.Admin;
 import com.example.test.enums.AccessType;
+import com.example.test.interfaces.IObserver;
 import com.example.test.interfaces.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AdminPageController implements Initializable
+public class AdminPageController implements Initializable, IObserver
 {
+    private final DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+    private final Admin admin = (Admin) GlobalEntities.USER;
     @FXML private Button profileButton;
     @FXML private Button usersButton;
     @FXML private Button ordersButton;
@@ -43,6 +48,11 @@ public class AdminPageController implements Initializable
     @FXML private ScrollPane scrollPane;
     @FXML private GridPane gridPane;
     public ObservableList<User> users = FXCollections.observableArrayList();
+    @FXML private ComboBox<String> comboBox;
+    @FXML private TextField userIdLabel;
+    @FXML private Button editRoleButton;
+    @FXML private Label successLabel;
+    @FXML private Label errorLabel;
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -52,6 +62,51 @@ public class AdminPageController implements Initializable
             exception.printStackTrace();
             exception.getCause();
         }
+
+        Task<Void> task1 = new Task<>()
+        {
+            @Override
+            protected Void call() throws IOException
+            {
+                admin.setRequests(databaseConnector.getRequests());
+                return null;
+            }
+        };
+        requestsButton.disableProperty().bind(task1.runningProperty());
+
+        Task<Void> task2 = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                admin.setOrders(databaseConnector.getSpecificOrders("approved"));
+                return null;
+            }
+        };
+        ordersButton.disableProperty().bind(task2.runningProperty());
+
+        Thread thread1 = new Thread(task1);
+        thread1.setDaemon(true);
+        thread1.start();
+
+        Thread thread2 = new Thread(task2);
+        thread2.setDaemon(true);
+        thread2.start();
+
+        Admin.addObserver(this);
+
+        comboBox.getItems().add(AccessType.customer.toString());
+        comboBox.getItems().add(AccessType.vendor.toString());
+        comboBox.getItems().add(AccessType.admin.toString());
+
+        userIdLabel.textProperty().addListener((observable, oldValue, newValue) -> {
+            successLabel.setVisible(false);
+            errorLabel.setVisible(false);
+        });
+        comboBox.setOnMouseClicked(event -> {
+            successLabel.setVisible(false);
+            errorLabel.setVisible(false);
+        });
     }
 
     public void profileButtonOnAction() throws IOException
@@ -88,9 +143,12 @@ public class AdminPageController implements Initializable
     }
 
     GridAnimation animation;
-    public void ordersButtonOnAction() throws IOException
+    public void ordersButtonOnAction() { this.itemsButtonOnAction(ordersButton, admin.getOrders(), 1, false); }
+    public void requestsButtonOnAction() { this.itemsButtonOnAction(requestsButton, admin.getRequests(), 1, false); }
+
+    public void itemsButtonOnAction(@NotNull Button button, List<?> list, int maxColumn, boolean update)
     {
-        if (ordersButton.getTextFill() == Constants.ACTIVECOLOR) return;
+        if (button.getTextFill() == Constants.ACTIVECOLOR && !update) return;
         disactiveButtons();
 
         if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
@@ -99,28 +157,10 @@ public class AdminPageController implements Initializable
 
         if (animation != null) animation.stop();
         gridPane.getChildren().clear();
-        List<OrderItem> orders = DatabaseConnector.getInstance().getOrderItems();
-        animation = new GridAnimation(orders, gridPane, scrollPane, null, 2);
+        animation = new GridAnimation(list, gridPane, scrollPane, null, maxColumn);
         animation.start();
 
-        ordersButton.setTextFill(Constants.ACTIVECOLOR);
-    }
-    public void requestsButtonOnAction() throws IOException
-    {
-        if (requestsButton.getTextFill() == Constants.ACTIVECOLOR) return;
-        disactiveButtons();
-
-        if(stackPane.getChildren().size() == 3) stackPane.getChildren().remove(2);
-        tableAnchorPane.setVisible(false);
-        scrollPane.setVisible(true);
-
-        if (animation != null) animation.stop();
-        gridPane.getChildren().clear();
-        List<Request> requests = DatabaseConnector.getInstance().getRequests();
-        animation = new GridAnimation(requests, gridPane, scrollPane, null, 1);
-        animation.start();
-
-        requestsButton.setTextFill(Constants.ACTIVECOLOR);
+        button.setTextFill(Constants.ACTIVECOLOR);
     }
 
     public void settingsButtonOnAction() throws IOException
@@ -165,6 +205,7 @@ public class AdminPageController implements Initializable
 
     private void fillTable()
     {
+        tableView.getItems().clear();
         tableView.setItems(users);
 
         TableColumn<User, Double> tableColumn1 = new TableColumn<>("Id");
@@ -209,6 +250,58 @@ public class AdminPageController implements Initializable
 
         progressBar.progressProperty().bind(task.progressProperty());
         progressBar.visibleProperty().bind(task.runningProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    @Override
+    public void update()
+    {
+        try
+        {
+            if (ordersButton.getTextFill() == Constants.ACTIVECOLOR)
+                this.itemsButtonOnAction(ordersButton, admin.getOrders(), 1, true);
+            if (requestsButton.getTextFill() == Constants.ACTIVECOLOR)
+                this.itemsButtonOnAction(requestsButton, admin.getRequests(), 1, true);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            exception.getCause();
+        }
+    }
+
+    public void editRoleButtonOnAction()
+    {
+        if (!userIdLabel.getText().matches("^\\d+") ||
+            comboBox.getValue() == null)
+        {
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        Task<Boolean> task = new Task<>()
+        {
+            @Override
+            protected @NotNull Boolean call() throws IOException
+            {
+                return admin.editRole(Double.parseDouble(userIdLabel.getText()),
+                    AccessType.valueOf(comboBox.getValue()));
+            }
+        };
+        task.setOnSucceeded(event ->
+        {
+            if (task.getValue())
+            {
+                successLabel.setVisible(true);
+                fillTable();
+            }
+            else
+                errorLabel.setVisible(true);
+        });
+        editRoleButton.disableProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);

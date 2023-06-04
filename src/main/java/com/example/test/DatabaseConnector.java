@@ -76,7 +76,7 @@ public class DatabaseConnector
     }
 
     @Contract("_ -> new")
-    private @NotNull ByteArrayInputStream getInputStream(String fileId)
+    public static @NotNull ByteArrayInputStream getInputStream(String fileId)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try
@@ -102,12 +102,17 @@ public class DatabaseConnector
         String lastName = "";
         AccessType accessType = AccessType.nonuser;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             boolean activeRow = false;
 
             Iterator<Cell> cellIterator = row.cellIterator();
@@ -171,12 +176,17 @@ public class DatabaseConnector
         String lastName = "";
         AccessType accessType = AccessType.nonuser;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             Iterator<Cell> cellIterator = row.cellIterator();
             int column = 0;
             while (cellIterator.hasNext())
@@ -200,14 +210,13 @@ public class DatabaseConnector
 
         return users;
     }
-    public void AddUser(@NotNull User user) throws IOException
+    public void addUser(@NotNull User user) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
-        int row_num = sheet.getLastRowNum();
-        row_num++;
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
         Row row = sheet.createRow(row_num);
         row_num++;
 
@@ -238,12 +247,17 @@ public class DatabaseConnector
     }
     public boolean isFoundUser(String parameter, UserAccount property) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             Iterator<Cell> cellIterator = row.cellIterator();
             int column = 0;
             while (cellIterator.hasNext())
@@ -261,9 +275,9 @@ public class DatabaseConnector
         inputStream.close();
         return false;
     }
-    public void EditUser(@NotNull User user) throws IOException
+    public void editUser(@NotNull User user) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -290,16 +304,109 @@ public class DatabaseConnector
 
         this.UpdateContent(this.userAccountsFileId, updatedContent);
     }
+
+    public void editItem(@NotNull Item item) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.itemsFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = (int) item.getId() - 1;
+        Row row = sheet.getRow(row_num);
+
+        Cell cell = row.createCell(ItemInfo.IMAGESOURCE.getIndex());
+        cell.setCellValue(item.getImageSource());
+        cell = row.createCell(ItemInfo.NAME.getIndex());
+        cell.setCellValue(item.getName());
+        cell = row.createCell(ItemInfo.PRICE.getIndex());
+        cell.setCellValue(String.valueOf(item.getPrice()).replaceAll(",", ".") + " $");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        inputStream.close();
+        outputStream.close();
+
+        this.UpdateContent(this.itemsFileId, updatedContent);
+    }
+
+    public double addItem(@NotNull Item item) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.itemsFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+        Row row = sheet.createRow(row_num);
+        row_num++;
+
+        Cell cell = row.createCell(ItemInfo.ID.getIndex());
+        cell.setCellValue(row_num);
+        cell = row.createCell(ItemInfo.IMAGESOURCE.getIndex());
+        cell.setCellValue(item.getImageSource());
+        cell = row.createCell(ItemInfo.NAME.getIndex());
+        cell.setCellValue(item.getName());
+        cell = row.createCell(ItemInfo.PRICE.getIndex());
+        cell.setCellValue(String.valueOf(item.getPrice()).replaceAll(",", ".") + " $");
+        cell = row.createCell(ItemInfo.SHOP.getIndex());
+        cell.setCellValue(item.getShop());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        inputStream.close();
+        outputStream.close();
+
+        this.UpdateContent(this.itemsFileId, updatedContent);
+
+        this.addItemToList(item.getShop(), row_num, this.shopItemsFileId);
+
+        return row_num;
+    }
+
+    public void deleteItem(@NotNull Item item) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.itemsFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        int row_num = (int) item.getId() - 1;
+        Row row = sheet.getRow(row_num);
+        for (int i = 0; i < row.getLastCellNum(); i++)
+        {
+            Cell cell = row.getCell(i);
+            if (cell != null) row.removeCell(cell);
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        inputStream.close();
+        outputStream.close();
+
+        this.UpdateContent(this.itemsFileId, updatedContent);
+
+        this.deleteItemFromList(item.getShop(), item.getId(), this.shopItemsFileId);
+    }
+
     public List<Item> getItems() throws IOException
     {
         List<Item> items = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.itemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.itemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             double id = 0;
             String name = "";
             String imageSource = "";
@@ -331,7 +438,7 @@ public class DatabaseConnector
         double price = 0;
         double shop = 0;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.itemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.itemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
         Row row = sheet.getRow((int)id - 1);
@@ -354,13 +461,13 @@ public class DatabaseConnector
     public List<Item> getPurchasedItems(double customer) throws IOException { return this.getSubItems(customer, this.purchasedItemsFileId); }
     public List<Item> getShoppingItems(double customer) throws IOException { return this.getSubItems(customer, this.shoppingItemsFileId); }
     public void addFavouriteItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.favouriteItemsFileId); }
-    public void addPurchasedItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.purchasedItemsFileId); }
     public void addShoppingItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.shoppingItemsFileId); }
+    public void addPurchasedItem(double customer, double item) throws IOException { this.addItemToList(customer, item, this.purchasedItemsFileId); }
     public void deleteFavouriteItem(double customer, double item) throws IOException { this.deleteItemFromList(customer, item, this.favouriteItemsFileId); }
     public void deleteShoppingItem(double customer, double item) throws IOException { this.deleteItemFromList(customer, item, this.shoppingItemsFileId); }
     public void deleteAllShoppingItems(double customer) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.shoppingItemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.shoppingItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -385,7 +492,7 @@ public class DatabaseConnector
     {
         List<Shop> result = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.customerShopsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.customerShopsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -406,13 +513,15 @@ public class DatabaseConnector
     public void deleteFavouriteShop(double customer, double shop) throws IOException { this.deleteItemFromList(customer, shop, this.customerShopsFileId); }
     public Shop getShop(double id) throws IOException
     {
+        if (id == 0) return null;
+
         String name = "";
         List<Item> items;
         String imageSource = "";
         Color textColor = Color.WHITE;
         double vendor = 0;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.shopsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.shopsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -433,18 +542,24 @@ public class DatabaseConnector
 
         items = getSubItems(id, this.shopItemsFileId);
 
+
         return new Shop(id, name, items, imageSource, textColor, vendor);
     }
     public Map<Double, String> getShops() throws IOException
     {
         Map<Double, String> shops = new HashMap<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.shopsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.shopsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             double id = 0;
             String name = "";
 
@@ -464,17 +579,21 @@ public class DatabaseConnector
 
         return shops;
     }
-
     public double getShopId(double vendor) throws IOException
     {
         double id = 0;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.shopsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.shopsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             if (row.getCell(ShopInfo.VENDOR.getIndex()).getNumericCellValue() == vendor)
             {
                 id = row.getCell(ShopInfo.ID.getIndex()).getNumericCellValue();
@@ -493,12 +612,17 @@ public class DatabaseConnector
         OrderState state = OrderState.booked;
         double price = 0;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.ordersFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.ordersFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             Iterator<Cell> cellIterator = row.cellIterator();
             int column = 0;
             double temp = 0;
@@ -525,14 +649,59 @@ public class DatabaseConnector
 
         return orders;
     }
-    public void addOrder(@NotNull Order order) throws IOException
+    public List<Order> getSpecificOrders(String choice) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.ordersFileId);
+        List<Order> orders = new ArrayList<>();
+
+        double id = -1;
+        OrderState state = OrderState.booked;
+        double price = 0;
+        double customer = -1;
+
+        ByteArrayInputStream inputStream = getInputStream(this.ordersFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
-        int row_num = sheet.getLastRowNum();
-        row_num++;
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
+        for (Row row : sheet)
+        {
+            Iterator<Cell> cellIterator = row.cellIterator();
+
+            if (row.getRowNum() >= row_num)
+                break;
+
+            int column = 0;
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+
+                if (column == OrderInfo.ID.getIndex()) id = cell.getNumericCellValue();
+                else if (column == OrderInfo.STATE.getIndex()) state = OrderState.valueOf(cell.getStringCellValue());
+                else if (column == OrderInfo.PRICE.getIndex()) price = cell.getNumericCellValue();
+                else if (column == OrderInfo.CUSTOMER.getIndex()) customer = cell.getNumericCellValue();
+
+                column++;
+            }
+
+            if (Objects.equals(choice, "approved") && state == OrderState.approved)
+            {
+                List<OrderItem> items = this.getOrderItems(id);
+                orders.add(new Order(id, state, price, customer));
+                orders.get(orders.size() - 1).setItems(items);
+            }
+        }
+        inputStream.close();
+
+        return orders;
+    }
+    public void addOrder(@NotNull Order order) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.ordersFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
         Row row = sheet.createRow(row_num);
         row_num++;
 
@@ -555,7 +724,7 @@ public class DatabaseConnector
 
         this.UpdateContent(this.ordersFileId, updatedContent);
 
-        inputStream = this.getInputStream(this.orderItemsFileId);
+        inputStream = getInputStream(this.orderItemsFileId);
         workbook = new XSSFWorkbook(inputStream);
         sheet = workbook.getSheetAt (0);
 
@@ -588,18 +757,26 @@ public class DatabaseConnector
     {
         List<OrderItem> items = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.orderItemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.orderItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
 
         boolean was = false;
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             if (row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue() == order)
             {
-                Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+                // Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
+                Item item = new Item();
+                item.setId(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
                 double shop = row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue();
                 OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
+
                 items.add(new OrderItem(row.getRowNum() + 1, order, item, shop, state));
                 was = true;
             }
@@ -613,14 +790,18 @@ public class DatabaseConnector
     {
         List<OrderItem> items = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.orderItemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.orderItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
         double shop = this.getShopId(vendor);
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
 
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             if (row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue() == shop)
             {
                 double order = row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue();
@@ -633,39 +814,40 @@ public class DatabaseConnector
 
         return items;
     }
-    public List<OrderItem> getOrderItems() throws IOException
-    {
-        List<OrderItem> items = new ArrayList<>();
-
-        ByteArrayInputStream inputStream = this.getInputStream(this.orderItemsFileId);
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-        XSSFSheet sheet = workbook.getSheetAt (0);
-
-        for (Row row : sheet)
-        {
-            double shop = row.getCell(OrderItemInfo.SHOP.getIndex()).getNumericCellValue();
-            double order = row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue();
-            Item item = this.getItem(row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
-            OrderState state = OrderState.valueOf(row.getCell(OrderItemInfo.STATE.getIndex()).getStringCellValue());
-            items.add(new OrderItem(row.getRowNum() + 1, order, item, shop, state));
-        }
-        inputStream.close();
-
-        return items;
-    }
     public void changeOrderItemsState(double order, @NotNull OrderState state) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.orderItemsFileId);
+        double customer = 0;
+        if (state == OrderState.finished)
+        {
+            ByteArrayInputStream inputStream = getInputStream(this.ordersFileId);
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheetAt (0);
+
+            Row row = sheet.getRow((int) (order - 1));
+            customer = row.getCell(OrderInfo.CUSTOMER.getIndex()).getNumericCellValue();
+
+            inputStream.close();
+        }
+
+        ByteArrayInputStream inputStream = getInputStream(this.orderItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
 
         boolean was = false;
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             if (row.getCell(OrderItemInfo.ORDER.getIndex()).getNumericCellValue() == order)
             {
                 row.getCell(OrderItemInfo.STATE.getIndex()).setCellValue(state.toString());
                 was = true;
+
+                if (customer != 0)
+                    this.addPurchasedItem(customer, row.getCell(OrderItemInfo.ITEM.getIndex()).getNumericCellValue());
             }
             else if (was) break;
         }
@@ -681,7 +863,7 @@ public class DatabaseConnector
     }
     public void changeOrderState(double order, @NotNull OrderState state) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.ordersFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.ordersFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -699,12 +881,12 @@ public class DatabaseConnector
     }
     public void changeOrderItemState(double orderItem, @NotNull OrderState state) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.orderItemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.orderItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
         Row row = sheet.getRow((int) (orderItem - 1));
-        row.getCell(OrderInfo.STATE.getIndex()).setCellValue(state.toString());
+        row.getCell(OrderItemInfo.STATE.getIndex()).setCellValue(state.toString());
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
@@ -717,12 +899,12 @@ public class DatabaseConnector
     }
     public void addRequest(@NotNull Request request) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.requestsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.requestsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
-        int row_num = sheet.getLastRowNum();
-        Row row = sheet.createRow(row_num + 1);
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+        Row row = sheet.createRow(row_num);
 
         Cell cell = row.createCell(RequestInfo.SUBJECT.getIndex());
         cell.setCellValue(request.getSubject());
@@ -742,12 +924,17 @@ public class DatabaseConnector
     {
         List<Request> requests = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.requestsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.requestsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             double id = row.getRowNum() + 1;
             String subject = "";
             String message = "";
@@ -770,15 +957,69 @@ public class DatabaseConnector
 
         return requests;
     }
-
-    private boolean isFoundUser(String username, String password) throws IOException
+    public void deleteRequest(@NotNull Request request) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(this.userAccountsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.requestsFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        int row_num = (int) request.getId() - 1;
+        Row row = sheet.getRow(row_num);
+        for (int i = 0; i < row.getLastCellNum(); i++)
+        {
+            Cell cell = row.getCell(i);
+            if (cell != null) row.removeCell(cell);
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        inputStream.close();
+        outputStream.close();
+
+        this.UpdateContent(this.requestsFileId, updatedContent);
+    }
+    public boolean editRole(double user, AccessType accessType) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
+        int allRow = this.getLastRowNum(sheet.getLastRowNum(), sheet);
+        if (user == 0 || user > allRow) return false;
+
+        int row_num = (int) user - 1;
+        Row row = sheet.getRow(row_num);
+
+        Cell cell = row.getCell(UserAccount.ACCESSTYPE.getIndex());
+        cell.setCellValue(accessType.toString());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        byte[] updatedContent = outputStream.toByteArray();
+
+        inputStream.close();
+        outputStream.close();
+
+        this.UpdateContent(this.userAccountsFileId, updatedContent);
+
+        return true;
+    }
+
+    private boolean isFoundUser(String username, String password) throws IOException
+    {
+        ByteArrayInputStream inputStream = getInputStream(this.userAccountsFileId);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
+
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             boolean result1 = false;
             boolean result2 = false;
 
@@ -810,7 +1051,7 @@ public class DatabaseConnector
         List<Double> subItemsIds = new ArrayList<>();
         List<Item> subItems = new ArrayList<>();
 
-        ByteArrayInputStream inputStream = this.getInputStream(fileId);
+        ByteArrayInputStream inputStream = getInputStream(fileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -826,7 +1067,7 @@ public class DatabaseConnector
         }
         inputStream.close();
 
-        inputStream = this.getInputStream(this.itemsFileId);
+        inputStream = getInputStream(this.itemsFileId);
         workbook = new XSSFWorkbook(inputStream);
         sheet = workbook.getSheetAt (0);
 
@@ -861,7 +1102,7 @@ public class DatabaseConnector
     }
     private void addItemToList(double user, double item, String fileId) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(fileId);
+        ByteArrayInputStream inputStream = getInputStream(fileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
 
@@ -891,7 +1132,7 @@ public class DatabaseConnector
     }
     private void deleteItemFromList(double user, double item, String fileId) throws IOException
     {
-        ByteArrayInputStream inputStream = this.getInputStream(fileId);
+        ByteArrayInputStream inputStream = getInputStream(fileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -946,13 +1187,18 @@ public class DatabaseConnector
     {
         double shop = 0;
 
-        ByteArrayInputStream inputStream = this.getInputStream(this.shopItemsFileId);
+        ByteArrayInputStream inputStream = getInputStream(this.shopItemsFileId);
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt (0);
+
+        int row_num = getLastRowNum(sheet.getLastRowNum(), sheet);
 
         boolean was = false;
         for (Row row : sheet)
         {
+            if (row.getRowNum() >= row_num)
+                break;
+
             Iterator<Cell> cellIterator = row.cellIterator();
             while (cellIterator.hasNext())
             {
@@ -970,12 +1216,15 @@ public class DatabaseConnector
 
         double id = 0;
 
-        inputStream = this.getInputStream(this.shopsFileId);
+        inputStream = getInputStream(this.shopsFileId);
         workbook = new XSSFWorkbook(inputStream);
         sheet = workbook.getSheetAt (0);
 
         for (Row row : sheet)
         {
+            if (row.getRowNum() == row_num)
+                break;
+
             if (row.getCell(ShopInfo.ID.getIndex()).getNumericCellValue() == shop)
             {
                 id = row.getCell(ShopInfo.VENDOR.getIndex()).getNumericCellValue();
@@ -985,5 +1234,16 @@ public class DatabaseConnector
         inputStream.close();
 
         return id;
+    }
+    private int getLastRowNum(int row_num,  XSSFSheet sheet)
+    {
+        for (int i = row_num; i >= 0; i--)
+        {
+            if(sheet.getRow(i) == null || sheet.getRow(i).getCell(0) == null)
+                continue;
+            else
+                return i + 1;
+        }
+        return 0;
     }
 }

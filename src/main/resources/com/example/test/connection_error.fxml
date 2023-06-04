@@ -8,24 +8,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.ConnectionErrorController">
-   <children>
-      <Button fx:id="okButton" layoutX="124.0" layoutY="233.0" mnemonicParsing="false" onAction="#okButtonOnAction" prefHeight="26.0" prefWidth="202.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="OK" textFill="#7e7272">
-         <font>
-            <Font name="Candara" size="18.0" />
-         </font>
-      </Button>
-      <Label layoutX="115.0" layoutY="142.0" prefHeight="83.0" prefWidth="220.0" text="Error while checking internet connection!" textAlignment="CENTER" textFill="#ff00008f" wrapText="true">
-         <font>
-            <Font name="Candara" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="112.0" fitWidth="126.0" layoutX="169.0" layoutY="22.0" opacity="0.67" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../images/connection_error.png" />
-         </image>
-         <effect>
-            <GaussianBlur radius="2.0" />
-         </effect></ImageView>
-   </children>
+<AnchorPane prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.test.controllers.ConnectionErrorController">
+   <Button fx:id="okButton" layoutX="124.0" layoutY="233.0" mnemonicParsing="false" onAction="#okButtonOnAction"
+           prefHeight="26.0" prefWidth="202.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css"
+           text="OK" textFill="#7e7272">
+      <font>
+         <Font name="Candara" size="18.0"/>
+      </font>
+   </Button>
+   <Label layoutX="115.0" layoutY="142.0" prefHeight="83.0" prefWidth="220.0"
+          text="Error while checking internet connection!" textAlignment="CENTER" textFill="#ff00008f" wrapText="true">
+      <font>
+         <Font name="Candara" size="18.0"/>
+      </font>
+   </Label>
+   <ImageView fitHeight="112.0" fitWidth="126.0" layoutX="169.0" layoutY="22.0" opacity="0.67" pickOnBounds="true"
+              preserveRatio="true">
+      <effect>
+         <GaussianBlur radius="2.0"/>
+      </effect>
+      <Image url="@../../../images/connection_error.png"/>
+   </ImageView>
 </AnchorPane>

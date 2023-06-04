@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,6 +11,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -59,6 +62,16 @@
                </columns>
             </TableView>
             <ProgressBar fx:id="progressBar" layoutX="36.0" layoutY="437.0" prefHeight="18.0" prefWidth="533.0" progress="0.0" styleClass="progress-bar" stylesheets="@../../../styles/others.css" visible="false" />
+            <Button fx:id="editRoleButton" layoutX="415.0" layoutY="519.0" mnemonicParsing="false" onAction="#editRoleButtonOnAction" prefHeight="26.0" prefWidth="83.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Edit role" />
+            <ComboBox fx:id="comboBox" layoutX="297.0" layoutY="520.0" prefHeight="26.0" prefWidth="110.0" promptText="Select role..." style="-fx-background-color: transparent;" />
+            <TextField fx:id="userIdLabel" layoutX="141.0" layoutY="520.0" styleClass="text-field-settings" stylesheets="@../../../styles/textfield.css" />
+            <Label layoutX="387.0" layoutY="553.0" prefHeight="55.0" prefWidth="139.0" text="Changing the role can lead to serious consequences!!!" textAlignment="CENTER" textFill="#000000ad" wrapText="true">
+               <font>
+                  <Font name="Candara" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="successLabel" layoutX="507.0" layoutY="524.0" text="Success :)" textFill="#49e500b9" visible="false" />
+            <Label fx:id="errorLabel" layoutX="507.0" layoutY="523.0" prefHeight="18.0" prefWidth="80.0" text="Invalid data :(" textFill="#ff0000ac" visible="false" />
          </AnchorPane>
          <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f6ebfc;" visible="false">
             <content>

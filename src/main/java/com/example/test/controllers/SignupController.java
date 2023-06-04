@@ -5,6 +5,7 @@ import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
 import com.example.test.enums.UserAccount;
 import com.example.test.interfaces.User;
+import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +13,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class SignupController implements Initializable
 {
+    private final DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
     @FXML private TextField usernameTextField;
     @FXML private TextField emailTextField;
     @FXML private TextField firstnameTextField;
@@ -32,25 +35,50 @@ public class SignupController implements Initializable
     @FXML private Label unsuccessfulMessageLabel;
     @FXML private Label successfulMessageLabel;
     @FXML private Button gobackButton;
+    @FXML private Button signupButton;
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     public void signupButtonOnAction() throws IOException
     {
-        if (!isFine())
+        Task<Boolean> task = new Task<>()
         {
-            successfulMessageLabel.setVisible(false);
-            unsuccessfulMessageLabel.setVisible(true);
-        }
-        else
+            @Override
+            protected @NotNull Boolean call() throws IOException
+            {
+                return isFine();
+            }
+        };
+        task.setOnSucceeded(event ->
         {
-            DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-            databaseConnector.AddUser(new User(0, usernameTextField.getText(),  passwordField.getText(), emailTextField.getText(), firstnameTextField.getText(),
-                    lastnameTextField.getText(), AccessType.customer));
-            unsuccessfulMessageLabel.setVisible(false);
-            successfulMessageLabel.setVisible(true);
-        }
+            if (!task.getValue())
+            {
+                unsuccessfulMessageLabel.setVisible(true);
+            }
+            else
+            {
+                try
+                {
+                    databaseConnector.addUser(new User(0, usernameTextField.getText(),  passwordField.getText(),
+                            emailTextField.getText(), firstnameTextField.getText(),
+                            lastnameTextField.getText(), AccessType.customer));
+                } catch (IOException e) { throw new RuntimeException(e); }
+
+                usernameTextField.clear();
+                emailTextField.clear();
+                firstnameTextField.clear();
+                lastnameTextField.clear();
+                passwordField.clear();
+
+                successfulMessageLabel.setVisible(true);
+            }
+        });
+        signupButton.disableProperty().bind(task.runningProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
     public void gobackButtonOnAction() throws IOException
     {
@@ -62,37 +90,60 @@ public class SignupController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-
-        usernameTextField.textProperty().addListener(event ->
-        {
-            try { usernameTextField.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"),
-                    databaseConnector.isFoundUser(usernameTextField.getText(), UserAccount.USERNAME)); }
-            catch (IOException e) { throw new RuntimeException(e); }
-        });
-
         emailTextField.textProperty().addListener(event ->
         {
-            try
-            {
-                emailTextField.pseudoClassStateChanged(
-                        PseudoClass.getPseudoClass("error"),
-                        (!emailTextField.getText().isEmpty() && !emailTextField.getText().matches(EMAIL_PATTERN)) ||
-                                databaseConnector.isFoundUser(emailTextField.getText(), UserAccount.EMAIL)
-                );
-            }
-            catch (IOException e) { throw new RuntimeException(e); }
+            emailTextField.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    !emailTextField.getText().isEmpty() && !emailTextField.getText().matches(EMAIL_PATTERN)
+            );
         });
+        passwordField.textProperty().addListener(event ->
+        {
+            passwordField.pseudoClassStateChanged(
+                    PseudoClass.getPseudoClass("error"),
+                    (!passwordField.getText().isEmpty() && passwordField.getText().length() < 8)
+            );
+        });
+
+        usernameTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            unsuccessfulMessageLabel.setVisible(false);
+            successfulMessageLabel.setVisible(false);
+        }));
+        emailTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            unsuccessfulMessageLabel.setVisible(false);
+            successfulMessageLabel.setVisible(false);
+        }));
+        firstnameTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            unsuccessfulMessageLabel.setVisible(false);
+            successfulMessageLabel.setVisible(false);
+        }));
+        lastnameTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            unsuccessfulMessageLabel.setVisible(false);
+            successfulMessageLabel.setVisible(false);
+        }));
+        passwordField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            unsuccessfulMessageLabel.setVisible(false);
+            successfulMessageLabel.setVisible(false);
+        }));
     }
 
     private boolean isFine() throws IOException
     {
-        DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-        if (usernameTextField.getText().isBlank() || emailTextField.getText().isBlank() || firstnameTextField.getText().isBlank() ||
-                lastnameTextField.getText().isBlank() || passwordField.getText().isBlank())
+        String username = usernameTextField.getText();
+        String email = emailTextField.getText();
+        String firstname = firstnameTextField.getText();
+        String lastname = lastnameTextField.getText();
+        String password = passwordField.getText();
+
+        if (username == null || username.isBlank() || username.isEmpty() ||
+            email == null || email.isBlank() || email.isEmpty() ||
+            firstname == null || firstname.isBlank() || firstname.isEmpty() ||
+            lastname == null || lastname.isBlank() || lastname.isEmpty() ||
+            password == null || password.isBlank() || password.isEmpty())
             return false;
-        else return !databaseConnector.isFoundUser(usernameTextField.getText(), UserAccount.USERNAME) &&
-                !databaseConnector.isFoundUser(emailTextField.getText(), UserAccount.EMAIL) &&
-                emailTextField.getText().matches(EMAIL_PATTERN);
+        else return !(databaseConnector.isFoundUser(usernameTextField.getText(), UserAccount.USERNAME) ||
+                    databaseConnector.isFoundUser(emailTextField.getText(), UserAccount.EMAIL) ||
+                    emailTextField.getPseudoClassStates().contains(PseudoClass.getPseudoClass("error")) ||
+                    passwordField.getPseudoClassStates().contains(PseudoClass.getPseudoClass("error")));
     }
 }

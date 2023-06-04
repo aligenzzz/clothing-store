@@ -29,9 +29,5 @@ public class Request
     public String getSubject() { return this.subject; }
     public String getMessage() { return this.message; }
     public void Send() throws IOException { databaseConnector.addRequest(this); }
-
-    public void Delete()
-    {
-        // databaseConnector.deleteRequest(this);
-    }
+    public void Delete() throws IOException { databaseConnector.deleteRequest(this); }
 }

@@ -2,7 +2,7 @@ package com.example.test.entities;
 
 public class Item
 {
-    private final double id;
+    private double id;
     private String name;
     private String imageSource;
     private double price;
@@ -25,6 +25,7 @@ public class Item
         this.shop = shop;
     }
     public double getId() { return id; }
+    public void setId(double id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getImageSource() { return imageSource; }

@@ -127,12 +127,12 @@
                   </Button>
                </HBox>
                <HBox fx:id="vendorButtons" alignment="CENTER" prefHeight="55.0" prefWidth="171.0" visible="false">
-                  <Button fx:id="editButton" minWidth="85.0" mnemonicParsing="false" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🖊">
+                  <Button fx:id="editButton" minWidth="85.0" mnemonicParsing="false" onAction="#editButtonOnAction" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="🖊">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="deleteButton" minWidth="85.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="❌">
+                  <Button fx:id="deleteButton" minWidth="85.0" mnemonicParsing="false" onAction="#deleteButtonOnButton" prefHeight="26.0" prefWidth="73.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="❌">
                      <font>
                         <Font size="18.0" />
                      </font>

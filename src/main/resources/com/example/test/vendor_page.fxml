@@ -39,7 +39,7 @@
                <Font name="Candara" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="addItemButton" layoutY="180.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Add Item">
+         <Button fx:id="addItemButton" layoutY="180.0" mnemonicParsing="false" onAction="#addItemButtonOnAction" prefHeight="60.0" prefWidth="260.0" styleClass="left-pane-button" stylesheets="@../../../styles/buttons.css" text="Add Item">
             <font>
                <Font name="Candara" size="14.0" />
             </font>

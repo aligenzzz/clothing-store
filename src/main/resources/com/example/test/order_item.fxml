@@ -19,22 +19,21 @@
       </font>
    </Label>
    <StackPane layoutX="175.0" prefHeight="50.0" prefWidth="23.0">
-      <children>
-         <AnchorPane fx:id="vendorAnchorPane" prefHeight="50.0" prefWidth="135.0" visible="false">
-            <children>
-               <ChoiceBox fx:id="choiceBox" layoutX="6.0" layoutY="12.0" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: transparent;" />
-               <Button fx:id="confirmButton" layoutX="6.0" layoutY="12.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="26.0" prefWidth="67.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" />
-            </children>
-         </AnchorPane>
-         <AnchorPane fx:id="customerAnchorPane" maxHeight="50.0" minHeight="34.0" minWidth="100.0" prefHeight="50.0" prefWidth="100.0" visible="false">
-            <children>
-               <Label fx:id="stateLabel" alignment="CENTER" layoutX="6.0" layoutY="14.0" prefHeight="22.0" prefWidth="88.0" text="state" textFill="#45cc23cc">
-                  <font>
-                     <Font name="Candara" size="14.0" />
-                  </font>
-               </Label>
-            </children>
-         </AnchorPane>
-      </children>
+      <AnchorPane fx:id="vendorAnchorPane" prefHeight="50.0" prefWidth="135.0" visible="false">
+         <ChoiceBox fx:id="choiceBox" layoutX="6.0" layoutY="12.0" prefHeight="26.0" prefWidth="88.0"
+                    style="-fx-background-color: transparent;"/>
+         <Button fx:id="confirmButton" layoutX="6.0" layoutY="12.0" mnemonicParsing="false"
+                 onAction="#confirmButtonOnAction" prefHeight="26.0" prefWidth="67.0" styleClass="mini-button"
+                 stylesheets="@../../../styles/buttons.css"/>
+      </AnchorPane>
+      <AnchorPane fx:id="customerAnchorPane" maxHeight="50.0" minHeight="34.0" minWidth="100.0" prefHeight="50.0"
+                  prefWidth="100.0" visible="false">
+         <Label fx:id="stateLabel" alignment="CENTER" layoutX="6.0" layoutY="14.0" prefHeight="22.0" prefWidth="88.0"
+                text="state" textFill="#45cc23cc">
+            <font>
+               <Font name="Candara" size="14.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
    </StackPane>
 </AnchorPane>

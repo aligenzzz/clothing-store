@@ -20,7 +20,13 @@ public class ItemController
 
     public void setData(@NotNull Item item, IListener listener)
     {
-        Image image = new Image(Constants.ITEMSIMAGEPATH + item.getImageSource());
+        String imagePath = "";
+        if (item.getImageSource().startsWith("https://"))
+            imagePath = item.getImageSource();
+        else
+            imagePath = Constants.ITEMSIMAGEPATH + item.getImageSource();
+
+        Image image = new Image(imagePath);
         itemImageView.setImage(image);
         itemImageView.setStyle("-fx-background-position: CENTER;");
         priceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");

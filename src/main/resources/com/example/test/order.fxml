@@ -51,6 +51,11 @@
                   <Font name="Candara" size="14.0" />
                </font>
             </Button>
+            <Button fx:id="finishButton" layoutX="27.0" layoutY="73.0" mnemonicParsing="false" onAction="#finishButtonOnAction" prefHeight="26.0" prefWidth="119.0" styleClass="mini-button" stylesheets="@../../../styles/buttons.css" text="Finish" visible="false">
+               <font>
+                  <Font name="Candara" size="14.0" />
+               </font>
+            </Button>
          </AnchorPane>
          <ComboBox fx:id="comboBox" layoutX="210.0" layoutY="37.0" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: transparent;" />
       </AnchorPane>

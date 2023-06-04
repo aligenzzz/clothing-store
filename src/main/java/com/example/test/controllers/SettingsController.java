@@ -143,7 +143,7 @@ public class SettingsController implements Initializable
                 @Override
                 protected @Nullable Void call() throws IOException
                 {
-                    DatabaseConnector.getInstance().EditUser(editedUser);
+                    DatabaseConnector.getInstance().editUser(editedUser);
 
                     if (editedUser.getAccessType() == AccessType.customer)
                         GlobalEntities.USER = new Customer(editedUser);

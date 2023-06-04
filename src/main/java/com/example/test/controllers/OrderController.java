@@ -3,8 +3,10 @@ package com.example.test.controllers;
 import com.example.test.Constants;
 import com.example.test.GlobalEntities;
 import com.example.test.Main;
+import com.example.test.entities.Admin;
 import com.example.test.entities.Order;
 import com.example.test.entities.OrderItem;
+import com.example.test.enums.AccessType;
 import com.example.test.enums.OrderState;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ public class OrderController
     @FXML private Label priceLabel;
     @FXML private Button payButton;
     @FXML private Button approveButton;
+    @FXML private Button finishButton;
     @FXML private Label orderStateLabel;
     @FXML private ComboBox<AnchorPane> comboBox;
 
@@ -48,6 +51,12 @@ public class OrderController
         orderStateLabel.setText(order.getState().toString());
 
         if (order.getState() == OrderState.paid) payButton.setDisable(true);
+
+        if (GlobalEntities.USER.getAccessType() == AccessType.admin)
+        {
+            payButton.setVisible(false);
+            finishButton.setVisible(true);
+        }
 
         comboBox.setMaxWidth(180);
 
@@ -107,6 +116,26 @@ public class OrderController
             }
         };
         approveButton.disableProperty().bind(task.runningProperty());
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    public void finishButtonOnAction()
+    {
+        Admin admin = (Admin) GlobalEntities.USER;
+        admin.finishOrder(order);
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected @Nullable Void call() throws IOException
+            {
+                order.changeState(OrderState.finished);
+                return null;
+            }
+        };
+        finishButton.disableProperty().bind(task.runningProperty());
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);

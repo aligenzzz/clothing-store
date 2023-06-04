@@ -1,6 +1,7 @@
 package com.example.test.entities;
 
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +9,11 @@ import java.util.List;
 public class Shop
 {
     private double id;
-    private String name;
-    private List<Item> items;
-    private String imageSource;
-    private Color textColor;
-    private double vendor;
+    private final String name;
+    private final List<Item> items;
+    private final String imageSource;
+    private final Color textColor;
+    private final double vendor;
 
     public Shop()
     {
@@ -39,10 +40,19 @@ public class Shop
     public String getImageSource() { return imageSource; }
     public Color getTextColor() { return textColor; }
     public List<Item> getItems() { return items; }
-    public void AddItem(Item item)
+    public void addItem(Item item)
     {
         items.add(item);
     }
-    public void DeleteItem(double id) { }
-    public void ChangeItem(double id) { }
+    public void deleteItem(@NotNull Item item) { items.remove(item); }
+    public void editItem(@NotNull Item item)
+    {
+        for (Item i: items)
+            if (i.getId() == item.getId())
+            {
+                i.setName(item.getName());
+                i.setPrice(item.getPrice());
+                i.setImageSource(item.getImageSource());
+            }
+    }
 }

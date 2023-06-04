@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Color?>
 
 <SplitPane prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.SignupController">
-   <AnchorPane prefHeight="320.0" prefWidth="520.0" style="-fx-background-color: #e4ddff;">
+   <AnchorPane prefHeight="320.0" prefWidth="520.0" style="-fx-background-color: #f4f4f4;">
       <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="325.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true">
          <effect>
             <Shadow height="157.86" radius="83.4" width="177.74">
@@ -100,11 +100,11 @@
          </effect>
          <Image url="@../../../images/defention.png" />
       </ImageView>
-      <TextField fx:id="usernameTextField" layoutX="174.0" layoutY="117.0" prefHeight="20.0" prefWidth="170.0" promptText="Username" stylesheets="@../../../styles/textfield.css" />
-      <TextField fx:id="emailTextField" layoutX="174.0" layoutY="154.0" prefHeight="20.0" prefWidth="170.0" promptText="E-mail" stylesheets="@../../../styles/textfield.css" />
-      <TextField fx:id="firstnameTextField" layoutX="174.0" layoutY="191.0" prefHeight="20.0" prefWidth="170.0" promptText="First name" stylesheets="@../../../styles/textfield.css" />
-      <TextField fx:id="lastnameTextField" layoutX="174.0" layoutY="228.0" prefHeight="20.0" prefWidth="170.0" promptText="Last name" stylesheets="@../../../styles/textfield.css" />
-      <PasswordField fx:id="passwordField" layoutX="174.0" layoutY="265.0" prefHeight="20.0" prefWidth="170.0" promptText="Password" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="usernameTextField" focusTraversable="false" layoutX="174.0" layoutY="117.0" prefHeight="20.0" prefWidth="170.0" promptText="Username" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="emailTextField" focusTraversable="false" layoutX="174.0" layoutY="154.0" prefHeight="20.0" prefWidth="170.0" promptText="E-mail" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="firstnameTextField" focusTraversable="false" layoutX="174.0" layoutY="191.0" prefHeight="20.0" prefWidth="170.0" promptText="First name" stylesheets="@../../../styles/textfield.css" />
+      <TextField fx:id="lastnameTextField" focusTraversable="false" layoutX="174.0" layoutY="228.0" prefHeight="20.0" prefWidth="170.0" promptText="Last name" stylesheets="@../../../styles/textfield.css" />
+      <PasswordField fx:id="passwordField" focusTraversable="false" layoutX="174.0" layoutY="265.0" prefHeight="20.0" prefWidth="170.0" promptText="Password" stylesheets="@../../../styles/textfield.css" />
       <Button fx:id="signupButton" layoutX="174.0" layoutY="302.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="20.0" prefWidth="170.0" styleClass="simple-button" stylesheets="@../../../styles/buttons.css" text="Sign up" textFill="WHITE" />
       <Button fx:id="gobackButton" layoutX="174.0" layoutY="339.0" mnemonicParsing="false" onAction="#gobackButtonOnAction" prefHeight="20.0" prefWidth="170.0" styleClass="simple-button" stylesheets="@../../../styles/buttons.css" text="Go back" textFill="WHITE" />
       <Label fx:id="unsuccessfulMessageLabel" alignment="CENTER" layoutX="174.0" layoutY="92.0" opacity="0.5" prefHeight="18.0" prefWidth="170.0" text="Invalid data!" textAlignment="CENTER" textFill="#e70808" visible="false" />

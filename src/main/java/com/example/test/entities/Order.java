@@ -2,6 +2,7 @@ package com.example.test.entities;
 
 import com.example.test.DatabaseConnector;
 import com.example.test.enums.OrderState;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Order
     public void setCustomer(double customer) { this.customer = customer; }
     public double getCustomer() { return this.customer; }
     public void setItems(List<OrderItem> items) { this.items = items; }
-    public void setItems(List<Item> items, OrderState state)
+    public void setItems(@NotNull List<Item> items, OrderState state)
     {
         for (Item item : items)
             this.items.add(new OrderItem(0, this.id, item, item.getShop(), state));

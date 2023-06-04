@@ -22,6 +22,8 @@ public final class Constants
     public static final String CARDNUMBER_PATTERN = "^\\d{4} \\d{4} \\d{4} \\d{4}";
     public static final String EXPDATE_PATTERN = "^\\d{2}/\\d{2}";
     public static final String CVV_PATTERN = "^\\d{3}";
+    public static final String URL_PATTERN = "^https://.+";
+    public static final String PRICE_PATTERN = "^\\d+,\\d{1,2}";
 
 
     public static final String MAINPAGE = "./src/main/resources/com/example/test/main_page.fxml";
@@ -43,19 +45,7 @@ public final class Constants
     public static final String REQUESTSPAGE = "./src/main/resources/com/example/test/requests_page.fxml";
     public static final String REQUEST = "./src/main/resources/com/example/test/request.fxml";
     public static final String CONNECTIONERROR = "./src/main/resources/com/example/test/connection_error.fxml";
-
-
-    public static final String USERACCOUNTS = "user_account.xlsx";
-    public static final String ITEMS = "item.xlsx";
-    public static final String FAVOURITEITEMS = "favourite_items.xlsx";
-    public static final String PURCHASEDITEMS = "purchased_items.xlsx";
-    public static final String SHOPPINGITEMS = "shopping_items.xlsx";
-    public static final String SHOPS = "shops.xlsx";
-    public static final String SHOPITEMS = "shop_items.xlsx";
-    public static final String CUSTOMERSHOPS = "customer_shops.xlsx";
-    public static final String ORDERS = "orders.xlsx";
-    public static final String ORDERITEMS = "order_items.xlsx";
-    public static final String REQUESTS = "requests.xlsx";
+    public static final String EDITITEM = "./src/main/resources/com/example/test/edit_item.fxml";
 
 
     // по другому почему-то не работает...

@@ -1,6 +1,6 @@
 package com.example.test.interfaces;
 
-public interface ItemObserver
+public interface IObserver
 {
     void update();
 }

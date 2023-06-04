@@ -6,7 +6,7 @@ import com.example.test.entities.Item;
 import com.example.test.entities.Shop;
 import com.example.test.enums.CustomerChoice;
 import com.example.test.interfaces.IListener;
-import com.example.test.interfaces.ItemObserver;
+import com.example.test.interfaces.IObserver;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class CustomerPageController implements Initializable, ItemObserver
+public class CustomerPageController implements Initializable, IObserver
 {
     @FXML private Button profileButton;
     @FXML private Button favouriteItemsButton;
@@ -194,7 +194,13 @@ public class CustomerPageController implements Initializable, ItemObserver
         this.itemId = item.getId();
         this.shopId = item.getShop();
 
-        imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
+        String imagePath = "";
+        if (item.getImageSource().startsWith("https://"))
+            imagePath = item.getImageSource();
+        else
+            imagePath = Constants.ITEMSIMAGEPATH + item.getImageSource();
+
+        imageView.setImage(new Image(imagePath));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
         itemShopLabel.setText(shops.get(shopId));
@@ -272,6 +278,7 @@ public class CustomerPageController implements Initializable, ItemObserver
         if (shoppingItemsButton.getTextFill() == Constants.ACTIVECOLOR)
             customer.deleteShoppingItem(itemId);
     }
+    @FXML private Button deleteButton;
     private void itemsButtonOnAction(@NotNull Button button, List<?> list, int maxColumn, boolean update) throws IOException
     {
         anchorPane.setVisible(false);
@@ -285,11 +292,19 @@ public class CustomerPageController implements Initializable, ItemObserver
         {
             toFavouriteButton.setVisible(false);
             toShoppingButton.setVisible(true);
+            deleteButton.setVisible(true);
         }
         if (button == shoppingItemsButton)
         {
             toFavouriteButton.setVisible(true);
             toShoppingButton.setVisible(false);
+            deleteButton.setVisible(true);
+        }
+        if (button == purchasedItemsButton)
+        {
+            toFavouriteButton.setVisible(false);
+            toShoppingButton.setVisible(false);
+            deleteButton.setVisible(false);
         }
 
         if (button != shoppingItemsButton && vBox.getChildren().size() == 2) vBox.getChildren().remove(1);

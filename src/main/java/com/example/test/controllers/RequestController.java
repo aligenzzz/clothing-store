@@ -1,6 +1,8 @@
 package com.example.test.controllers;
 
 import com.example.test.Constants;
+import com.example.test.GlobalEntities;
+import com.example.test.entities.Admin;
 import com.example.test.entities.Request;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -33,6 +35,9 @@ public class RequestController
 
     public void approveButtonOnAction()
     {
+        Admin admin = (Admin) GlobalEntities.USER;
+        admin.processRequest(request);
+
         Task<Void> task = new Task<>()
         {
             @Override

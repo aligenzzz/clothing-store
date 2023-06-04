@@ -134,7 +134,13 @@ public class MainPageController implements Initializable
         this.itemId = item.getId();
         this.shopId = item.getShop();
 
-        imageView.setImage(new Image(Constants.ITEMSIMAGEPATH + item.getImageSource()));
+        String imagePath = "";
+        if (item.getImageSource().startsWith("https://"))
+            imagePath = item.getImageSource();
+        else
+            imagePath = Constants.ITEMSIMAGEPATH + item.getImageSource();
+
+        imageView.setImage(new Image(imagePath));
         itemNameLabel.setText("☆ " + item.getName().toUpperCase() + " ☆");
         itemPriceLabel.setText(Constants.PRICE_FORMAT.format(item.getPrice()) + " $");
         itemShopLabel.setText(shops.get(shopId));

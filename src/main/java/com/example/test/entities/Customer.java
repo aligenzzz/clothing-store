@@ -2,7 +2,7 @@ package com.example.test.entities;
 
 import com.example.test.DatabaseConnector;
 import com.example.test.enums.AccessType;
-import com.example.test.interfaces.ItemObserver;
+import com.example.test.interfaces.IObserver;
 import com.example.test.interfaces.User;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -14,11 +14,11 @@ import java.util.List;
 
 public class Customer extends User
 {
-    static private final List<ItemObserver> observers = new ArrayList<>();
-    static public void addObserver(ItemObserver observer) { observers.add(observer); }
+    static private final List<IObserver> observers = new ArrayList<>();
+    static public void addObserver(IObserver observer) { observers.add(observer); }
     private void notifyObservers()
     {
-        for (ItemObserver observer : observers)
+        for (IObserver observer : observers)
             observer.update();
     }
     private List<Item> favouriteItems;
