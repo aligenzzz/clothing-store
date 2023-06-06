@@ -58,6 +58,8 @@ public class GridAnimation extends AnimationTimer
 
     private void doHandle() throws IOException
     {
+        if (list == null) return;
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         String path = null;
 

@@ -26,38 +26,40 @@ public class LoginHandler
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 400);
 
-        if (GlobalEntities.USER.accessType == AccessType.nonuser)
-        {
-            GlobalEntities.USER = new NonUser(GlobalEntities.USER);
-            fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
-            scene = new Scene(fxmlLoader.load(), 900, 700);
-        }
-        else if (GlobalEntities.USER.accessType == AccessType.customer)
-        {
-            GlobalEntities.USER = new Customer(GlobalEntities.USER);
-            fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
-            scene = new Scene(fxmlLoader.load(), 900, 700);
-        }
-        else if (GlobalEntities.USER.accessType == AccessType.vendor)
-        {
-            GlobalEntities.USER = new Vendor(GlobalEntities.USER);
-            fxmlLoader = new FXMLLoader(new File(Constants.VENDORPAGE).toURI().toURL());
-            scene = new Scene(fxmlLoader.load(), 900, 700);
-        }
-        else if (GlobalEntities.USER.accessType == AccessType.admin)
-        {
-            GlobalEntities.USER = new Admin(GlobalEntities.USER);
-            fxmlLoader = new FXMLLoader(new File(Constants.ADMINPAGE).toURI().toURL());
-            scene = new Scene(fxmlLoader.load(), 900, 700);
-        }
-
         if (!netIsAvailable())
         {
             fxmlLoader = new FXMLLoader(new File(Constants.CONNECTIONERROR).toURI().toURL());
             scene = new Scene(fxmlLoader.load(), 450, 300);
         }
         else
+        {
             DatabaseConnector.getInstance();
+
+            if (GlobalEntities.USER.accessType == AccessType.nonuser)
+            {
+                GlobalEntities.USER = new NonUser(GlobalEntities.USER);
+                fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
+                scene = new Scene(fxmlLoader.load(), 900, 700);
+            }
+            else if (GlobalEntities.USER.accessType == AccessType.customer)
+            {
+                GlobalEntities.USER = new Customer(GlobalEntities.USER);
+                fxmlLoader = new FXMLLoader(new File(Constants.MAINPAGE).toURI().toURL());
+                scene = new Scene(fxmlLoader.load(), 900, 700);
+            }
+            else if (GlobalEntities.USER.accessType == AccessType.vendor)
+            {
+                GlobalEntities.USER = new Vendor(GlobalEntities.USER);
+                fxmlLoader = new FXMLLoader(new File(Constants.VENDORPAGE).toURI().toURL());
+                scene = new Scene(fxmlLoader.load(), 900, 700);
+            }
+            else if (GlobalEntities.USER.accessType == AccessType.admin)
+            {
+                GlobalEntities.USER = new Admin(GlobalEntities.USER);
+                fxmlLoader = new FXMLLoader(new File(Constants.ADMINPAGE).toURI().toURL());
+                scene = new Scene(fxmlLoader.load(), 900, 700);
+            }
+        }
 
         stage.setTitle("Online clothing store KIΞO");
         stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream(Constants.ICONPATH))));
